@@ -1,10 +1,10 @@
-%% Le lingue utilizzate, che verranno passate come opzioni al pacchetto babel. Come sempre, l'ultima indicata sar� quella primaria.
-%% Se si utilizzano una o pi� lingue diverse da "italian" o "english", leggere le istruzioni in fondo.
+%% Le lingue utilizzate, che verranno passate come opzioni al pacchetto babel. Come sempre, l'ultima indicata sarà quella primaria.
+%% Se si utilizzano una o più lingue diverse da "italian" o "english", leggere le istruzioni in fondo.
 \def\thudbabelopt{english,italian}
 %% Valori ammessi per target: bach (tesi triennale), mst (tesi magistrale), phd (tesi di dottorato).
-%% Valori ammessi per aauheader: '' (vuoto -> nessun header Alpen Adria Univeristat), aics (Department of Artificial Intelligence and Cybersecurity), informatics (Department of Informatics Systems). Il nome del dipartimento � allineato con la versione inglese del logo UniUD.
+%% Valori ammessi per aauheader: '' (vuoto -> nessun header Alpen Adria Univeristat), aics (Department of Artificial Intelligence and Cybersecurity), informatics (Department of Informatics Systems). Il nome del dipartimento è allineato con la versione inglese del logo UniUD.
 %% Valori ammessi per style: '' (vuoto -> stile moderno), old (stile tradizionale).
-\documentclass[target=mst,aauheader=,style=]{thud}
+\documentclass[target=bach,aauheader=,style=]{thud}
 
 %% --- Informazioni sulla tesi ---
 %% Per tutti i tipi di tesi
@@ -13,23 +13,23 @@
 %\course{Internet of Things, Big Data e Web}
 %\course{Matematica}
 %\course{Comunicazione Multimediale e Tecnologie dell'Informazione}
-\title{La supercazzola prematurata \\ con scappellamento a destra \\ (come se fosse antani)}
-\author{Conte Raffaello Mascetti}
-\supervisor{Prof.\ Alfeo Sassaroli}
-\cosupervisor{Arch.\ Rambaldo Melandri \and Dott.\ Giorgio Perozzi}
-\tutor{Guido Necchi}
+\title{Comparazione sperimentale \\ di algoritmi di cifratura lightweight \\ su microcontrollori embedded}
+\author{Jacopo Plozner}
+\supervisor{Prof.\ Marino Miculan}
+%\cosupervisor{Arch.\ Rambaldo Melandri \and Dott.\ Giorgio Perozzi}
+\tutor{Dott.\ Paolo Casoto}
 %% Campi obbligatori: \title, \author e \course.
 %% Altri campi disponibili: \reviewer, \tutor, \chair, \date (anno accademico, calcolato in automatico), \rights
-%% Con \supervisor, \cosupervisor, \reviewer e \tutor si possono indicare pi� nomi separati da \and.
+%% Con \supervisor, \cosupervisor, \reviewer e \tutor si possono indicare più nomi separati da \and.
 %% Per le sole tesi di dottorato:
-\phdnumber{313}
-\cycle{XXVIII}
-\contacts{Via della Sintassi Astratta, 0/1\\65536 Gigatera --- Italia\\+39 0123 456789\\\texttt{http://www.example.com}\\\texttt{inbox@example.com}}
+%\phdnumber{313}
+%\cycle{XXVIII}
+%\contacts{Via della Sintassi Astratta, 0/1\\65536 Gigatera --- Italia\\+39 0123 456789\\\texttt{http://www.example.com}\\\texttt{inbox@example.com}}
 
 %% --- Pacchetti consigliati ---
 %% pdfx: per generare il PDF/A per l'archiviazione. Necessario solo per la versione finale
 \usepackage[a-1b]{pdfx}
-%% hyperref: Regola le impostazioni della creazione del PDF... pi� tante altre cose. Ricordarsi di usare l'opzione pdfa.
+%% hyperref: Regola le impostazioni della creazione del PDF... più tante altre cose. Ricordarsi di usare l'opzione pdfa.
 \usepackage[pdfa]{hyperref}
 %% tocbibind: Inserisce nell'indice anche la lista delle figure, la bibliografia, ecc.
 
@@ -37,6 +37,8 @@
 %% sfbig (predefinito): Apertura delle parti e dei capitoli col numero grande; titoli delle parti e dei capitoli e intestazioni di pagina in sans serif.
 %% big: Come "sfbig", solo serif.
 %% plain: Apertura delle parti e dei capitoli tradizionali di LaTeX; intestazioni di pagina come "big".
+\usepackage{float} % figure EXACTLY here
+\usepackage{MnSymbol} % simboli
 
 \begin{document}
 \maketitle
@@ -48,11 +50,11 @@
 
 %% Ringraziamenti (opzionali)
 \acknowledgements
-Sed vel lorem a arcu faucibus aliquet eu semper tortor. Aliquam dolor lacus, semper vitae ligula sed, blandit iaculis leo. Nam pharetra lobortis leo nec auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac risus pulvinar, congue eros non, interdum metus. Mauris tincidunt neque et aliquam imperdiet. Aenean ac tellus id nibh pellentesque pulvinar ut eu lacus. Proin tempor facilisis tortor, et hendrerit purus commodo laoreet. Quisque sed augue id ligula consectetur adipiscing. Vestibulum libero metus, lacinia ac vestibulum eu, varius non arcu. Nam et gravida velit.
+
 
 %% Sommario (opzionale)
 \abstract
-Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobortis. Nulla hendrerit pretium diam nec lobortis. Nullam aliquam laoreet nisl, sit amet facilisis lectus accumsan ut. Duis et elit hendrerit metus venenatis condimentum. Integer id eros molestie, interdum leo sit amet, aliquet metus. Integer fermentum tristique magna, vel luctus neque rhoncus vel. Ut hendrerit et quam et semper. Mauris egestas, odio sed aliquet luctus, magna orci euismod odio, vitae lacinia tellus tellus non lectus. Aliquam urna neque, porta et mattis aliquam, congue sit amet lorem. In ultrices augue sit amet ante vehicula, vitae rhoncus turpis auctor. Donec porta scelerisque eros, at mollis enim imperdiet ut. 
+
 
 %% Indice
 \tableofcontents
@@ -67,41 +69,110 @@ Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobort
 \mainmatter
 
 %% Parte
-%% La suddivisione in parti � opzionale; solitamente sono sufficienti i capitoli.
+%% La suddivisione in parti è opzionale; solitamente sono sufficienti i capitoli.
 %\part{Parte}
 
 %% Capitolo
-\chapter{Titolo del primo capitolo}
-In hac habitasse platea dictumst. Vestibulum consectetur dictum pellentesque. Suspendisse nunc neque, commodo ac imperdiet nec, sollicitudin vitae libero. Donec bibendum vel nunc vitae pharetra. In vel volutpat odio, et interdum dui. Duis mauris ligula, congue eget molestie at, tincidunt nec diam. Nam vitae eros nec arcu suscipit vehicula. Aliquam consectetur imperdiet elit, eget pretium arcu fringilla at. Maecenas \cite{Knu86} sed libero pulvinar, mattis tortor vel, fermentum enim.
+\chapter{Introduzione}
 
-%% Sezione
-\section{Titolo della Sezione}
-Donec pulvinar neque non lectus vulputate pellentesque. Quisque rutrum arcu velit, in feugiat sapien posuere vel. Praesent metus orci, aliquam ac cursus eget, fermentum a nisl. Etiam eu augue lacus. Nam nisi sapien, mattis sed vehicula non, pellentesque at quam. Sed euismod, dolor nec commodo lobortis, erat erat ultricies eros, bibendum dictum nulla felis in dui. Nulla blandit ultrices arcu, vitae lacinia tellus tempor sit amet. Nulla non tincidunt dolor. In eget luctus sem, sed elementum ligula. Proin elementum adipiscing sem, sit amet ultricies nisl tincidunt eu. Ut lobortis dui quam, et scelerisque erat ultrices sit amet. Sed libero sem, mollis quis euismod quis, suscipit ac justo.
+    %% Sezione
+    \section{Titolo della Sezione}
 
-%% Sottosezione
-\subsection{Sottosezione}
-Donec cursus tortor eget sem ornare imperdiet. Ut vel orci non ipsum condimentum laoreet vitae ut sapien. Aenean metus mi, vehicula quis turpis nec, porttitor blandit dui. Nullam sed sollicitudin quam. Fusce nisl ante, commodo eget lacus ac, mollis ullamcorper neque. Quisque faucibus dictum nisl, dignissim fermentum sapien fringilla vel. Proin dui velit, molestie sit amet sapien et, pellentesque tristique purus. Curabitur ac quam ac diam varius bibendum.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor odio sit amet tempor consequat. Suspendisse auctor vel augue ut aliquet. Suspendisse potenti. Nullam eget leo eu neque ornare mattis in in tortor. Phasellus finibus, orci nec interdum placerat, leo libero rutrum ipsum, vel varius elit leo vel lacus. Pellentesque a tristique nibh, dictum egestas augue. Aliquam egestas ligula nec diam vulputate, vel bibendum justo sodales. Nunc imperdiet ut est non ultrices. Pellentesque enim tortor, suscipit et neque vel, varius gravida dolor. In sed lobortis tellus. Duis ac sem ac mi aliquet imperdiet eu eget ligula. Aliquam ligula nisl, rhoncus eget orci a, cursus dapibus urna. Donec commodo consequat mi.
+    %% Sottosezione
+    \subsection{Sottosezione}
 
-Donec elementum erat vitae nunc commodo ultrices. Vivamus auctor arcu pharetra orci cursus, sodales dictum urna egestas. Pellentesque eget felis augue. Quisque tempus non nulla sed aliquam. Nam sagittis eros lectus, a mattis felis malesuada at. Sed et semper dui. Nunc luctus, diam ac ultricies euismod, augue odio consequat ante, vel vehicula ipsum mauris sed nunc. Pellentesque consequat, eros et volutpat maximus, justo metus commodo ante, vitae egestas nisl mi non orci.
+\chapter{Background}
 
-Vestibulum aliquet tempor magna sit amet tincidunt. Vivamus congue leo eu lectus vestibulum, ut tincidunt tellus viverra. Etiam sit amet blandit dolor. Sed eget varius dolor. Cras porta euismod mi feugiat posuere. Proin elit nulla, pulvinar vitae fermentum id, varius nec leo. Nullam eu erat nulla. Etiam erat ante, lobortis vel sagittis quis, pretium in lectus. Aenean accumsan, quam sagittis fringilla gravida, nulla massa ullamcorper nisi, non pretium leo magna ac tellus. Nunc vel lectus dapibus, pulvinar sem id, gravida urna. Duis tempor imperdiet consectetur. Quisque nec risus diam.
+    \section{Crittografia}
+    La crittografia è la scienza, da alcuni definita anche \textit{arte}, che si occupa dello studio e della creazione di tecniche matematiche per la sicurezza di sistemi informatici e comunicazioni digitali.\cite{moderncrypto}\\
+    Tra le molte tecniche troviamo i cifrari (cipher), algoritmi parametrizzati da una chiave (key) che trasformano un testo in chiaro (plaintext) in un testo cifrato (ciphertext).\\
+    Le operazioni di cifratura \textit{E} (encryption) e decifratura \textit{D} (decryption) tramite la chiave \textit{K} e il rapporto tra plaintext \textit{P} e ciphertext \textit{C} possono essere rappresentati con le funzioni:
+    \[E_K(P)=C \qquad , \qquad D_K(C)=P\]
+    Un principio fondamentale della crittografia, che pone le basi per una progettazione sicura di un cifrario, è quello di Kerckhoffs:
+    \begin{quote}
+        La sicurezza di un sistema non deve dipendere dalla segretezza dell'algoritmo di cifratura usato, ma da quella della chiave.
+    \end{quote}
+    Claude Shannonn lo riformula con "Il nemico conosce il sistema" (\textit{Communication Theory of Secrecy Systems}); un cifrario quindi è considerato sicuro solo se garantisce la sua robustezza anche, e soprattutto, nel caso in cui un eventuale malintenzionato ne conosca tutti i dettagli implementativi.\\
+    Questo consente ai crittografi di rendere pubbliche le loro scelte progettuali, in modo che il loro lavoro possa essere studiato e analizzato da altri esperti.
+    
+    Gli algoritmi di cifratura classici si dividono in due categorie: a chiave simmetrica e a chiave asimmetrica.
 
-Pellentesque purus dui, lobortis sed maximus at, consequat eu ex. Phasellus eu porttitor dolor. Integer ornare justo elit, eget porttitor tortor porta vel. Quisque sit amet urna tempor, mollis quam in, faucibus orci. Sed auctor efficitur malesuada. Aliquam lacinia laoreet augue, varius imperdiet sem bibendum at. Mauris neque nunc, fringilla ac commodo mollis, pellentesque tincidunt est.
+        \subsection{Crittografia simmetrica}
+        Conosciuta anche come \textit{crittografia a chiave privata}, in questo scenario, due parti condividono una chiave segreta, che utilizzano per comunicare in modo cifrato.\\
+        Le operazioni di cifratura e decifratura dei messaggi avvengono con la stessa chiave, da qui la definizione di \textit{simmetrica}. \\
+        Una prima grande distinzione tra gli algoritmi in questa categoria si può fare sulla base di come operano sul messaggio: cifrari a blocco (\textit{Block ciphers}) e cifrari a flusso (\textit{Stream ciphers}).
 
-Nunc commodo, quam id maximus dignissim, ligula magna convallis mauris, a elementum nisl metus at nisl. Donec risus ante, maximus at iaculis eget, placerat nec nulla. Sed tincidunt sodales justo eget finibus. Sed urna magna, dapibus at massa scelerisque, facilisis fringilla justo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla eleifend semper erat, ut placerat metus. Quisque laoreet ultrices est. Sed porta fermentum odio. Cras ornare erat nec ultricies hendrerit.
+            \subsubsection{Cifrari a blocco}
+            Un cifrario a blocco è un algoritmo che opera su una quantità fissata di bit, detta appunto \textit{blocco}. \\
+            Può essere descritto come una permutazione parametrizzata da una chiave\cite{moderncrypto}:
+            \[F:\{0,1\}^b \times \{0,1\}^k \rightarrow \{0,1\}^b\]
+            dove \textit{b} è la lunghezza del blocco e \textit{k} la lunghezza della chiave. 
 
-Nunc commodo, libero consectetur imperdiet faucibus, nisi mauris pulvinar quam, pellentesque vehicula neque mi maximus justo. Nulla tristique, lacus et rhoncus varius, orci nibh dictum mauris, fringilla elementum elit elit ut tortor. Curabitur euismod quis sem et mollis. Sed feugiat dignissim tincidunt. Mauris cursus dictum venenatis. Nunc fermentum at metus ac vehicula. Duis sodales tellus magna, sit amet luctus urna imperdiet sed.
+            Diverse sono le architetture di cifrari a blocco presenti in letteratura, ma la maggior parte condivide le stesse idee base, teorizzate da Claude Shannon (\textit{A Mathematical Theory of Cryptography}, 1945):
+            \begin{itemize}
+                \item \textbf{Confusion}: il rapporto tra plaintext, ciphertext e chiave deve essere reso il piú complesso possibile. Questa proprietà viene raggiunta con l'utilizzo di tecniche di \textbf{sostituzione}, applicate all'intero messaggio diviso in gruppi di pochi bit, implementate tramite Look Up Table (S-Boxes)
+                \item \textbf{Diffusion}: ogni cambiamento, anche il più piccolo, deve avere effetto su almeno metà blocco. Proprietá ottenuta tramite \textbf{permutazione} dei bit, grazie a semplici circuiti dedicati oppure una complicata implementazione software.
+            \end{itemize}
 
-Fusce dolor urna, suscipit sed mi aliquam, aliquam convallis leo. Pellentesque quam nunc, consequat non posuere sed, fermentum ut urna. Nullam vehicula rutrum ex, at vehicula sem rhoncus a. Vivamus scelerisque, dolor in tristique mollis, leo diam laoreet velit, at semper enim velit ac dui. Donec placerat, odio nec maximus ultricies, tellus nibh lobortis orci, ut gravida ligula nibh in ante. Aenean blandit viverra tempus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In vitae efficitur est. Nam venenatis, nisi vitae condimentum pretium, nunc libero accumsan nulla, in accumsan turpis enim at velit. Donec semper dolor posuere orci facilisis volutpat. Vestibulum lorem leo, tempor vitae porta id, mattis commodo dui. Cras aliquet non risus at accumsan. Suspendisse viverra, mi in blandit hendrerit, enim magna faucibus eros, id egestas lacus magna non leo.
+            Architetture comuni:
+            \begin{description}
+                \item[Substitution-Permutation Networks (SPN)] Implementazione diretta del paradigma Confusion\&Diffusion\cite{moderncrypto}, sono infatti cifrari composti da divesi round di sostituzioni e permutazioni\cite{handcypto}.
 
-Morbi suscipit tempor ante a varius. Fusce eu lobortis eros. Quisque quis pharetra metus, dictum luctus ligula. In a tincidunt nibh, vel scelerisque arcu. Donec consequat justo condimentum tempus iaculis. Nullam interdum id metus vel sagittis. Proin ante tortor, posuere a vehicula sit amet, dapibus ut metus. Etiam consectetur, tortor sit amet lacinia varius, nibh purus vehicula ex, sit amet fermentum justo urna a ante.
+                Prima dei round c'è la fase detta \textbf{Key Schedule}, in cui la chiave principale (\textit{master key}) viene usata per generare le sotto-chiavi utilizzate in ciascun round (\textit{round keys}).\\
+                Ogni round è composto solitamente dalle seguenti fasi\cite{moderncrypto}:                
+                \begin{enumerate}
+                    \item Round key mixing: la round key corrispondente viene sommata al messaggio. \[M = M \oplus RK_i\]
+                    \item Substitution: sostituzione dei byte del messaggio $(M:m_0||\ ...\ ||m_n)$ sulla base delle S-Box. \[M=S(m_0)||\ ...\ ||S(m_n)\]
+                    \item Permutation: permutazione dei bit di M.
+                \end{enumerate}
+                L'output di ciascun round è l'input del successivo.\\
+                Dopo l'ultimo round il messaggio è sommato all'ultima sotto-chiave.
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{img/spn_round.jpg}
+                    \caption{SPN round}
+                    \label{fig:placeholder}
+                \end{figure}
+                \item[Feistel Networks \cite{moderncrypto}] Approccio teorizzato da Horst Feistel (\textit{Cryptography and Computer Privacy}, 1973), al contrario degli SPN, presenta il vantaggio di poter utilizzare come componente base una funzione non invertibile \textit{RF} (\textit{round function}).\\
+                Anche in questo caso, operando a round, è presente una fase inziale di \textit{key schedule} per espandere la \textit{master key K} nelle relative \textit{round keys $RK_i$}.\\
+                Questi cifrari operano iterativamente sul messaggio, considerandolo come due parti di lunghezza uguale ($M_i:L_i||R_i$), nel seguente modo:
+                \begin{enumerate}
+                    \item $L_{i+1} = R_i$
+                    \item $R_{i+1} = L_i \oplus RF_{RK_i}(R_i)$
+                \end{enumerate}
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{img/feistel_round.jpg}
+                    \caption{Feistel Network round}
+                    \label{fig:placeholder}
+                \end{figure}
+                \item[Add-Rotate-XOR (ARX)\cite{sparx}] Classe di cifrari progettati utilizando soltanto semplici operazioni di \textit{addizione modulare} ($\boxplus$), \textit{rotazione} ($\lll, \ggg$) e \textit{XOR} ($\oplus$).
+            \end{description}
+            
+            Di per sé non è una soluzione sicura, soprattutto in presenza di più blocchi da cifrare, in quanto presenta un comportamento deterministico: applica, a parità di chiave, sempre la stessa permutazione. Occorre adottare delle particolari tecniche, chiamate \textit{Modes of Operation}, che utilizzano il cifrario a blocco come primitiva e non come unica risorsa. \cite{handcypto, computernet}
+            % modes
+            
+            \subsubsection{Cifrari a flusso}
+            Un cifrario a flusso è un algoritmo che cifra un messaggio combinandolo con un flusso pseudocasuale di simboli (\textit{keystream}). Ogni simbolo del plaintext è cifrato con il simbolo corrispondente del keystream.\\
+            La componente base di un cifrario a flusso è solitamente un \textit{LFSR} (\textit{linear-feedback shift register}), uno strumento utilizzato per la generazione pseudocasuale di numeri, con buone proprietà statistiche. Un LFSR consiste in un array di registri da un bit ciascuno, i cui valori ne rappresentano lo stato. Lo stato è aggiornato ad ogni intervallo dato, shiftando i valori dei registri verso destra, mentre il nuovo valore del primo registro da sinistra è calcolato tramite lo XOR di un sottoinsieme dei valori attuali. In un dato momento, il valore dell'ultimo registro a destra rappresenta l'output del LFSR.\cite{moderncrypto}
+            \begin{figure}[h]
+                \centering
+                \includegraphics[width=0.5\linewidth]{img/lfsr.jpg}
+                \caption{LFSR}
+                \label{fig:placeholder}
+            \end{figure}
+        \subsection{Crittografia asimmetrica}
 
-Phasellus feugiat neque sed risus faucibus tristique nec sit amet magna. Fusce lacus erat, fermentum non pharetra et, auctor et tellus. Donec gravida id urna quis auctor. Quisque ultrices id orci id posuere. In hac habitasse platea dictumst. Phasellus ante nibh, fermentum a vehicula sit amet, efficitur vel orci. Phasellus eget justo orci. Fusce ut tellus nisl. Nullam sit amet ipsum justo. Proin suscipit purus facilisis, tristique arcu in, venenatis dui. Quisque a pellentesque augue. Sed blandit viverra feugiat. Curabitur volutpat luctus maximus. Nulla sed condimentum nibh, sed rutrum velit. Cras pellentesque lectus est, vestibulum vehicula arcu elementum a.
+    \section{Sistemi embedded}
+    
+        
+    
+\chapter{Algoritmi}
 
-Sed dapibus augue rutrum augue ultrices, in tristique lectus malesuada. Praesent pharetra at arcu eu pellentesque. Cras ac est arcu. Suspendisse euismod pellentesque diam, id porta metus. Donec porta ex vel ornare tincidunt. Nunc non tortor sodales, lacinia diam quis, malesuada lectus. Cras a ultrices massa, a semper ligula.
+\chapter{Test e valutazione}
 
+\chapter{Conclusione}
 
 
 
@@ -110,52 +181,22 @@ Sed dapibus augue rutrum augue ultrices, in tristique lectus malesuada. Praesent
 
 %\part{Appendici}
 
-\chapter{Titolo della prima appendice}
-Sed purus libero, vestibulum ut nibh vitae, mollis ultricies augue. Pellentesque velit libero, tempor sed pulvinar non, fermentum eu leo. Duis posuere eleifend nulla eget sagittis. Nam laoreet accumsan rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur eget libero quis leo porttitor vehicula eget nec odio. Proin euismod interdum ligula non ultricies. Maecenas sit amet accumsan sapien.
+\chapter{Appendice}
+
 
 %% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
 
 %% Riassunto (opzionale)
 %\summary
-%Maecenas tempor elit sed arcu commodo, dapibus sagittis leo egestas. Praesent at ultrices urna. Integer et nibh in augue mollis facilisis sit amet eget magna. Fusce at porttitor sapien. Phasellus imperdiet, felis et molestie vulputate, mauris sapien tincidunt justo, in lacinia velit nisi nec ipsum. Duis elementum pharetra lorem, ut pellentesque nulla congue et. Sed eu venenatis tellus, pharetra cursus felis. Sed et luctus nunc. Aenean commodo, neque a aliquam bibendum, mauris augue fringilla justo, et scelerisque odio mi sit amet diam. Nulla at placerat nibh, nec rutrum urna. Donec ut egestas magna. Aliquam erat volutpat. Phasellus vestibulum justo sed purus mattis, vitae lacinia magna viverra. Nulla rutrum diam dui, vel semper mi mattis ac. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec id vestibulum lectus, eget tristique est.
 
 %% Bibliografia (praticamente obbligatoria)
-\bibliographystyle{plain_\languagename}%% Carica l'omonimo file .bst, dove \languagename � la lingua attiva.
+\bibliographystyle{plain_\languagename}%% Carica l'omonimo file .bst, dove \languagename è la lingua attiva.
 %% Nel caso in cui si usi un file .bib (consigliato)
 \bibliography{thud}
+
 %% Nel caso di bibliografia manuale, usare l'environment thebibliography.
 
 %% Per l'indice analitico, usare il pacchetto makeidx (o analogo).
 
 \end{document}
-
---- Istruzioni per l'aggiunta di nuove lingue ---
-Per ogni nuova lingua utilizzata aggiungere nel preambolo il seguente spezzone:
-    \addto\captionsitalian{%
-        \def\abstractname{Sommario}%
-        \def\acknowledgementsname{Ringraziamenti}%
-        \def\authorcontactsname{Contatti dell'autore}%
-        \def\candidatename{Candidato}%
-        \def\chairname{Direttore}%
-        \def\conclusionsname{Conclusioni}%
-        \def\cosupervisorname{Co-relatore}%
-        \def\cosupervisorsname{Co-relatori}%
-        \def\cyclename{Ciclo}%
-        \def\datename{Anno accademico}%
-        \def\indexname{Indice analitico}%
-        \def\institutecontactsname{Contatti dell'Istituto}%
-        \def\introductionname{Introduzione}%
-        \def\prefacename{Prefazione}%
-        \def\reviewername{Controrelatore}%
-        \def\reviewersname{Controrelatori}%
-        %% Anno accademico
-        \def\shortdatename{A.A.}%
-        \def\summaryname{Riassunto}%
-        \def\supervisorname{Relatore}%
-        \def\supervisorsname{Relatori}%
-        \def\thesisname{Tesi di \expandafter\ifcase\csname thud@target\endcsname Laurea\or Laurea Magistrale\or Dottorato\fi}%
-        \def\tutorname{Tutor aziendale%
-        \def\tutorsname{Tutor aziendali}%
-    }
-sostituendo a "italian" (nella 1a riga) il nome della lingua e traducendo le varie voci.
