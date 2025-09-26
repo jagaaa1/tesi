@@ -39,6 +39,35 @@
 %% plain: Apertura delle parti e dei capitoli tradizionali di LaTeX; intestazioni di pagina come "big".
 \usepackage{float} % figure EXACTLY here
 \usepackage{MnSymbol} % simboli
+\usepackage{algorithm} % algoritmi
+\usepackage{algpseudocode} %pseudocodice
+
+\usepackage{xcolor} % colori
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings} % codice C
+\lstdefinestyle{CStyle}{
+	backgroundcolor=\color{backgroundColour},   
+	commentstyle=\color{mGreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{mGray},
+	stringstyle=\color{mPurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2,
+	language=C
+}
 
 \begin{document}
 \maketitle
@@ -128,7 +157,7 @@
                 \end{enumerate}
                 L'output di ciascun round è l'input del successivo.\\
                 Dopo l'ultimo round il messaggio è sommato all'ultima sotto-chiave.
-                \begin{figure}[h]
+                \begin{figure}[htbp]
                     \centering
                     \includegraphics[width=0.5\linewidth]{img/spn_round.jpg}
                     \caption{SPN round}
@@ -141,7 +170,7 @@
                     \item $L_{i+1} = R_i$
                     \item $R_{i+1} = L_i \oplus RF_{RK_i}(R_i)$
                 \end{enumerate}
-                \begin{figure}[h]
+                \begin{figure}[htbp]
                     \centering
                     \includegraphics[width=0.5\linewidth]{img/feistel_round.jpg}
                     \caption{Feistel Network round}
@@ -156,7 +185,7 @@
             \subsubsection{Cifrari a flusso}
             Un cifrario a flusso è un algoritmo che cifra un messaggio combinandolo con un flusso pseudocasuale di simboli (\textit{keystream}). Ogni simbolo del plaintext è cifrato con il simbolo corrispondente del keystream.\\
             La componente base di un cifrario a flusso è solitamente un \textit{LFSR} (\textit{linear-feedback shift register}), uno strumento utilizzato per la generazione pseudocasuale di numeri, con buone proprietà statistiche. Un LFSR consiste in un array di registri da un bit ciascuno, i cui valori ne rappresentano lo stato. Lo stato è aggiornato ad ogni intervallo dato, shiftando i valori dei registri verso destra, mentre il nuovo valore del primo registro da sinistra è calcolato tramite lo XOR di un sottoinsieme dei valori attuali. In un dato momento, il valore dell'ultimo registro a destra rappresenta l'output del LFSR.\cite{moderncrypto}
-            \begin{figure}[h]
+            \begin{figure}[htbp]
                 \centering
                 \includegraphics[width=0.5\linewidth]{img/lfsr.jpg}
                 \caption{LFSR}
@@ -165,11 +194,408 @@
         \subsection{Crittografia asimmetrica}
 
     \section{Sistemi embedded}
+    Un sistema embedded può essere definito come "un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
+    I sistemi embedded spaziano tra i più disparati oggetti: dall'uso quotidiano (elettrodomestici), ai veicoli, ai sensori intelligenti (come nel caso di questa tesi), fino a scopi militari (missili).\\
+    I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
     
-        
-    
+    	\subsection{Vincoli}
+    	%costi, hardware, software
+    	Essendo progettati per un compito specifico, i sistemi embedded offrono meno supporto e presentano spesso numerosi vincoli. La necessità di produzione su larga scala e il fatto di rientrare nel budget del dispositivo in cui sono integrati richiedono ai progettisti un'attenta analisi dei \textit{costi}. La riduzione dei costi si riflette direttamente sui vincoli \textit{hardware} dei dispositivi, soprattutto in termini di RAM, ROM, velocità del processore, periferiche e consumo energetico. Come spesso accade, l'ottimizzazione di queste risorse risulta un problema complesso, richiedendo dei compromessi: codice più veloce richiede più spazio, aumentando la velocità della CPU aumentano di conseguenza i consumi, rimuovendo le periferiche non strettamente necessarie si guadagna in spazio e consumi, e molti altri.
+    	Dal lato software, invece, possono essere richieste garanzie di \textit{real-time}, determinismo, oppure di tolleranza ai guasti.\cite{embeddedsys}
+    	\subsection{Programmazione}
+    	La sviluppo di codice embedded richiede diverse competenze, tra cui: conoscenza approfondita dell'hardware presente nel dispositivo, padronanza della programmazione a basso livello, soprattutto nella gestione della memoria, abilità nel bilanciare le richieste applicative con i vincoli del sistema.
+    	Al contrario di quello che accade nei dispositivi general-purpose, inoltre, una errata gestione software può causare danni alle componenti hardware, anche gravi.
+    		\subsubsection{Linguaggi}
+    		Avendo risorse limitate, i sistemi embedded non sono dotati di compilatore, il codice che eseguono è \textit{cross-compilato} su un altro dispositivo e successivamente trasferito nella memoria integrata. I produttori di microprocessori solitamente forniscono ambienti di sviluppo dedicati con cross-compiler proprietari, ma sono presenti anche alternative GNU.
+    		Le tool-chain embedded, nella maggior parte dei casi, supportano solo linguaggi come C o C++, con funzionalità e librerie limitate (es. supporto ridotto per aritmetica floating-point).
+			\subsubsection{Debug}
+			Altra questione delicata è quella del debugging, che, similmente alla compilazione, richiede un \textit{cross-debugger}. Questi particolari programmi sono eseguiti su un dispositivo esterno e comunicano con il microprocessore target tramite interfacce e periferiche dedicate (es. JTAG).
+			Le funzionalità di debug devono essere esplicitamente supportate dal processore, attraverso hardware specifico, come per esempio registri riservati ai breakpoint (hardware breakpoint).
+			
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=0.5\linewidth]{img/cross-compiler-debugger.jpg}
+				\caption{Comunicazione con microprocessore embedded}
+				\label{fig:placeholder}
+			\end{figure}
+			    		
 \chapter{Algoritmi}
+	\section{Cifrari a blocco}
+		\subsection{AES\cite{aes}}
+		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael. Sia durante il processo di selezione che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
+			\subsubsection{Design}
+			Le operazioni dell'algoritmo sono effettuate su un array bi-dimensionale ($4 \times 4$), definito state. Il cuore dell'algoritmo è caratterizzato da una serie di round, durante cui, in sequenza, vengono applicate queste trasformazioni:
+			\begin{itemize}
+				\item \Call{SubBytes}{\null} : trasformazione invertibile e non-lineare, descritta da una S-box e ottenuta tramite la sostituzione indipendente dei byte dello state.
+				\begin{lstlisting}[style=CStyle]
+static void sub_bytes(uint8_t *state) {
+	for(uint16_t i = 0; i < 16; i++) {	
+		state[i] = sbox[state[i]];
+	}
+}\end{lstlisting}
+				\item \Call{ShiftRows}{\null} : shift dei byte che compongono le ultime tre righe dello state.
+				\begin{lstlisting}[style=CStyle]
+static void shift_rows(uint8_t *state) {
+	uint8_t tmp;
+	
+	// row 1
+	tmp = state[13];
+	state[13] = state[1];
+	state[1] = state[5];
+	state[5] = state[9];
+	state[9] = tmp;
+	
+	// row 2
+	tmp = state[14];
+	state[14] = state[6];
+	state[6] = tmp;
+	tmp = state[10];
+	state[10] = state[2];
+	state[2] = tmp;
+	
+	// row 3
+	tmp = state[3];
+	state[3] = state[15];
+	state[15] = state[11];
+	state[11] = state[7];
+	state[7] = tmp;
+}\end{lstlisting}
+				\item \Call{MixColumns}{\null} : moltiplicazione in $GF(2^8)$ tra lo state e una matrice fissata.
 
+				\begin{lstlisting}[style=CStyle]
+static void mix_columns(uint8_t *state) {
+	uint8_t new_s0;
+	uint8_t new_s1;
+	uint8_t new_s2;
+	uint8_t new_s3;
+	for(uint16_t c = 0; c < 4; c++) {
+		new_s0 = xtimes(state[4*c]) ^ (xtimes(state[4*c+1]) ^ 
+				state[4*c+1]) ^ state[4*c+2] ^ state[4*c+3];
+		new_s1 = state[4*c] ^ xtimes(state[4*c+1]) ^ 
+				(xtimes(state[4*c+2]) ^ state[4*c+2]) ^ state[4*c+3];
+		new_s2 = state[4*c] ^ state[4*c+1] ^ 
+				xtimes(state[4*c+2]) ^ (xtimes(state[4*c+3]) ^ state[4*c+3]);
+		new_s3 = (xtimes(state[4*c]) ^ state[4*c]) ^ 
+				state[4*c+1] ^ state[4*c+2] ^ xtimes(state[4*c+3]);
+		
+		state[4*c] = new_s0;
+		state[4*c+1] = new_s1;
+		state[4*c+2] = new_s2;
+		state[4*c+3] = new_s3;
+	}
+}\end{lstlisting}
+				\item \Call{AddRoundKey}{\null} : somma (bitwise XOR) tra ciascuna colonna e la relativa word della round key corrispondente.
+
+				\begin{lstlisting}[style=CStyle]
+static void add_round_key(uint8_t *state, uint8_t *rk) {
+	for(uint16_t k = 0; k < 16; k++) {
+		state[k] ^= rk[k];
+	}
+}\end{lstlisting}
+			\end{itemize}
+			
+			\begin{algorithm}
+				\caption{Pseudocodice AES}
+				\begin{algorithmic}
+					\Procedure{Cipher}{$in, Nr, w$}
+						\State {$state \gets in$}
+						\State {$state \gets \Call{AddRoundKey}{state,w[0 \cdots 3]}$}
+						\For{$round=1$ \textbf{to} $Nr-1$}
+							\State {$state \gets \Call{SubBytes}{state}$}
+							\State {$state \gets \Call{ShiftRows}{state}$}
+							\State {$state \gets \Call{MixColumns}{state}$}
+							\State {$state \gets \Call{AddRoundKey}{state,w[4*round \cdots 4*round+3]}$}
+						\EndFor
+						\State {$state \gets \Call{SubBytes}{state}$}
+						\State {$state \gets \Call{ShiftRows}{state}$}
+						\State {$state \gets \Call{AddRoundKey}{state,w[4*Nr \cdots 4*Nr+3]}$}
+						\Return state
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			
+			\begin{algorithm}
+				\caption{Codice C AES-128}
+				\begin{lstlisting}[style=CStyle]
+void AES128_encrypt(uint8_t *plaintext, uint8_t *round_key, uint8_t *ciphertext) {
+	for(uint16_t b = 0; b < 16; b++) {
+		ciphertext[b] = plaintext[b];
+	}
+	
+	add_round_key(ciphertext, round_key);
+	round_key += 16;
+	
+	for(uint16_t r = 1; r < 10; r++) {
+		sub_bytes(ciphertext);
+		shift_rows(ciphertext);
+		mix_columns(ciphertext);
+		add_round_key(ciphertext, round_key);
+		round_key += 16;
+	}
+	
+	sub_bytes(ciphertext);
+	shift_rows(ciphertext);
+	add_round_key(ciphertext, round_key);
+}\end{lstlisting}
+			\end{algorithm}
+			
+			Le round key sono generate tramite la procedura \Call{KeyExpansion}{\null}, in modo ricorsivo, a partire dalla chiave principale.\\
+			In questa fase, due sono le trasformazioni applicate:
+			\[\Call{RotWord}{[a_0,a_1,a_2,a_3]} = [a_1,a_2,a_3,a_0],\]
+			\[\Call{SubWord}{[a_0,a_1,a_2,a_3]} = [S(a_0),S(a_1), S(a_2), S(a_3)].\]
+			\begin{algorithm}
+				\caption{Pseudocodice Key Expansion}
+				\begin{algorithmic}
+					\Procedure{KeyExpansion}{key}
+						\State {$i \gets 0$}
+						\While{$i \le Nk-1 $}
+							\State {$w[i] \gets key[i]$}
+							\State {$i \gets i+1$}
+						\EndWhile
+						\While{$i \le 4*Nr + 3$}
+							\State {$temp \gets w[i-1]$}
+							\If{$i \mod Nk = 0$}
+								\State {$temp \gets \Call{SubWord}{}(\Call{RotWord}{temp}) \oplus Rcon[i/Nk]$}
+							\ElsIf{$(Nk \gtr 6) \wedge (i \mod Nk = 4)$}
+								\State {$temp \gets \Call{SubWord}{temp}$}
+							\EndIf
+							\State {$w[i] \gets w[i - Nk] \oplus temp$}
+							\State {$i \gets i+1$}
+						\EndWhile
+						\State {\textbf{return} $w$}
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			\begin{algorithm}
+				\caption{Codice C Key Expansion AES-128}
+\begin{lstlisting}[style=CStyle]
+void AES128_compute_round_keys(uint8_t *key, uint8_t *round_key) {
+	for(uint16_t k = 0; k < 16; k++) {
+		round_key[k] = key[k];
+	}
+	
+	uint8_t tmp[4];
+	for(uint16_t i = 4; i < 44; i++) {
+		tmp[0] = round_key[4*(i-1)];
+		tmp[1] = round_key[4*(i-1) + 1];
+		tmp[2] = round_key[4*(i-1) + 2];
+		tmp[3] = round_key[4*(i-1) + 3];
+		
+		if(!(i & 0x3)) { // i % Nk (4) == 0
+			rot_word(tmp);
+			sub_word(tmp);
+			tmp[0] ^= rcon[i >> 2]; // i/Nk (4)
+		}
+		
+		round_key[4*i] = round_key[4*(i-4)] ^ tmp[0];
+		round_key[4*i + 1] = round_key[4*(i-4) + 1] ^ tmp[1];
+		round_key[4*i + 2] = round_key[4*(i-4) + 2] ^ tmp[2];
+		round_key[4*i + 3] = round_key[4*(i-4) + 3] ^ tmp[3];
+	}
+}\end{lstlisting}
+			\end{algorithm}
+			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c| } 
+					\hline
+					Attacco & Complessità & Fonte \\ 
+					\hline
+					\hline
+					Biclique (AES-128) & $2^{126.1}$ & \cite{aes_biclique} \\ 
+					\hline
+					Related-key (AES-256) & $2^{99.5}$ & \cite{aes_relatedkey} \\ 
+					\hline
+					Side channel & pratica & \cite{aesside, aesfault}\\
+					\hline
+				\end{tabular}
+			\end{center}
+		\subsection{CLEFIA\cite{clefia}}
+		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittoanalisi.
+			\subsubsection{Design}
+			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano Diffusion Switching Mechanism\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.\\
+			La struttura della particolare rete Feistel adottata è descritta come:\\
+			\begin{algorithm}[htbp]
+				\caption{Generaized Fesitel Network}
+				\begin{algorithmic}
+					\Procedure{$GFN_{4,r}$}{$RK, X$}
+						\State {$T_0|T_1|T_2|T_3 \gets X_0|X_1|X_2|X_3$}
+						\For{$i=0$ \textbf{to} $r-1$}
+							\State {$T_1 \gets T_1 \oplus F_0(RK_{2i},T_0)$}
+							\State {$T_3 \gets T_3 \oplus F_1(RK_{2i+1},T_2)$}
+							\State {$T_0|T_1|T_2|T_3 \gets T_1|T_2|T_3|T_0$}
+						\EndFor
+						\State {\textbf{return} $T_3|T_0|T_1|T_2$}
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			
+			\begin{minipage}[c]{0.45\textwidth}
+				\noindent
+				\centering
+				\begin{algorithm}[H]
+					\caption{$F_0$}
+					\begin{algorithmic}
+						\Procedure{$F_0$}{$RK,x$}
+						\State {$T \gets RK \oplus x$}
+						\State {$T \gets S_0(T_0)|S_1(T_1)|S_0(T_2)|S_1(T_3)$}
+						\State {\textbf{return} $M_0 \times ^tT$}
+						\EndProcedure
+					\end{algorithmic}
+				\end{algorithm}
+			\end{minipage}
+			\begin{minipage}[c]{0.45\textwidth}
+				\noindent
+				\centering
+				\begin{algorithm}[H]
+					\caption{$F_1$}
+					\begin{algorithmic}
+						\Procedure{$F_1$}{$RK,x$}
+						\State {$T \gets RK \oplus x$}
+						\State {$T \gets S_1(T_0)|S_0(T_1)|S_1(T_2)|S_0(T_3)$}
+						\State {\textbf{return} $M_1 \times ^tT$}
+						\EndProcedure
+					\end{algorithmic}
+				\end{algorithm}
+			\end{minipage}\\		
+			Sono inoltre presenti due S-box, basate su strutture algebriche differenti, scelta che \textit{prevede} di aumentare la resistenza ad attacchi algebrici.\\
+			
+			\begin{algorithm}
+				\caption{pseudocodice CLEFIA}
+				\begin{algorithmic}
+					\Procedure{Clefia$_r$}{$WK,RK,P$}
+					\State {$T_0|T_1|T_2|T_3 \gets P_0|(P_1 \oplus WK_0)|P_2|(P_3 \oplus WK_1)$}
+					\State {$T_0|T_1|T_2|T_3 \gets GFN_{4,r}(RK,T)$}
+					\State {\textbf{return} $T_0|(T_1 \oplus WK_2)|T_2|(T_3 \oplus WK_3)$}
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+
+			La key schedule é divisa in due fasi:
+			\begin{enumerate}
+				\item generazione di una chiave intermedia \textit{L}
+				\item espansione di \textit{L} per generare whitening key $WK$ e round key $RK_i$
+			\end{enumerate}
+			
+			\begin{algorithm}
+				\caption{pseudocodice Key Expansion CLEFIA-128}
+				\begin{algorithmic}
+					\Procedure{KeyExpansion}{K}
+						\State {$L \gets GFN_{4,12}(CON_{0..23}, K)$}
+						\State {$WK \gets K$}
+						\For{$i = 0$ \textbf{to} $8$}
+							\State {$T \gets L \oplus (CON_{24+4i}|CON_{24+4i+1}|CON_{24+4i+2}|CON_{24+4i+3})$}
+							\State {$L \gets L[7..63] | L[121..127] | L[0..6] | L[64..120]$}
+							\If{$i$ is odd}
+								\State {$T \gets T \oplus K$}
+							\EndIf
+							\State {$RK_{4i} \gets T$}
+						\EndFor
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			
+			\subsubsection{Crittoanalisi}
+			Diversi studi consentono di affermare che Clefia è resistente alle moderne tecniche di crittoanalisi.\cite{clefiaanal}
+			\begin{center}
+				\begin{tabular}{ |c|c|c| } 
+					\hline
+					Attacco & Complessità & Fonte \\ 
+					\hline 
+					\hline
+					Reduced-round (15) improbable differential & $2^{126.83}$ & \cite{clefiadiff} \\
+					\hline
+					Side channel & pratica & \cite{clefiafault}\\
+					\hline
+				\end{tabular}
+			\end{center}
+		\subsection{LEA\cite{lea}}
+		Lightweight Encryption Algorithm (LEA) è un cifrario sviluppato dalla Corea del Sud, da cui è inoltre adottato come standard nazionale. Obiettivo principale è quello di risultare efficiente sia in implementazioni software che in quelle hardware.
+			\subsubsection{Design}
+			LEA consiste di sole operazioni ARX su word di 32 bit. La word-size è stata scelta dai progettisti sulla base della convinzione che in futuro le operazioni a 32 bit saranno implementate efficientemente anche su dispositivi con risorse limitate.
+			La cifratura è divisa in tre fasi: inizializzazione, round iterativi e finalizzazione.
+			\begin{algorithm}
+				\caption{pseudocodice LEA}
+				\begin{algorithmic}
+					\Procedure{LEA}{P,RK}
+						\State {$X_0 \gets P$}
+						\For{$i=0$ \textbf{to} $r-1$}
+							\State {$X_{i+1}[0] \gets LROT_9((X_i[0] \oplus RK_i[0]) \boxplus (X_i[1] \oplus RK_i[1]))$}
+							\State {$X_{i+1}[1] \gets RROT_5((X_i[1] \oplus RK_i[2]) \boxplus (X_i[2] \oplus RK_i[3]))$}
+							\State {$X_{i+1}[2] \gets RROT_3((X_i[2] \oplus RK_i[4]) \boxplus (X_i[3] \oplus RK_i[5]))$}
+							\State {$X_{i+1}[3] \gets X_i[0]$}
+						\EndFor
+						\State {$C \gets X_r$}
+						\State {\textbf{return} $C$}
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			
+						\begin{algorithm}
+				\caption{Codice C LEA-128}
+\begin{lstlisting}[style=CStyle]
+void LEA_encrypt(uint32_t *plaintext, uint32_t *round_key, uint32_t *ciphertext) {
+	uint32_t x[4] = {plaintext[0], plaintext[1], plaintext[2], plaintext[3]};
+	
+	for(uint16_t i = 0; i < 24; i++) {
+		uint32_t tmp = x[0];
+		uint16_t rk_i = 6 * i;
+		x[0] = LROT((x[0] ^ round_key[rk_i]) + (x[1] ^ round_key[rk_i + 1]), 9);
+		x[1] = RROT((x[1] ^ round_key[rk_i + 2]) + (x[2] ^ round_key[rk_i + 3]), 5);
+		x[2] = RROT((x[2] ^ round_key[rk_i + 4]) + (x[3] ^ round_key[rk_i + 5]), 3);
+		x[3] = tmp;
+	}
+	
+	ciphertext[0] = x[0];
+	ciphertext[1] = x[1];
+	ciphertext[2] = x[2];
+	ciphertext[3] = x[3];
+}\end{lstlisting}
+			\end{algorithm}
+			\subsubsection{Crittoanalisi}
+			Lo sviluppo di LEA è stato guidato anche dall'obiettivo di resistere a tutti gli attacchi esistenti e garantire un certo margine di sicurezza futura. Sia $R$ il numero minimo di round per resistere a tutte le tecniche di crittoanalisi, LEA ne prevede $3R/2$ in previsione di nuove tipologie di attacchi che potrebbero emergere in futuro.\\
+			Al momento non esistono attacchi full-round noti.
+			\begin{center}
+				\begin{tabular}{ |c|c|c| } 
+					\hline
+					Attacco & Complessità & Fonte \\ 
+					\hline 
+					\hline
+					Reduced-round (13) differential & $2^{127}$ & \cite{leadiff} \\
+					\hline
+					Reduced-round (15) boomerang & $2^{116.3}$ & \cite{lea} \\
+					\hline
+					Reduced-round (14) differential-linear & - & \cite{lea} \\
+					\hline
+				\end{tabular}
+			\end{center}
+		\subsection{Prince\cite{prince}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{QARMAv2\cite{qarmav2}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{Sparx\cite{sparx}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{Speck\cite{speck}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{XTEA}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+	\section{Cifrari a flusso}
+		\subsection{Ascon\cite{ascon}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{ChaCha20\cite{chacha20}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{Hummingbird-2\cite{hummingbird2}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
+		\subsection{Lesca\cite{lesca}}
+			\subsubsection{Design}
+			\subsubsection{Crittoanalisi}
 \chapter{Test e valutazione}
 
 \chapter{Conclusione}

@@ -1,61 +1,334 @@
 @book{computernet,
-    author = {Andrew S. Tanebaum and David J. Wetherall},
-    title = {Computer Netwroks},
-    edition = {V},
-    publisher = {Prentice Hall},
-    year = {2011},
-    isbn = {978-0-13-212695}
+	author = {Andrew S. Tanenbaum and David J. Wetherall},
+	title = {Computer Netwroks},
+	edition = {V},
+	publisher = {Prentice Hall},
+	year = {2011},
+	isbn = {978-0-13-212695}
 }
 
 @book{moderncrypto,
-    author = {Jonathan Katz and Yehuda Lindell},
-    title = {Introduction to Modern Cryptography},
-    edition = {II},
-    publisher = {CRC Press},
-    year = {2015},
-    isbn = {978-1-4665-7027-6}
+	author = {Jonathan Katz and Yehuda Lindell},
+	title = {Introduction to Modern Cryptography},
+	edition = {II},
+	publisher = {CRC Press},
+	year = {2015},
+	isbn = {978-1-4665-7027-6}
 }
 
 @book{handcypto,
-    author = {Alfred J. Menezes and Paul C. van Oorschot and Scott A. Vanstone},
-    title = {Handbook of Applied Cryptography},
-    publisher = {CRC Press},
-    year = {1996}
+	author = {Alfred J. Menezes and Paul C. van Oorschot and Scott A. Vanstone},
+	title = {Handbook of Applied Cryptography},
+	publisher = {CRC Press},
+	year = {1996}
 }
 
 @InProceedings{sparx,
-    author="Dinu, Daniel
-    and Perrin, L{\'e}o
-    and Udovenko, Aleksei
-    and Velichkov, Vesselin
-    and Gro{\ss}sch{\"a}dl, Johann
-    and Biryukov, Alex",
-    editor="Cheon, Jung Hee
-    and Takagi, Tsuyoshi",
-    title="Design Strategies for ARX with Provable Bounds: Sparx and LAX",
-    booktitle="Advances in Cryptology -- ASIACRYPT 2016",
-    year="2016",
-    publisher="Springer Berlin Heidelberg",
-    address="Berlin, Heidelberg",
-    pages="484--513",
-    abstract="We present, for the first time, a general strategy for designing ARX symmetric-key primitives with provable resistance against single-trail differential and linear cryptanalysis. The latter has been a long standing open problem in the area of ARX design. The wide-trail design strategy (WTS), that is at the basis of many S-box based ciphers, including the AES, is not suitable for ARX designs due to the lack of S-boxes in the latter. In this paper we address the mentioned limitation by proposing the long trail design strategy (LTS) -- a dual of the WTS that is applicable (but not limited) to ARX constructions. In contrast to the WTS, that prescribes the use of small and efficient S-boxes at the expense of heavy linear layers with strong mixing properties, the LTS advocates the use of large (ARX-based) S-Boxes together with sparse linear layers. With the help of the so-called long-trail argument, a designer can bound the maximum differential and linear probabilities for any number of rounds of a cipher built according to the LTS.",
-    isbn="978-3-662-53887-6"
+	author="Dinu, Daniel
+	and Perrin, L{\'e}o
+	and Udovenko, Aleksei
+	and Velichkov, Vesselin
+	and Gro{\ss}sch{\"a}dl, Johann
+	and Biryukov, Alex",
+	editor="Cheon, Jung Hee
+	and Takagi, Tsuyoshi",
+	title="Design Strategies for ARX with Provable Bounds: Sparx and LAX",
+	booktitle="Advances in Cryptology -- ASIACRYPT 2016",
+	year="2016",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="484--513",
+	abstract="We present, for the first time, a general strategy for designing ARX symmetric-key primitives with provable resistance against single-trail differential and linear cryptanalysis. The latter has been a long standing open problem in the area of ARX design. The wide-trail design strategy (WTS), that is at the basis of many S-box based ciphers, including the AES, is not suitable for ARX designs due to the lack of S-boxes in the latter. In this paper we address the mentioned limitation by proposing the long trail design strategy (LTS) -- a dual of the WTS that is applicable (but not limited) to ARX constructions. In contrast to the WTS, that prescribes the use of small and efficient S-boxes at the expense of heavy linear layers with strong mixing properties, the LTS advocates the use of large (ARX-based) S-Boxes together with sparse linear layers. With the help of the so-called long-trail argument, a designer can bound the maximum differential and linear probabilities for any number of rounds of a cipher built according to the LTS.",
+	isbn="978-3-662-53887-6"
 }
 
 @book{architetture,
-    author = {Andrew S. Tanebaum and Todd Austin},
-    title =  {Structured Computer Organization},
-    edition = {VI},
-    publisher = {Pearson},
-    year = {2013},
-    isbn = {978-0-13-291652-3}
+	author = {Andrew S. Tanenbaum and Todd Austin},
+	title =  {Structured Computer Organization},
+	edition = {VI},
+	publisher = {Pearson},
+	year = {2013},
+	isbn = {978-0-13-291652-3}
 }
 
 @book{embeddedsys,
-    author = {Elecia White},
-    title = {Making Embedded Systems},
-    edition = {II},
-    publisher = {O'Reilly},
-    year = {2024},
-    isbn = {978-1-098-15154-6}
+	author = {Elecia White},
+	title = {Making Embedded Systems},
+	edition = {II},
+	publisher = {O'Reilly},
+	year = {2024},
+	isbn = {978-1-098-15154-6}
 }
+
+@TECHREPORT{aes,
+	title     = "Advanced Encryption Standard ({AES})",
+	author    = "{National Institute of Standards and Technology (US)}",
+	abstract  = "In 2000, NIST announced the selection of the Rijndael block
+	cipher family as the winner of the Advanced Encryption Standard
+	(AES) competition. Block ciphers are the foundation for many
+	cryptographic services, especially those that provide assurance
+	of the confidentiality of data. Three members of the Rijndael
+	family are specified in this Standard: AES-128, AES-192, and
+	AES-256. Each of them transforms data in blocks of 128 bits, and
+	the numerical suffix indicates the bit length of the associated
+	cryptographic keys.",
+	publisher = "National Institute of Standards and Technology (U.S.)",
+	month     =  may,
+	year      =  2023,
+	address   = "Washington, D.C."
+}
+
+@InProceedings{aes_biclique,
+	author="Bogdanov, Andrey
+	and Khovratovich, Dmitry
+	and Rechberger, Christian",
+	editor="Lee, Dong Hoon
+	and Wang, Xiaoyun",
+	title="Biclique Cryptanalysis of the Full AES",
+	booktitle="Advances in Cryptology -- ASIACRYPT 2011",
+	year="2011",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="344--371",
+	abstract="Since Rijndael was chosen as the Advanced Encryption Standard (AES), improving upon 7-round attacks on the 128-bit key variant (out of 10 rounds) or upon 8-round attacks on the 192/256-bit key variants (out of 12/14 rounds) has been one of the most difficult challenges in the cryptanalysis of block ciphers for more than a decade. In this paper, we present the novel technique of block cipher cryptanalysis with bicliques, which leads to the following results:",
+	isbn="978-3-642-25385-0"
+}
+
+@InProceedings{aes_relatedkey,
+	author="Biryukov, Alex
+	and Khovratovich, Dmitry",
+	editor="Matsui, Mitsuru",
+	title="Related-Key Cryptanalysis of the Full AES-192 and AES-256",
+	booktitle="Advances in Cryptology -- ASIACRYPT 2009",
+	year="2009",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="1--18",
+	abstract="In this paper we present two related-key attacks on the full AES. For AES-256 we show the first key recovery attack that works for all the keys and has 299.5 time and data complexity, while the recent attack by Biryukov-Khovratovich-Nikoli{\'{c}} works for a weak key class and has much higher complexity. The second attack is the first cryptanalysis of the full AES-192. Both our attacks are boomerang attacks, which are based on the recent idea of finding local collisions in block ciphers and enhanced with the boomerang switching techniques to gain free rounds in the middle.",
+	isbn="978-3-642-10366-7"
+}
+
+@InProceedings{clefia,
+	author="Shirai, Taizo
+	and Shibutani, Kyoji
+	and Akishita, Toru
+	and Moriai, Shiho
+	and Iwata, Tetsu",
+	editor="Biryukov, Alex",
+	title="The 128-Bit Blockcipher CLEFIA (Extended Abstract)",
+	booktitle="Fast Software Encryption",
+	year="2007",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="181--195",
+	abstract="We propose a new 128-bit blockcipher CLEFIA supporting key lengths of 128, 192 and 256 bits, which is compatible with AES. CLEFIA achieves enough immunity against known attacks and flexibility for efficient implementation in both hardware and software by adopting several novel and state-of-the-art design techniques. CLEFIA achieves a good performance profile both in hardware and software. In hardware using a 0.09 $\mu$m CMOS ASIC library, about 1.60 Gbps with less than 6 Kgates, and in software, about 13 cycles/byte, 1.48 Gbps on 2.4 GHz AMD Athlon 64 is achieved. CLEFIA is a highly efficient blockcipher, especially in hardware.",
+	isbn="978-3-540-74619-5"
+}
+
+@InProceedings{lea,
+	author="Hong, Deukjo
+	and Lee, Jung-Keun
+	and Kim, Dong-Chan
+	and Kwon, Daesung
+	and Ryu, Kwon Ho
+	and Lee, Dong-Geon",
+	editor="Kim, Yongdae
+	and Lee, Heejo
+	and Perrig, Adrian",
+	title="LEA: A 128-Bit Block Cipher for Fast Encryption on Common Processors",
+	booktitle="Information Security Applications",
+	year="2014",
+	publisher="Springer International Publishing",
+	address="Cham",
+	pages="3--27",
+	abstract="We propose a new block cipher LEA, which has 128-bit block size and 128, 192, or 256-bit key size. It provides a high-speed software encryption on general-purpose processors. Our experiments show that LEA is faster than AES on Intel, AMD, ARM, and ColdFire platforms. LEA can be also implemented to have tiny code size. Its hardware implementation has a competitive throughput per area. It is secure against all the existing attacks on block ciphers.",
+	isbn="978-3-319-05149-9"
+}
+
+@InProceedings{prince,
+	author="Borghoff, Julia
+	and Canteaut, Anne
+	and G{\"u}neysu, Tim
+	and Kavun, Elif Bilge
+	and Knezevic, Miroslav
+	and Knudsen, Lars R.
+	and Leander, Gregor
+	and Nikov, Ventzislav
+	and Paar, Christof
+	and Rechberger, Christian
+	and Rombouts, Peter
+	and Thomsen, S{\o}ren S.
+	and Yal{\c{c}}{\i}n, Tolga",
+	editor="Wang, Xiaoyun
+	and Sako, Kazue",
+	title="PRINCE -- A Low-Latency Block Cipher for Pervasive Computing Applications",
+	booktitle="Advances in Cryptology -- ASIACRYPT 2012",
+	year="2012",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="208--225",
+	abstract="This paper presents a block cipher that is optimized with respect to latency when implemented in hardware. Such ciphers are desirable for many future pervasive applications with real-time security needs. Our cipher, named PRINCE, allows encryption of data within one clock cycle with a very competitive chip area compared to known solutions. The fully unrolled fashion in which such algorithms need to be implemented calls for innovative design choices. The number of rounds must be moderate and rounds must have short delays in hardware. At the same time, the traditional need that a cipher has to be iterative with very similar round functions disappears, an observation that increases the design space for the algorithm. An important further requirement is that realizing decryption and encryption results in minimum additional costs. PRINCE is designed in such a way that the overhead for decryption on top of encryption is negligible. More precisely for our cipher it holds that decryption for one key corresponds to encryption with a related key. This property we refer to as $\alpha$-reflection is of independent interest and we prove its soundness against generic attacks.",
+	isbn="978-3-642-34961-4"
+}
+
+@misc{qarmav2,
+	author = {Roberto Avanzi and Subhadeep Banik and Orr Dunkelman and Maria Eichlseder and Shibam Ghosh and Marcel Nageler and Francesco Regazzoni},
+	title = {The {QARMAv2} Family of Tweakable Block Ciphers},
+	howpublished = {Cryptology {ePrint} Archive, Paper 2023/929},
+	year = {2023},
+	url = {https://eprint.iacr.org/2023/929}
+}
+
+@misc{speck,
+	author = {Ray Beaulieu and Douglas Shors and Jason Smith and Stefan Treatman-Clark and Bryan Weeks and Louis Wingers},
+	title = {The {SIMON} and {SPECK} Families of Lightweight Block Ciphers},
+	howpublished = {Cryptology {ePrint} Archive, Paper 2013/404},
+	year = {2013},
+	url = {https://eprint.iacr.org/2013/404}
+}
+
+@techreport{ascon,
+	author       = {Meltem S{\"o}nmez Turan and Kerry A. McKay and Donghoon Chang and Jinkeon Kang and John Kelsey},
+	title        = {Ascon-Based Lightweight Cryptography Standards for Constrained Devices},
+	institution  = {National Institute of Standards and Technology},
+	address      = {Gaithersburg, MD},
+	year         = {2025},
+	number       = {NIST SP 800-232},
+	type         = {NIST Special Publication},
+	doi          = {10.6028/NIST.SP.800-232},
+	url          = {https://doi.org/10.6028/NIST.SP.800-232}
+}
+
+@misc{chacha20,
+	series =    {Request for Comments},
+	number =    8439,
+	howpublished =  {RFC 8439},
+	publisher = {RFC Editor},
+	doi =       {10.17487/RFC8439},
+	url =       {https://www.rfc-editor.org/info/rfc8439},
+	author =    {Yoav Nir and Adam Langley},
+	title =     {{ChaCha20 and Poly1305 for IETF Protocols}},
+	pagetotal = 46,
+	year =      2018,
+	month =     jun,
+	abstract =  {This document defines the ChaCha20 stream cipher as well as the use of the Poly1305 authenticator, both as stand-alone algorithms and as a "combined mode", or Authenticated Encryption with Associated Data (AEAD) algorithm. RFC 7539, the predecessor of this document, was meant to serve as a stable reference and an implementation guide. It was a product of the Crypto Forum Research Group (CFRG). This document merges the errata filed against RFC 7539 and adds a little text to the Security Considerations section.},
+}
+
+@InProceedings{hummingbird2,
+	author="Engels, Daniel
+	and Saarinen, Markku-Juhani O.
+	and Schweitzer, Peter
+	and Smith, Eric M.",
+	editor="Juels, Ari
+	and Paar, Christof",
+	title="The Hummingbird-2 Lightweight Authenticated Encryption Algorithm",
+	booktitle="RFID. Security and Privacy",
+	year="2012",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="19--31",
+	abstract="Hummingbird-2 is an encryption algorithm with a 128-bit secret key and a 64-bit initialization vector. Hummingbird-2 optionally produces an authentication tag for each message processed. Like it's predecessor Hummingbird-1, Hummingbird-2 has been targeted for low-end microcontrollers and for hardware implementation in lightweight devices such as RFID tags and wireless sensors. Compared to the previous version of the cipher, and in response to extensive analysis, the internal state has been increased to 128 bits and a flow of entropy from the state to the mixing function has been improved. In this paper we present the Hummingbird-2 algorithm, its design and security arguments, performance analysis on both software and hardware platforms, and timing analysis in relation to the ISO 18000-6C protocol.",
+	isbn="978-3-642-25286-0"
+}
+
+@article{lesca,
+	title = {LESCA: LightwEight Stream Cipher Algorithm for emerging systems},
+	journal = {Ad Hoc Networks},
+	volume = {138},
+	pages = {102999},
+	year = {2023},
+	issn = {1570-8705},
+	doi = {https://doi.org/10.1016/j.adhoc.2022.102999},
+	url = {https://www.sciencedirect.com/science/article/pii/S1570870522001718},
+	author = {Hassan Noura and Ola Salman and Raphaël Couturier and Ali Chehab},
+	keywords = {Dynamic cryptography, Lightweight encryption, Variable cryptographic primitives, Security and performance analysis},
+	abstract = {Recently, there has been a dire need for lightweight cryptographic solutions, which exhibit low computational complexity and require few resources. In this paper, we present LESCA, a novel dynamic key-dependent lightweight stream cipher, which consists of two main functions, a typical round function based on cryptographic primitives, and a function that updates these primitives. The update is performed in a selective (partial) manner while encrypting a block, and in full after each δ blocks/iterations. As such, LESCA consumes minimal resources and introduces a very low latency. The originality of this solution stems from the fact that the cryptographic primitives get updated even when encrypting the same message. Several performance and security tests were performed to confirm that the proposed cipher is robust and efficient, especially for limited devices and real-time applications. The proposed cipher achieves a high throughput; for example, when implemented on a Raspberry Pi (RPI4) device, LESCA provides an enhancement of at least 343\% when compared to the Advanced Encryption Standard (AES), 72\% over a recent one-round cipher scheme, and 43\% improvement compared to a recent LORCA stream cipher that outperforms the Simon and Speck algorithms.}
+}
+
+@InProceedings{aesside,
+	author="Renauld, Mathieu
+	and Standaert, Fran{\c{c}}ois-Xavier
+	and Veyrat-Charvillon, Nicolas",
+	editor="Clavier, Christophe
+	and Gaj, Kris",
+	title="Algebraic Side-Channel Attacks on the AES: Why Time also Matters in DPA",
+	booktitle="Cryptographic Hardware and Embedded Systems - CHES 2009",
+	year="2009",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="97--111",
+	abstract="Algebraic side-channel attacks have been recently introduced as a powerful cryptanalysis technique against block ciphers. These attacks represent both a target algorithm and its physical information leakages as an overdefined system of equations that the adversary tries to solve. They were first applied to PRESENT because of its simple algebraic structure. In this paper, we investigate the extent to which they can be exploited against the AES Rijndael and discuss their practical specificities. We show experimentally that most of the intuitions that hold for PRESENT can also be observed for an unprotected implementation of Rijndael in an 8-bit controller. Namely, algebraic side-channel attacks can recover the AES master key with the observation of a single encrypted plaintext and they easily deal with unknown plaintexts/ciphertexts in this context. Because these attacks can take advantage of the physical information corresponding to all the cipher rounds, they imply that one cannot trade speed for code size (or gate count) without affecting the physical security of a leaking device. In other words, more intermediate computations inevitably leads to more exploitable leakages. We analyze the consequences of this observation on two different masking schemes and discuss its impact on other countermeasures. Our results exhibit that algebraic techniques lead to a new understanding of implementation weaknesses that is different than classical side-channel attacks.",
+	isbn="978-3-642-04138-9"
+}
+
+@InProceedings{aesfault,
+	author="Roche, Thomas
+	and Lomn{\'e}, Victor
+	and Khalfallah, Karim",
+	editor="Prouff, Emmanuel",
+	title={Combined Fault and Side-Channel Attack on Protected Implementations of AES},
+	booktitle="Smart Card Research and Advanced Applications",
+	year="2011",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="65--83",
+	abstract="The contribution of this paper is twofold: (1) a novel fault injection attack against AES, based on a new fault model, is proposed. Compared to state-of-the-art attacks, this fault model advantage is to relax constraints on the fault location, and then reduce the a priori knowledge on the implementation. Moreover, the attack algorithm is very simple and leaves room for optimization with respect to specific cases; (2) the fault attack is combined with side-channel analysis in order to defeat fault injection resistant and masked AES implementations. More precisely, our fault injection attack works well even when the attacker has only access to the faulty ciphertexts through a side-channel. Furthermore, the attacks presented in this paper can be extended to any SP-Network.",
+	isbn="978-3-642-27257-8"
+}
+
+@InProceedings{clefiadsm,
+	author="Shirai, Taizo
+	and Shibutani, Kyoji",
+	editor="Robshaw, Matthew",
+	title="On Feistel Structures Using a Diffusion Switching Mechanism",
+	booktitle="Fast Software Encryption",
+	year="2006",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="41--56",
+	abstract="We study a recently proposed design approach of Feistel structure which employs diffusion matrices in a switching way. At ASIACRYPT 2004, Shirai and Preneel have proved that large numbers of S-boxes are guaranteed to be active if a diffusion matrix used in a round function is selected among multiple matrices. However the optimality of matrices required by the proofs sometimes pose restriction to find matrices suitable for actual blockciphers. In this paper, we extend their theory by replacing the condition of optimal mappings with general-type mappings, consequently the restriction is eliminated. Moreover, by combining known lower bounds for usual Feistel structure, we establish a method to estimate the guaranteed number of active S-boxes for arbitrary round numbers. We also demonstrate how the generalization enables us to mount wide variety of diffusion mappings by showing concrete examples.",
+	isbn="978-3-540-36598-3"
+}
+
+@INPROCEEDINGS{clefiafault,
+	author={Takahashi, Junko and Fukunaga, Toshinori},
+	booktitle={2008 5th Workshop on Fault Diagnosis and Tolerance in Cryptography}, 
+	title={Improved Differential Fault Analysis on CLEFIA}, 
+	year={2008},
+	volume={},
+	number={},
+	pages={25-34},
+	keywords={Doped fiber amplifiers;Cryptography;Mathematical model;Equations;Book reviews;Simulation;Computational modeling;Differential Fault Analysis;CLEFIA;Blockcipher;Generalized Feistel Structure},
+	doi={10.1109/FDTC.2008.14}}
+
+@InProceedings{clefiadiff,
+	author="Tezcan, Cihangir",
+	editor="Gong, Guang
+	and Gupta, Kishan Chand",
+	title="The Improbable Differential Attack: Cryptanalysis of Reduced Round CLEFIA",
+	booktitle="Progress in Cryptology - INDOCRYPT 2010",
+	year="2010",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="197--209",
+	abstract="In this paper we present a new statistical cryptanalytic technique that we call improbable differential cryptanalysis which uses a differential that is less probable when the correct key is used. We provide data complexity estimates for this kind of attacks and we also show a method to expand impossible differentials to improbable differentials. By using this expansion method, we cryptanalyze 13, 14, and 15-round CLEFIA for the key sizes of length 128, 192, and 256 bits, respectively. These are the best cryptanalytic results on CLEFIA up to this date.",
+	isbn="978-3-642-17401-8"
+}
+
+@article{clefiaanal,
+	title={Security analysis of the block cipher CLEFIA},
+	author={Biryukov, Alex and Nikolic, Ivica},
+	journal={Final Report for CRYPTREC},
+	year={2019}
+}
+
+@ARTICLE{leadiff,
+	author={Dwivedi, Ashutosh Dhar and Srivastava, Gautam},
+	journal={IEEE Access}, 
+	title={Differential Cryptanalysis of Round-Reduced LEA}, 
+	year={2018},
+	volume={6},
+	number={},
+	pages={79105-79113},
+	keywords={Ciphers;Schedules;Encryption;Road transportation;Probability;Computer science;ARX ciphers;block cipher;differential characteristics;LEA cipher;nested Monte-Carlo search},
+	doi={10.1109/ACCESS.2018.2881130}}
