@@ -74,7 +74,7 @@
 
 %% Dedica (opzionale)
 \begin{dedication}
-	Al mio cane,\par per avermi ascoltato mentre ripassavo le lezioni.
+	A xyz,\par per uvw.
 \end{dedication}
 
 %% Ringraziamenti (opzionali)
@@ -221,7 +221,7 @@
 			    		
 \chapter{Algoritmi}
 	\section{Cifrari a blocco}
-		\subsection{AES\cite{aes}}
+		\subsection{AES}\cite{aes}
 		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael. Sia durante il processo di selezione che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
 			\subsubsection{Design}
 			Le operazioni dell'algoritmo sono effettuate su un array bi-dimensionale ($4 \times 4$), definito state. Il cuore dell'algoritmo è caratterizzato da una serie di round, durante cui, in sequenza, vengono applicate queste trasformazioni:
@@ -409,7 +409,7 @@ void AES128_compute_round_keys(uint8_t *key, uint8_t *round_key) {
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{CLEFIA\cite{clefia}}
+		\subsection{CLEFIA}\cite{clefia}
 		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittoanalisi.
 			\subsubsection{Design}
 			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano \textit{Diffusion Switching Mechanism}\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.\\
@@ -508,7 +508,7 @@ void AES128_compute_round_keys(uint8_t *key, uint8_t *round_key) {
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{LEA\cite{lea}}
+		\subsection{LEA}\cite{lea}
 		Lightweight Encryption Algorithm (LEA) è un cifrario sviluppato dalla Corea del Sud, da cui è inoltre adottato come standard nazionale. Obiettivo principale è quello di risultare efficiente sia in implementazioni software che in quelle hardware.
 			\subsubsection{Design}
 			LEA consiste di sole operazioni ARX su word di 32 bit. La word-size è stata scelta dai progettisti sulla base della convinzione che in futuro le operazioni a 32 bit saranno implementate efficientemente anche su dispositivi con risorse limitate.
@@ -608,7 +608,8 @@ void LEA_compute_round_keys(uint32_t *key, uint32_t *round_key) {
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{PRINCE\cite{prince}}
+		\subsection{PRINCE}\cite{prince}
+		\label{ssec:prince}
 			PRINCE è un cifrario ottimizzato rispetto alla latenza su  hardware; consente infatti implementazioni full-unrolled, con cifratura in un solo ciclo di clock.
 			\subsubsection{Design}
 			L'obiettivo dei progettisti di PRINCE era creare un cifrario sulla base dei seguenti criteri: cifratura istantanea, bassa latenza, costi hardware moderati, decifratura ottenibile con minor overhead possibile.
@@ -804,7 +805,7 @@ void prince_block(uint64_t *m, uint64_t *k, uint64_t *c) {
 }\end{lstlisting}
 			\end{algorithm}
 			\subsubsection{Crittoanalisi}
-			Nel 2016 è stata indetta una competizione per incoraggiare l'analisi di PRINCE (\textit{Prince challenge}), che ha portato alla scoperta di diversi attacchi reduced-round. Sono emersi in seguito altri attacchi full-round.
+			Nel 2016 è stata indetta una competizione per incoraggiare l'analisi di PRINCE (\textit{Prince challenge}), che ha portato alla scoperta di diversi attacchi reduced-round. Sono emersi in seguito anche attacchi full-round.
 			\begin{center}
 				\begin{tabular}{ |c|c|c| } 
 					\hline
@@ -817,8 +818,10 @@ void prince_block(uint64_t *m, uint64_t *k, uint64_t *c) {
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{QARMAv2\cite{qarmav2}}
+		\subsection{QARMAv2}\cite{qarmav2}
+		QARMAv2 è un \textit{tweakable block cipher}, ideato per la cifratura della memoria, ma anche per essere general purpose. In particolare, il suo design permette implementazioni hardware efficienti.
 			\subsubsection{Design}
+			La struttura di QARMAv2 è detta \textit{reflector construction}, design introdotto da PRINCE (si veda: \ref{ssec:prince}), è composta cioè da un sotto-algoritmo, il suo inverso, e una involuzione tra i due. Si ottiene che lo stesso circuito è usato sia per cifrare che per decifrare.
 			\subsubsection{Crittoanalisi}
 		\subsection{Sparx\cite{sparx}}
 			\subsubsection{Design}
