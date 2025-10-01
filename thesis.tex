@@ -412,7 +412,7 @@ void AES128_compute_round_keys(uint8_t *key, uint8_t *round_key) {
 		\subsection{CLEFIA\cite{clefia}}
 		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittoanalisi.
 			\subsubsection{Design}
-			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano Diffusion Switching Mechanism\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.\\
+			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano \textit{Diffusion Switching Mechanism}\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.\\
 			La struttura della particolare rete Feistel adottata è descritta come:\\
 			\begin{algorithm}[htbp]
 				\caption{Generaized Fesitel Network}
@@ -530,7 +530,7 @@ void AES128_compute_round_keys(uint8_t *key, uint8_t *round_key) {
 				\end{algorithmic}
 			\end{algorithm}
 			
-						\begin{algorithm}
+			\begin{algorithm}
 				\caption{Codice C LEA-128}
 \begin{lstlisting}[style=CStyle]
 void LEA_encrypt(uint32_t *plaintext, uint32_t *round_key, uint32_t *ciphertext) {
@@ -551,6 +551,46 @@ void LEA_encrypt(uint32_t *plaintext, uint32_t *round_key, uint32_t *ciphertext)
 	ciphertext[3] = x[3];
 }\end{lstlisting}
 			\end{algorithm}
+			La struttura della key schedule è semplice, senza mix tra word diverse o avalanche effect, ma non per questo poco sicura. Come per la cifratura, le operazioni sono ARX, con l'aggiunta dell'utilizzo di costanti $\delta$.
+			La semplicità è ancora una volta ricercata per consentire implementazioni efficienti.
+			\begin{algorithm}
+				\caption{pseudocodice key schedule LEA-128}
+				\begin{algorithmic}
+					\Procedure{KeySchedule}{K}
+						\State {$T \gets K$}
+						\For{$i = 0$ \textbf{to} 23}
+							\State {$T[0] \gets LROT_1(T[0] \boxplus LROT_i(\delta[i \mod 4]))$}
+							\State {$T[1] \gets LROT_3(T[1] \boxplus LROT_{i+1}(\delta[i \mod 4]))$}
+							\State {$T[2] \gets LROT_6(T[2] \boxplus LROT_{i+2}(\delta[i \mod 4]))$}
+							\State {$T[3] \gets LROT_{11}(T[3] \boxplus LROT_{i+3}(\delta[i \mod 4]))$}
+							\State {$RK_i \gets T[0]|T[1]|T[2]|T[1]|T[3]|T[1]$}
+						\EndFor
+					\EndProcedure
+				\end{algorithmic}
+			\end{algorithm}
+			\begin{algorithm}
+				\caption{Codice C key schedule LEA-128}
+\begin{lstlisting}[style=CStyle]
+void LEA_compute_round_keys(uint32_t *key, uint32_t *round_key) {
+	uint32_t t[4] = {key[0], key[1], key[2], key[3]};
+	
+	for(uint16_t i = 0; i < 24; i++) {
+		t[0] = LROT(t[0] + LROT(constants[i & 3], i), 1);
+		t[1] = LROT(t[1] + LROT(constants[i & 3], i + 1), 3);
+		t[2] = LROT(t[2] + LROT(constants[i & 3], i + 2), 6);
+		t[3] = LROT(t[3] + LROT(constants[i & 3], i + 3), 11);
+		
+		uint16_t rk_i = 6 * i;
+		round_key[rk_i] = t[0];
+		round_key[rk_i + 1] = t[1];
+		round_key[rk_i + 2] = t[2];
+		round_key[rk_i + 3] = t[1];
+		round_key[rk_i + 4] = t[3];
+		round_key[rk_i + 5] = t[1];
+	}
+}\end{lstlisting}
+			\end{algorithm}
+			
 			\subsubsection{Crittoanalisi}
 			Lo sviluppo di LEA è stato guidato anche dall'obiettivo di resistere a tutti gli attacchi esistenti e garantire un certo margine di sicurezza futura. Sia $R$ il numero minimo di round per resistere a tutte le tecniche di crittoanalisi, LEA ne prevede $3R/2$ in previsione di nuove tipologie di attacchi che potrebbero emergere in futuro.\\
 			Al momento non esistono attacchi full-round noti.
@@ -568,9 +608,215 @@ void LEA_encrypt(uint32_t *plaintext, uint32_t *round_key, uint32_t *ciphertext)
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{Prince\cite{prince}}
+		\subsection{PRINCE\cite{prince}}
+			PRINCE è un cifrario ottimizzato rispetto alla latenza su  hardware; consente infatti implementazioni full-unrolled, con cifratura in un solo ciclo di clock.
 			\subsubsection{Design}
+			L'obiettivo dei progettisti di PRINCE era creare un cifrario sulla base dei seguenti criteri: cifratura istantanea, bassa latenza, costi hardware moderati, decifratura ottenibile con minor overhead possibile.
+			Per ottenere i primi due, sono necessari round in numero ridotto e con logica non troppo complessa: un critical-path leggero consente infatti di impiegare una velocità di clock maggiore.
+			Gli ultimi due criteri, invece, sono consentite grazie alla particolare proprietà di $\alpha$-reflection: la decifratura corrisponde ad un cifratura con una chiave ricavata da quella principale.\\
+			PRINCE è un cifrario a blocchi di 64 bit, con una chiave da 128 bit $k = k_0 || k_1$. La chiave è estesa a 192 bit:
+			\[(k_0||k'_0||k_1) := (k_0 || (k_0 \ggg 1) \oplus (k_0 \gg 63) || k_1)\]\\
+			La struttura base è detta \textit{FX-construction}: le sotto chiavi $k_0$ e $k'_0$ sono usate come whitening key, mentre $k_1$ è usata nei 12 round del costrutto chiamato PRINCE$_{core}$.
+			\begin{figure}[htbp]
+				\centering
+				\includegraphics[width=0.5\linewidth]{img/princefx.jpg}
+				\caption{PRINCE FX-construct}
+				\label{fig:placeholder}
+			\end{figure}
+			Ogni round prevede le seguenti trasformazioni dello stato:
+			\begin{enumerate}
+				\item \textbf{$k_1$-add}: somma (XOR) con la sotto-chiave.
+				\item \textbf{S-Layer}: sostituzione con S-box $S$ a 4 bit.
+\begin{lstlisting}[style=CStyle]
+	static uint64_t state_sbox(uint64_t state, uint16_t inverse) {
+		uint64_t result = 0;
+		for(uint16_t i = 0; i < 16; i++) {	
+			uint8_t nibble = (state >> (i * 4)) & 0xf;
+			result |= ((uint64_t) sbox[inverse][nibble]) << (i * 4);
+		}
+		
+		return result;
+}\end{lstlisting}
+				\item \textbf{(M/M')-Layer}: moltiplicazione con matrice $M$ o $M'$. Essendo usata nel round centrale, $M'$ deve essere un'involuzione; $M$ si ottiene invece con la combinazione tra $M'$ e una permutazione $SR$: $M = SR \circ M' $.
+				\[SR:(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15) \rightarrow (0,5,10,15,4,9,14,3,8,13,2,7,12,1,6,11) \]
+				Le seguenti matrici sono utilizzate per costruire $M'$:
+				\[M_0 = 
+				\begin{pmatrix}
+					0000\\
+					0100\\
+					0010\\
+					0001
+				\end{pmatrix},
+				M_1 =
+				\begin{pmatrix}
+					1000\\
+					0000\\
+					0010\\
+					0001
+				\end{pmatrix},
+				M_2 =
+				\begin{pmatrix}
+					1000\\
+					0100\\
+					0000\\
+					0001
+				\end{pmatrix},
+				M_3 =
+				\begin{pmatrix}
+					1000\\
+					0100\\
+					0010\\
+					0000
+				\end{pmatrix}
+				\]
+				Da cui:
+				\[ \hat{M^{(0)}} = 
+				\begin{pmatrix}
+					M_0\ M_1\ M_2\ M_3\\
+					M_1\ M_2\ M_3\ M_0\\
+					M_2\ M_3\ M_0\ M_1\\
+					M_3\ M_0\ M_1\ M_2
+				\end{pmatrix},
+				\hat{M^{(1)}} = 
+				\begin{pmatrix}
+					M_1\ M_2\ M_3\ M_0\\
+					M_2\ M_3\ M_0\ M_1\\
+					M_3\ M_0\ M_1\ M_2\\
+					M_0\ M_1\ M_2\ M_3
+				\end{pmatrix}
+				\]
+				Infine, $M'$ è ottenuta costruendo una matrice $64 \times 64$ con $(\hat{M^{(0)}} , \hat{M^{(1)}}, \hat{M^{(1)}}, \hat{M^{(0)}})$ come blocchi diagonali.
+\begin{lstlisting}[style=CStyle]
+static uint64_t linear_transform(uint64_t state) {
+	uint64_t col0 = 0;
+	uint64_t col1 = 0;
+	uint64_t col2 = 0;
+	uint64_t col3 = 0;
+	
+	for(uint16_t bit = 63; bit > 47; bit--) {
+		if((state >> bit) & 0x1) {
+			col0 ^= mhat[0][15 - (bit & 0xf)];
+		}
+	}
+	for(uint16_t bit = 47; bit > 31; bit--) {
+		if((state >> bit) & 0x1) {
+			col1 ^= mhat[1][15 - (bit & 0xf)];
+		}
+	}
+	for(uint16_t bit = 31; bit > 15; bit--) {
+		if((state >> bit) & 0x1) {
+			col2 ^= mhat[1][15 - (bit & 0xf)];
+		}
+	}
+	for(int16_t bit = 15; bit > -1; bit--) {
+		if((state >> bit) & 0x1) {
+			col3 ^= mhat[0][15 - (bit & 0xf)];
+		}
+	}
+	
+	return (col0 << 48) | (col1 << 32) | (col2 << 16) | col3;
+}
+
+static uint64_t shift_rows(uint64_t state ,uint16_t inverse) {
+	uint64_t new_state = 0;
+	for(uint16_t i = 0; i < 16; i++) {	
+		uint8_t nibble = (state >> ((15 - sr[inverse][i]) * 4)) & 0xf;
+		new_state |= ((uint64_t) nibble) << (60 - i*4);
+	}
+	
+	return new_state;
+}\end{lstlisting}
+				\item \textbf{$RC_i$-add}: somma (XOR) con la relativa costante. Le costanti sono scelte in modo che per $0 \le i \le 11$, $RC_i \oplus RC_{11-i} = \alpha = 0xc0ac29b7c97c50dd$; $RC_0 = 0$ e $RC_{1...5}$ sono derivate dalla parte decimale di $\pi$.
+			\end{enumerate}
+				\begin{figure}[htbp]
+				\centering
+				\includegraphics[width=0.5\linewidth]{img/princestruct.jpg}
+				\caption{PRINCE rounds}
+				\label{fig:placeholder}
+			\end{figure}
+			Dal fatto che $M'$ sia un'involuzione e che $0 \le i \le 11$, $RC_i \oplus RC_{11-i} = \alpha$ si deduce che:
+			\[D_{(k_0||k'_0||k_1)}(\cdot) = E_{(k'_0||k_0||k_1 \oplus \alpha)}(\cdot) \tag{\text{$\alpha$-reflection}}\]
+			
+						\begin{algorithm}
+				\caption{Codice C PRINCE}
+\begin{lstlisting}[style=CStyle]
+void PRINCE_encrypt(uint64_t *plaintext, uint64_t *key, uint64_t *ciphertext) {
+	uint64_t k[3] = {
+		key[0],
+		key[1],
+		((key[0] >> 1) | (key[0] << 63)) ^ (key[0] >> 63)
+	};
+	
+	prince_block(plaintext, k, ciphertext);
+}
+
+void PRINCE_decrypt(uint64_t *ciphertext, uint64_t *key, uint64_t *plaintext) {
+	uint64_t k[3] = {
+		((key[0] >> 1) | (key[0] << 63)) ^ (key[0] >> 63),
+		key[1] ^ 0xc0ac29b7c97c50dd, // alpha
+		key[0]
+	};
+	
+	prince_block(ciphertext, k, plaintext);
+}
+
+void prince_block(uint64_t *m, uint64_t *k, uint64_t *c) {
+	uint64_t state = *m;
+	state ^= k[0];
+	
+	//-----------------
+	//	PRINCE core
+	//
+	state ^= k[1] ^ rc[0];
+	
+	// Forward
+	for(uint16_t r = 1; r < 6; r++) {
+		state = state_sbox(state, 0);
+		
+		state = linear_transform(state);
+		state = shift_rows(state, 0);
+		
+		state ^= rc[r] ^ k[1];
+	}
+	
+	// Central
+	state = state_sbox(state, 0);
+	state = linear_transform(state);
+	state = state_sbox(state, 1);
+	
+	// Backward
+	for(uint16_t r = 6; r < 11; r++) {
+		state ^= k[1] ^ rc[r];
+		
+		state = shift_rows(state, 1);
+		state = linear_transform(state);
+		
+		state = state_sbox(state, 1);
+	}
+	
+	state ^= rc[11] ^ k[1];
+	//
+	//-----------------
+	
+	state ^= k[2];
+	
+	*c = state;
+}\end{lstlisting}
+			\end{algorithm}
 			\subsubsection{Crittoanalisi}
+			Nel 2016 è stata indetta una competizione per incoraggiare l'analisi di PRINCE (\textit{Prince challenge}), che ha portato alla scoperta di diversi attacchi reduced-round. Sono emersi in seguito altri attacchi full-round.
+			\begin{center}
+				\begin{tabular}{ |c|c|c| } 
+					\hline
+					Attacco & Complessità & Fonte \\ 
+					\hline 
+					\hline
+					Linear & $2^{125.67}$ & \cite{princesec}\\
+					\hline
+					Related-key & $2^{64}$ & \cite{princesec}\\
+					\hline
+				\end{tabular}
+			\end{center}
 		\subsection{QARMAv2\cite{qarmav2}}
 			\subsubsection{Design}
 			\subsubsection{Crittoanalisi}
