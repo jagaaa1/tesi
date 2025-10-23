@@ -42,6 +42,10 @@
 \usepackage{algorithm} % algoritmi
 \usepackage{algpseudocode} % pseudocodice
 
+\usepackage{tabularx} %multicolonne
+
+\usepackage{multirow} %multitighe
+
 \usepackage{tikz} % crypto figures
 \usetikzlibrary{calc}
 \usetikzlibrary{crypto.symbols}
@@ -51,7 +55,7 @@
 \tikzset{bitwidth/.style={above=-1pt, font=\tiny}}
 \tikzset{next/.style={->, >=latex}}
 
-\usepackage{xcolor} % colori
+\usepackage[dvipsnames]{xcolor} % colori
 \definecolor{mGreen}{rgb}{0,0.6,0}
 \definecolor{mGray}{rgb}{0.5,0.5,0.5}
 \definecolor{mPurple}{rgb}{0.58,0,0.82}
@@ -126,12 +130,15 @@
     La crittografia è la scienza, da alcuni definita anche \textit{arte}, che si occupa dello studio e della creazione di tecniche matematiche per la sicurezza di sistemi informatici e comunicazioni digitali.\cite{moderncrypto}\\
     Tra le molte tecniche troviamo i cifrari (cipher), algoritmi parametrizzati da una chiave (key) che trasformano un testo in chiaro (plaintext) in un testo cifrato (ciphertext).\\
     Le operazioni di cifratura \textit{E} (encryption) e decifratura \textit{D} (decryption) tramite la chiave \textit{K} e il rapporto tra plaintext \textit{P} e ciphertext \textit{C} possono essere rappresentati con le funzioni:
-    \[E_K(P)=C \qquad , \qquad D_K(C)=P\]
+    \begin{align*}
+    	E_K(P)=C\\
+    	D_K(C)=P
+    \end{align*}
     Un principio fondamentale della crittografia, che pone le basi per una progettazione sicura di un cifrario, è quello di Kerckhoffs:
     \begin{quote}
         La sicurezza di un sistema non deve dipendere dalla segretezza dell'algoritmo di cifratura usato, ma da quella della chiave.
     \end{quote}
-    Claude Shannonn lo riformula con "Il nemico conosce il sistema" (\textit{Communication Theory of Secrecy Systems}); un cifrario quindi è considerato sicuro solo se garantisce la sua robustezza anche, e soprattutto, nel caso in cui un eventuale malintenzionato ne conosca tutti i dettagli implementativi.\\
+    Claude Shannonn lo riformula con ``Il nemico conosce il sistema" (\textit{Communication Theory of Secrecy Systems}); un cifrario quindi è considerato sicuro solo se garantisce la sua robustezza anche, e soprattutto, nel caso in cui un eventuale malintenzionato ne conosca tutti i dettagli implementativi.\\
     Questo consente ai crittografi di rendere pubbliche le loro scelte progettuali, in modo che il loro lavoro possa essere studiato e analizzato da altri esperti.
     
     Gli algoritmi di cifratura classici si dividono in due categorie: a chiave simmetrica e a chiave asimmetrica.
@@ -223,7 +230,7 @@
                 \item[Add-Rotate-XOR (ARX)\cite{sparx}] Classe di cifrari progettati utilizando soltanto semplici operazioni di \textit{addizione modulare} ($\boxplus$), \textit{rotazione} ($\lll, \ggg$) e \textit{XOR} ($\oplus$).
             \end{description}
             
-            Di per sé non è una soluzione sicura, soprattutto in presenza di più blocchi da cifrare, in quanto presenta un comportamento deterministico: applica, a parità di chiave, sempre la stessa permutazione. Occorre adottare delle particolari tecniche, chiamate \textit{Modes of Operation}, che utilizzano il cifrario a blocco come primitiva e non come unica risorsa. \cite{handcypto, computernet}
+            Di per sé, un cifrario a blocco, non è una soluzione sicura, soprattutto in presenza di più blocchi da cifrare, in quanto presenta un comportamento deterministico: applica, a parità di chiave, sempre la stessa permutazione. Occorre adottare delle particolari tecniche, chiamate \textit{Modes of Operation}, che utilizzano il cifrario a blocco come primitiva e non come unica risorsa. \cite{handcypto, computernet}
             % modes
             
             \subsubsection{Cifrari a flusso}
@@ -232,7 +239,7 @@
             \begin{figure}[htbp]
                 \centering
                 \begin{tikzpicture}[scale=1]
-                	\node[rectangle,draw,minimum size=1cm] (r0) at (4,3) {$S_{\ell-1}^{(t)}$};
+                	\node[rectangle,draw,minimum size=1cm] (r0) at (4,3) {$S_{\ell-1}$};
                 	
                 	\foreach \i in {1,...,6} {
                 		\edef\p{\number\numexpr\i-1\relax}
@@ -240,43 +247,19 @@
                 		r\p] (r\i) {};
                 	};
                 	
-                	\node at (r1) {$S_{\ell-2}^{(t)}$};
-                	\node at (r5) {$S_1^{(t)}$};
-                	\node at (r6) {$S_0^{(t)}$};
+                	\node at (r1) {$S_{\ell-2}$};
+                	\node at (r5) {$S_1$};
+                	\node at (r6) {$S_0$};
                 	
-                	\foreach \i in {1,...,2} {
-                		\edef\p{\number\numexpr\i-1\relax}
-                		\node[draw,circle,minimum size=.65cm,inner sep=0pt,below=.75cm of
-                		r\p] (c\i) {$c_\i$};
-                	};
+                	\node[XOR,thick,below=.75cm of r0] (x1) {};
+                	\node[XOR,thick,below=.75cm of r1] (x2) {};
+                	\node[XOR,thick,below=.75cm of r5] (x5) {};
                 	
-                	\foreach \i in {3,...,5} {
-                		\edef\p{\number\numexpr\i-1\relax}
-                		\node[below=.85cm of r\p] (c\i) {$\dots$};
-                		\node at (r\p) {$\dots$};
-                	};
+                	\draw[edge] (r5) -- (x5.north);
+                	\draw[edge] (r1) -- (x2.north);
+                	\draw[edge] (r0) -- (x1.north);
                 	
-                	\node[draw,circle,minimum size=.65cm,inner sep=0pt,below=.75cm of
-                	r5] (c5) {};
-                	\node at (c5) {$c_{\ell-1}$};
-                	
-                	\node[draw,circle,minimum size=.65cm,inner sep=0pt,below=.75cm of
-                	r6] (c6) {$c_\ell$};
-                	
-                	\node[XOR,thick,below of=c1] (x1) {};
-                	\node[XOR,thick,below of=c2] (x2) {};
-                	\node[XOR,thick,below of=c5] (x5) {};
-                	
-                	\draw[edge] (r6) -- (c6.north);
-                	\draw[edge] (r5) -- (c5.north);
-                	\draw[edge] (r1) -- (c2.north);
-                	\draw[edge] (r0) -- (c1.north);
-                	
-                	\draw[edge] (c5) -- (x5.north);
-                	\draw[edge] (c2) -- (x2.north);
-                	\draw[edge] (c1) -- (x1.north);
-                	
-                	\draw[edge] (c6) |- (x5.east);
+                	\draw[edge] (r6) |- (x5.east);
                 	\draw[edge,dotted] (x5.west) -- (x2.east);
                 	\draw[edge] (x2) -- (x1);
                 	\draw[edge] (x1.west) -- ++ (-1,0) |- (r0);
@@ -288,7 +271,7 @@
         \subsection{Crittografia asimmetrica}
 
     \section{Sistemi embedded}
-    Un sistema embedded può essere definito come "un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
+    Un sistema embedded può essere definito come ``un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
     I sistemi embedded spaziano tra i più disparati oggetti: dall'uso quotidiano (elettrodomestici), ai veicoli, ai sensori intelligenti (come nel caso di questa tesi), fino a scopi militari (missili).\\
     I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
     
@@ -315,8 +298,8 @@
 			    		
 \chapter{Algoritmi}
 	\section{Cifrari a blocco}
-		\subsection{AES}\cite{aes}
-		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael. Sia durante il processo di selezione che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
+		\subsection{AES}
+		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael\cite{aes}. Sia durante il processo di selezione che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
 			\subsubsection{Design}
 			Le operazioni dell'algoritmo sono effettuate su un array bi-dimensionale ($4 \times 4$), definito state. Ogni byte $s_{r,c}$ dello state ha due indici: di riga $r$ e di colonna $c$. Il cuore dell'algoritmo è caratterizzato da una serie di round, durante cui, in sequenza, vengono applicate queste trasformazioni:
 			\begin{itemize}
@@ -378,7 +361,7 @@
 						\State {$state \gets \Call{SubBytes}{state}$}
 						\State {$state \gets \Call{ShiftRows}{state}$}
 						\State {$state \gets \Call{AddRoundKey}{state,w[4*Nr \cdots 4*Nr+3]}$}
-						\Return state
+						\State {\textbf{return} $state$}
 					\EndProcedure
 				\end{algorithmic}
 			\end{algorithm}
@@ -429,22 +412,23 @@
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{CLEFIA}\cite{clefia}
-		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittoanalisi.
+		\subsection{CLEFIA}
+		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittanalisi \cite{clefia}.
 			\subsubsection{Design}
-			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano \textit{Diffusion Switching Mechanism}\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.\\
+			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano \textit{Diffusion Switching Mechanism}\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.
+			
 			La struttura della particolare rete Feistel adottata è descritta come:\\
 			\begin{algorithm}[htbp]
 				\caption{Generaized Fesitel Network}
 				\begin{algorithmic}
 					\Procedure{$GFN_{4,r}$}{$RK, X$}
-						\State {$T_0|T_1|T_2|T_3 \gets X_0|X_1|X_2|X_3$}
+						\State {$T \gets X$}
 						\For{$i=0$ \textbf{to} $r-1$}
 							\State {$T_1 \gets T_1 \oplus F_0(RK_{2i},T_0)$}
 							\State {$T_3 \gets T_3 \oplus F_1(RK_{2i+1},T_2)$}
-							\State {$T_0|T_1|T_2|T_3 \gets T_1|T_2|T_3|T_0$}
+							\State {$T \gets T_1||T_2||T_3||T_0$}
 						\EndFor
-						\State {\textbf{return} $T_3|T_0|T_1|T_2$}
+						\State {\textbf{return} $T_3||T_0||T_1||T_2$}
 					\EndProcedure
 				\end{algorithmic}
 			\end{algorithm}
@@ -457,7 +441,7 @@
 					\begin{algorithmic}
 						\Procedure{$F_0$}{$RK,x$}
 						\State {$T \gets RK \oplus x$}
-						\State {$T \gets S_0(T_0)|S_1(T_1)|S_0(T_2)|S_1(T_3)$}
+						\State {$T \gets S_0(T_0)||S_1(T_1)||S_0(T_2)||S_1(T_3)$}
 						\State {\textbf{return} $M_0 \times ^tT$}
 						\EndProcedure
 					\end{algorithmic}
@@ -471,7 +455,7 @@
 					\begin{algorithmic}
 						\Procedure{$F_1$}{$RK,x$}
 						\State {$T \gets RK \oplus x$}
-						\State {$T \gets S_1(T_0)|S_0(T_1)|S_1(T_2)|S_0(T_3)$}
+						\State {$T \gets S_1(T_0)||S_0(T_1)||S_1(T_2)||S_0(T_3)$}
 						\State {\textbf{return} $M_1 \times ^tT$}
 						\EndProcedure
 					\end{algorithmic}
@@ -531,9 +515,9 @@
 				\caption{pseudocodice CLEFIA}
 				\begin{algorithmic}
 					\Procedure{Clefia$_r$}{$WK,RK,P$}
-					\State {$T_0|T_1|T_2|T_3 \gets P_0|(P_1 \oplus WK_0)|P_2|(P_3 \oplus WK_1)$}
-					\State {$T_0|T_1|T_2|T_3 \gets GFN_{4,r}(RK,T)$}
-					\State {\textbf{return} $T_0|(T_1 \oplus WK_2)|T_2|(T_3 \oplus WK_3)$}
+					\State {$T \gets P_0||(P_1 \oplus WK_0)||P_2||(P_3 \oplus WK_1)$}
+					\State {$T \gets GFN_{4,r}(RK,T)$}
+					\State {\textbf{return} $T_0||(T_1 \oplus WK_2)||T_2||(T_3 \oplus WK_3)$}
 					\EndProcedure
 				\end{algorithmic}
 			\end{algorithm}
@@ -548,10 +532,10 @@
 			\begin{algorithm}
 				\caption{Generazione $CON_i$}
 				\begin{algorithmic}
-					\State {$T \gets 0x428a$}
+					\State {$T \gets \mathtt{0x428a}$}
 					\For{$i=0$ \textbf{to} $29$}
-						\State {$CON_{2i} \gets (T \oplus 0xb7e1) | (\overline{T} \lll 1)$}
-						\State {$CON_{2i+1} \gets (\overline{T} \oplus 0x243f) | (T \lll 8)$}
+						\State {$CON_{2i} \gets (T \oplus \mathtt{0xb7e1}) | (\overline{T} \lll 1)$}
+						\State {$CON_{2i+1} \gets (\overline{T} \oplus \mathtt{0x243f}) | (T \lll 8)$}
 						\State {$T \gets T \cdot 0x0002^{-1}$}
 					\EndFor
 				\end{algorithmic}
@@ -564,8 +548,8 @@
 						\State {$L \gets GFN_{4,12}(CON_{0..23}, K)$}
 						\State {$WK \gets K$}
 						\For{$i = 0$ \textbf{to} $8$}
-							\State {$T \gets L \oplus (CON_{24+4i}|CON_{24+4i+1}|CON_{24+4i+2}|CON_{24+4i+3})$}
-							\State {$L \gets L[7..63] | L[121..127] | L[0..6] | L[64..120]$}
+							\State {$T \gets L \oplus (CON_{24+4i}||CON_{24+4i+1}||CON_{24+4i+2}||CON_{24+4i+3})$}
+							\State {$L \gets L[7..63] || L[121..127] || L[0..6] || L[64..120]$}
 							\If{$i$ is odd}
 								\State {$T \gets T \oplus K$}
 							\EndIf
@@ -589,8 +573,8 @@
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{LEA}\cite{lea}
-		Lightweight Encryption Algorithm (LEA) è un cifrario sviluppato dalla Corea del Sud, da cui è inoltre adottato come standard nazionale. Obiettivo principale è quello di risultare efficiente sia in implementazioni software che in quelle hardware.
+		\subsection{LEA}
+		Lightweight Encryption Algorithm (LEA) è un cifrario sviluppato dalla Corea del Sud, da cui è inoltre adottato come standard nazionale. Obiettivo principale è quello di risultare efficiente sia in implementazioni software che in quelle hardware\cite{lea}.
 			\subsubsection{Design}
 			LEA consiste di sole operazioni ARX su word di 32 bit. La word-size è stata scelta dai progettisti sulla base della convinzione che in futuro le operazioni a 32 bit saranno implementate efficientemente anche su dispositivi con risorse limitate.
 			La cifratura è divisa in tre fasi: inizializzazione, round iterativi e finalizzazione.
@@ -629,7 +613,7 @@
 							\State {$T[1] \gets LROT_3(T[1] \boxplus LROT_{i+1}(\delta[i \bmod 4]))$}
 							\State {$T[2] \gets LROT_6(T[2] \boxplus LROT_{i+2}(\delta[i \bmod 4]))$}
 							\State {$T[3] \gets LROT_{11}(T[3] \boxplus LROT_{i+3}(\delta[i \bmod 4]))$}
-							\State {$RK_i \gets T[0]|T[1]|T[2]|T[1]|T[3]|T[1]$}
+							\State {$RK_i \gets T[0]||T[1]||T[2]||T[1]||T[3]||T[1]$}
 						\EndFor
 					\EndProcedure
 				\end{algorithmic}
@@ -644,15 +628,15 @@
 					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
 					\hline 
 					\hline
-					Differential & 13 & $2^{127}$ & $2^{22}$ & $2^127$ & \cite{leadiff} \\
+					Differential & 13 & $2^{127}$ & $2^{22}$ & $2^{127}$ & \cite{leadiff} \\
 					\hline
 					Boomerang & 15 & $2^{116.3}$ & & & \cite{lea} \\
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{PRINCE}\cite{prince}
+		\subsection{PRINCE}
 		\label{ssec:prince}
-			PRINCE è un cifrario ottimizzato rispetto alla latenza su  hardware; consente infatti implementazioni full-unrolled, con cifratura in un solo ciclo di clock.
+			PRINCE è un cifrario ottimizzato rispetto alla latenza su  hardware; consente infatti implementazioni full-unrolled, con cifratura in un solo ciclo di clock\cite{prince}.
 			\subsubsection{Design}
 			L'obiettivo dei progettisti di PRINCE era creare un cifrario sulla base dei seguenti criteri: cifratura istantanea, bassa latenza, costi hardware moderati, decifratura ottenibile con minor overhead possibile.
 			Per ottenere i primi due, sono necessari round in numero ridotto e con logica non troppo complessa: un critical-path leggero consente infatti di impiegare una velocità di clock maggiore.
@@ -753,22 +737,22 @@
 				\end{pmatrix}
 				\]
 				Infine, $M'$ è ottenuta costruendo una matrice $64 \times 64$ con $(\hat{M^{(0)}} , \hat{M^{(1)}}, \hat{M^{(1)}}, \hat{M^{(0)}})$ come blocchi diagonali.
-				\item \textbf{$RC_i$-add}: somma (XOR) con la relativa costante. Le costanti sono scelte in modo che per $0 \le i \le 11$, $RC_i \oplus RC_{11-i} = \alpha = 0xc0ac29b7c97c50dd$; $RC_0 = 0$ e $RC_{1...5}$ sono derivate dalla parte decimale di $\pi$.
+				\item \textbf{$RC_i$-add}: somma (XOR) con la relativa costante. Le costanti sono scelte in modo che per $0 \le i \le 11$, $RC_i \oplus RC_{11-i} = \alpha = \mathtt{0xc0ac29b7c97c50dd}$; $RC_0 = 0$ e $RC_{1...5}$ sono derivate dalla parte decimale di $\pi$.
 				\begin{center}
 					\begin{tabular}{|c||c|}
 						\hline
-						$RC_0$ & 0000000000000000 \\
-						$RC_1$ & 13198a2e03707344 \\
-						$RC_2$ & a4093822299f31d0 \\
-						$RC_3$ & 082efa98ec4e6c89 \\
-						$RC_4$ & 452821e638d01377 \\
-						$RC_5$ & be5466cf34e90c6c \\
-						$RC_6$ & 7ef84f78fd955cb1 \\
-						$RC_7$ & 85840851f1ac43aa \\
-						$RC_8$ & c882d32f25323c54 \\
-						$RC_9$ & 64a51195e0e3610d \\
-						$RC_{10}$ & d3b5a399ca0c2399 \\
-						$RC_{11}$ & c0ac29b7c97c50dd \\
+						$RC_0$ & $\mathtt{0000000000000000}$ \\
+						$RC_1$ & $\mathtt{13198a2e03707344}$ \\
+						$RC_2$ & $\mathtt{a4093822299f31d0}$ \\
+						$RC_3$ & $\mathtt{082efa98ec4e6c89}$ \\
+						$RC_4$ & $\mathtt{452821e638d01377}$ \\
+						$RC_5$ & $\mathtt{be5466cf34e90c6c}$ \\
+						$RC_6$ & $\mathtt{7ef84f78fd955cb1}$ \\
+						$RC_7$ & $\mathtt{85840851f1ac43aa}$ \\
+						$RC_8$ & $\mathtt{c882d32f25323c54}$ \\
+						$RC_9$ & $\mathtt{64a51195e0e3610d}$ \\
+						$RC_{10}$ & $\mathtt{d3b5a399ca0c2399}$ \\
+						$RC_{11}$ & $\mathtt{c0ac29b7c97c50dd}$ \\
 						\hline
 					\end{tabular}
 				\end{center}
@@ -915,12 +899,12 @@
 					\hline
 					Linear & 12 & $2^1$ & negl. & $2^{125.47}$ & \cite{princesec}\\
 					\hline
-					Related-key & 12 & $2^33$ & $2^33$ & $2^{64}$ & \cite{princesec}\\
+					Related-key & 12 & $2^{33}$ & $2^{33}$ & $2^{64}$ & \cite{princesec}\\
 					\hline
 				\end{tabular}
 			\end{center}
-		\subsection{QARMAv2}\cite{qarmav2}
-		QARMAv2 è un \textit{tweakable block cipher}, ideato per la cifratura della memoria, ma anche per essere general purpose. In particolare, il suo design permette implementazioni hardware efficienti.
+		\subsection{QARMAv2}
+		QARMAv2 è un \textit{tweakable block cipher}, ideato per la cifratura della memoria, ma anche per essere general purpose\cite{qarmav2}. In particolare, il suo design permette implementazioni hardware efficienti.
 			\subsubsection{Design}
 			La struttura di QARMAv2 è detta \textit{reflector construction}, design introdotto da PRINCE (si veda: \ref{ssec:prince}), è composta cioè da una funzione (\textit{forward function}), una involuzione (\textit{symmetric reflector}), e la funzione inversa (\textit{backward function}). Si ottiene che lo stesso circuito è usato sia per cifrare che per decifrare.
 			
@@ -964,7 +948,7 @@
 			
 			Le costanti sono generate tramite la funzione $\Psi$: un LFSR, definito dal polinomio $x^{64} + x^{50} + x^{33} + x^{19} + 1$, applicato 23 volte. La prima costante non nulla, $c_2$, è definita dalle prime 16 cifre esadecimali dell'espansione di $\pi$; le costanti successive si ottengono usando $c_2$ come seed.
 			
-			La key schedule può essere implementata tramite due registri $k_0$ e $k_1$, che vengono sommati in modo alterno allo stato. Nella forward function sono inizializzati con $K_0$ e $K_1$, le due metà della chiave $K$; nel reflector sono $W_0 = o^2(K_0)$ e $W_1 = o^{-2}(K_1)$; nella backward function diventano $L_0 = o(K_0) \oplus \alpha$ e $L_1 = o^{-1}(K_1) \oplus \beta$, con $\alpha = 0x13198A2E03707344$ e $\beta = \Psi(\alpha)$. L'ortomorfismo $o$ è definito come
+			La key schedule può essere implementata tramite due registri $k_0$ e $k_1$, che vengono sommati in modo alterno allo stato. Nella forward function sono inizializzati con $K_0$ e $K_1$, le due metà della chiave $K$; nel reflector sono $W_0 = o^2(K_0)$ e $W_1 = o^{-2}(K_1)$; nella backward function diventano $L_0 = o(K_0) \oplus \alpha$ e $L_1 = o^{-1}(K_1) \oplus \beta$, con $\alpha = \mathtt{0x13198a2e03707344}$ e $\beta = \Psi(\alpha)$. L'ortomorfismo $o$ è definito come
 			\[o(w) = (w \ggg 1) \oplus (w \gg 63)\]
 			
 			Sia $t_i$ il round tweak sommato all i-esimo round, la tweak schedule è data dalla sequenza: $t_1 = T_1$, $t_2 = \varphi^{r-1}(T_0)$ e $\forall i \ge 1$ $t_{2i+1} = \varphi (t_{2i-1})$ e $t_{2i+2} = \varphi^{-1} (t_{2i})$. La funzione $\varphi$ è la permutazione
@@ -1007,6 +991,20 @@
 				\end{algorithmic}
 			\end{algorithm}
 			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					Integral & 14 & $2^{46.32}$ & $2^{46.32}$ & $2^{110.47}$ & \cite{qarmanal}\\
+					\hline
+					Truncated differential & 11 & $2^{46.94}$ & $2^{103.28}$ & $2^{105.03}$ & \cite{qarmatrunc}\\
+					\hline
+					Side channel & & & & & \cite{qarmaside}\\
+					\hline
+				\end{tabular}
+			\end{center}
 		\subsection{SPARX}
 		SPARX è una famiglia di block ciphers ARX con resistenza provata contro l'analisi differenziale e lineare. Questo traguardo, rimasto a lungo un problema aperto in area di design ARX, è stato raggiunto grazie a una strategia presentata per la prima volta dagli autori di SPARX: la LTS\cite{sparx} (Long Trail design Strategy). Questa strategia prescrive l'utilizzo di pesanti SBox accompagante da un livello di linear mixing piú leggero.
 		
@@ -1145,8 +1143,28 @@
 			\end{minipage}\\
 			
 			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					Integral (64/128) & 15 & $2^{37}$ & $2^{64}$ & $2^{101}$ & \cite{sparx}\\
+					\hline
+					Integral (128/128) & 22 & $2^{102}$ & $2^{72}$ & $2^{105}$ & \cite{sparx}\\
+					\hline
+					Linear (64/128) & 15 & $2^{62}$ & $2^{62}$ & $2^{126}$ & \cite{sparxlinear}\\
+					\hline
+					Linear (128/128) & 15 & $2^{116}$ & $2^{116}$ & $2^{117}$ & \cite{sparxlinear}\\
+					\hline
+					Differential-linear & 18 & $2^{63.5}$ & & $2^{126.8}$ & \cite{sparxdifflin} \\
+					\hline
+					Side channel & & & & &  \cite{sparxside}\\
+					\hline
+				\end{tabular}
+			\end{center}
 		\subsection{SPECK}
-		SPECK è una famiglia di cifrari sviluppata dal NSA, che, insieme alla sua controparte SIMON, è stata pensata per fornire una soluzione crittografica sicura, analizzabile e flessibile, in grado di poter fornire alte prestazioni su un'ampia schiera di dispositivi. SPECK è ottimizzato per implementazioni software, mentre SIMON per quelle hardware.
+		SPECK è una famiglia di cifrari sviluppata dal NSA, che, insieme alla sua controparte SIMON, è stata pensata per fornire una soluzione crittografica sicura, analizzabile e flessibile, in grado di poter fornire alte prestazioni su un'ampia schiera di dispositivi. SPECK è ottimizzato per implementazioni software, mentre SIMON per quelle hardware\cite{speck}.
 			\subsubsection{Design}
 			SPECK presenta numerose varianti, (SPECK$b/k$) che differiscono per dimensione di blocco $b$ e chiave $k$ e numero di round $T$, consentendo agli utenti di scegliere l'opzione più adatta alle necessità di sicurezza e performance della loro applicazione.\\
 			\begin{center}
@@ -1261,9 +1279,24 @@
 			\end{algorithm}
 			
 			\subsubsection{Crittoanalisi}
-		\subsection{XTEA}
-			\subsubsection{Design}
-			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					Differential (32/64) & 10 & $2^{29}$ & $2^{16}$ & $2^{29.2}$ & \cite{speckanal}\\
+					\hline
+					Differential (64/128) & 15 & $2^{61}$ & $2^{32}$ & $2^{61.1}$ & \cite{speckanal}\\
+					\hline
+					Differential (128/128) & 17 & $2^{122}$ & $2^{64}$ & $2^{122.1}$ & \cite{speckanal}\\
+					\hline
+					Rectangle (32/64) & 11 & $2^{31.1}$ & $2^{33.4}$ & $2^{40.7}$ & \cite{speckanal}\\
+					\hline
+					Rectangle (64/128) & 14 & $2^{63.6}$ & $2^{65.6}$ & $2^{89.4}$ & \cite{speckanal}\\
+					\hline
+				\end{tabular}
+			\end{center}
 	\section{Cifrari a flusso}
 		\subsection{Ascon\cite{ascon}}
 		Ascon è una suite di strumenti crittografici, tra cui Ascon-AEAD128: un algoritmo di cifratura con Authenticated Encryption with Associated Data (AEAD). Nel 2023, dopo un lungo e rigoroso processo, la famiglia Ascon è stata scelta dal NIST come standard per le applicazioni crittografiche lightweight.\\
@@ -1489,7 +1522,7 @@
 			\subsubsection{Design}
 			L'algoritmo presenta uno stato, detto matrix, rappresentato da una matrice $4 \times 4$ di word da 32 bit e inizializzato come segue:
 			\begin{itemize}
-				\item Le prime quattro word sono costanti $c_i$ ricavate dalla codifica ASCII di "expand 32-byte k":
+				\item Le prime quattro word sono costanti $c_i$ ricavate dalla codifica ASCII di ``expand 32-byte k":
 				\begin{center}
 					\begin{tabular}{|c|c|c|c|}
 						\hline
@@ -1652,9 +1685,6 @@
 				\end{algorithmic}
 			\end{algorithm}
 			\subsubsection{Crittoanalisi}
-		\subsection{Lesca\cite{lesca}}
-			\subsubsection{Design}
-			\subsubsection{Crittoanalisi}
 \chapter{Test e valutazione}
 In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperimenti e definite le condizioni seguite per ciascuna misurazione. Nell'ultima sezione, i risultati ottenuti verranno analizzati.
 	\section{Strumenti}
@@ -1686,7 +1716,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	Il clock principale del MSP430 (MCLK), quello cioè che regola la velocità della CPU, è stato settato con i seguenti parametri: DCO, 4MHz, divider /1 \cite{mspuser}.
 	
 	Riguardo la scrittura del codice, diversi criteri sono stati seguiti. Tutti i cifrari sono stati implementati nel linguaggio C, mantenendo il codice il più fedele possibile allo pseudocodice presente nell'articolo di pubblicazione relativo. Ove fornito, è stato utilizzato direttamente il codice C di riferimento (vedasi CLEFIA).\\
-	Il flag di ottimizzazione (-O) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: dalla guida nalllaldsladladdads::::::::. Il file main.c ne è stato escluso, in quanto prevedendo un ciclo infinito (while(1)), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.\\
+	Il flag di ottimizzazione (-O) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: ``Whole Program Optimization", ottimizzazione a Link-Time\cite{ticompiler}. Il file main.c ne è stato escluso, in quanto prevedendo un ciclo infinito (while(1)), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.\\
 	Lo stack è allocato per 160B.
 	
 	Coerentemente a passati studi simili,%citali pero
@@ -1703,14 +1733,193 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	
 		\subsection{Tempo di esecuzione}
 		Esistono diversi metodi per misurare il tempo di esecuzione di un algoritmo, solitamente tramite l'ausilio di timestamp o timer integrati. Data la variabilità di risoluzione di questi strumenti, il codice interessato è spesso eseguito molte volte, quindi il tempo ottenuto è diviso per il numero di esecuzioni.\\
-		La disponibilità di un oscilloscopio, invece, semplifica l'operazione di misurazione e consente di ottenere dati più precisi. Si esegue ciclicamente l'algoritmo interessato, programmando un pin di test in modo che sia flippato dopo ogni esecuzione. Collegato il pin all'oscilloscopio, si noterà che questo comportamento produce un'onda quadra. Il tempo di esecuzione dell'algoritmo sotto test si ottiene misurando la larghezza d'impulso dell'onda osservata. In questo modo si eliminano overhead risultanti da funzioni di libreria o timer in background.
+		La disponibilità di un oscilloscopio, invece, semplifica l'operazione di misurazione e consente di ottenere dati più precisi. Si esegue ciclicamente l'algoritmo interessato, programmando un pin di test in modo che sia flippato dopo ogni esecuzione. Collegato il pin all'oscilloscopio, si noterà che questo comportamento produce un'onda quadra. Il tempo di esecuzione dell'algoritmo sotto test si ottiene misurando la larghezza d'impulso dell'onda osservata. In questo modo si eliminano overhead risultanti da funzioni di libreria o timer in background.\\
+		Per uniformare il confronto, data la varietà di block size su cui gli algoritmi operano, non verrà utilizzato direttamente il tempo di esecuzione, ma un suo derivato: encryption rate, quantità di byte cifrati in un dato intervallo di tempo.
 		\subsection{Consumo di corrente}
 		Per la misurazione del consumo di corrente è stato utilizzato il PPK2, collegato in modalità amperometro. Ogni algoritmo è stato eseguito ciclicamente, nel frattempo, tramite l'interfaccia Power Profiler di nRF Connect, sono stati osservati i consumi in tempo reale; il dato medio è indicato dall'applicazione.
 		\subsection{Utilizzo di memoria}
-		I dati sull'utilizzo di memoria sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Sono divisi tra FRAM e RAM.
-	\section{Risultati}
-	
-	\section{Analisi}
+		I dati sull'utilizzo di memoria, divisi tra FRAM e RAM, sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Per ogni algoritmo, ai dati così rilevati, è sottratta la quantità di memoria occupata dalla struttura di test, che si ottiene compilando il main file senza includere nessun cifrario.
+	\section{Risultati e analisi}
+	\begin{table}
+		\begin{tabular}{ccccc}
+			\hline
+			\multicolumn{2}{c}{\textbf{Name}} & \textbf{FRAM ($B$)} & \textbf{Encryption rate ($kB/s$)} & \textbf{Current consuption} ($\mu A$) \\
+			\hline
+			\hline
+		    \multirow{2}{*}{AES} & & 2875 & 5.56 & 568\\
+		    					 & & 1169 & 5.37 & 489\\
+		    \hline
+		    \multirow{2}{*}{CLEFIA} & & 9580 & 2.33 & 455\\
+		    						& & 3610 & 1.56 & 461\\
+		    \hline
+		    \multirow{2}{*}{LEA} & & 994 & 4.76 & 366\\
+		    					 & & 954 & 4.68 & 354\\
+		    \hline
+		    \multirow{2}{*}{PRINCE} & & 5144 & 0.33 & 439\\
+		    						& & 1586 & 0.17 & 419\\
+		    \hline
+		    \multirow{8}{*}{QARMAv2} & \multirow{2}{*}{$r=4$} & 5086 & 0.19 & 404\\
+		    						 &						  & 2276 & 0.15 & 411\\
+		    						 & \multirow{2}{*}{$r=6$} & 5164 & 0.13 & 406\\
+		    						 &						  & 2278 & 0.10 & 408\\
+		    						 & \multirow{2}{*}{$r=7$} & 5200 & 0.11 & 399\\
+		    						 &						  & 2276 & 0.09 & 411\\
+		    						 & \multirow{2}{*}{$r=9$} & 5274 & 0.09 & 403\\
+		    						 &						  & 2276 & 0.07 & 412\\
+			\hline
+			\multirow{4}{*}{SPARX} & \multirow{2}{*}{64/128} & 870 & 7.49 & 575\\
+								   &						 & 594 & 6.60 & 575\\
+								   & \multirow{2}{*}{128/128} & 1356 & 6.11 & 565\\
+								   &						  & 856 & 4.80 & 576\\
+			\hline
+			\multirow{6}{*}{SPECK} & \multirow{2}{*}{32/64} & 546 & 11.43 & 574\\
+								   &						& 332 & 11.56 & 591\\
+								   & \multirow{2}{*}{64/128} & 1186 & 4.97 & 365\\
+								   &						 & 402 & 4.94 & 385\\
+								   & \multirow{2}{*}{128/128} & 1436 & 4.02 & 389\\
+								   &						 & 644 & 4.10 & 389\\
+			\hline
+		    
+		\end{tabular}
+		\caption{}
+	\end{table}
+		\subsection{Considerazioni generali}
+		Tutti gli algoritmi operano senza la necessità di strutture dati che richiedano allocazione dinamica della memoria. Questo caratteristica si riflette nella quantità di RAM utilizzata; per tutti i cifrari, infatti, è rilevato l'utilizzo di soli 160B, che equivalgono allo stack di attivazione allocato.
+		\subsection{AES}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Block size} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current}\\
+				\hline
+				16 & \textcolor{Mahogany}{1.44} / \textcolor{OliveGreen}{1.46} & \textcolor{Mahogany}{2.88} / \textcolor{OliveGreen}{2.98} & \textcolor{Mahogany}{2875} / \textcolor{OliveGreen}{1169} & \textcolor{Mahogany}{5.56} / \textcolor{OliveGreen}{5.37} & \textcolor{Mahogany}{568} / \textcolor{OliveGreen}{489} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Dai test effettuati, AES risulta performante anche sull'architettura limitata di un microprocessore a 16bit, sia in termini di velocità che di memoria. Tra le due ottimizzazioni analizzate, quella mirata allo spazio di memoria consente un notevole risparmio di FRAM e anche un consumo di corrente minore, a scapito di un trascurabile aumento dei tempi di esecuzione.
+		L'adozione come standard internazionale e la conseguente continua analisi rivolta su di se, rendono AES la prima scelta in ambito di sicurezza.
+		\subsection{CLEFIA}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Block size} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				16 & \textcolor{Mahogany}{8.12} / \textcolor{OliveGreen}{9.88} & \textcolor{Mahogany}{6.88} / \textcolor{OliveGreen}{10.24} & \textcolor{Mahogany}{9580} / \textcolor{OliveGreen}{3610} & \textcolor{Mahogany}{2.33} / \textcolor{OliveGreen}{1.56} & \textcolor{Mahogany}{455} / \textcolor{OliveGreen}{461} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Le pesanti SBox e le diverse operazioni matriciali si riflettono, rispettivamente, sul grande impatto sulla memoria e la ridotta velocità di CLEFIA. Consumi di corrente nella media. L'affidabilità della sicurezza è supportata dalle moderne tecniche di crittanalisi e dall'adozione come standard ISO\cite{isoblock}.
+		\subsection{LEA}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Block size} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				16 & \textcolor{Mahogany}{6.32} / \textcolor{OliveGreen}{7.00} & \textcolor{Mahogany}{3.36} / \textcolor{OliveGreen}{3.42} & \textcolor{Mahogany}{994} / \textcolor{OliveGreen}{954} & \textcolor{Mahogany}{4.76} / \textcolor{OliveGreen}{4.68} & \textcolor{Mahogany}{366} / \textcolor{OliveGreen}{354} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Le semplici operazioni ARX su cui si basa permettono a LEA di ottenere, oltre che ad una velocità competitiva, un basso impatto sulla memoria e il minor consumo di corrente tra tutti gli algoritmi. Penalizzanti, sopratutto nella key schedule, le operazioni di rotazioni a 32bit, poco efficienti su MSP430. L'adozione come standard sudcoreano e ISO\cite{isoblock} rendono LEA un'ottima soluzione sicura.
+		\subsection{PRINCE}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Block size} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				8 & \textcolor{Mahogany}{---} / \textcolor{OliveGreen}{---} & \textcolor{Mahogany}{24.00} / \textcolor{OliveGreen}{47.40} & \textcolor{Mahogany}{5144} / \textcolor{OliveGreen}{1586} & \textcolor{Mahogany}{0.33} / \textcolor{OliveGreen}{0.17} & \textcolor{Mahogany}{439} / \textcolor{OliveGreen}{419} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Le operazioni su nibbles (4bit), SBox e permutazioni, e pesanti moltiplicazioni matriciali rallentano di molto PRINCE, confermandolo un algoritmo prevalentemente rivolto ad una implementazione hardware. L'algoritmo è stato soggetto ad un'intesa analisi, incoraggiata anche dalla PRINCE challenge, in seguito a cui non sono emerse criticità rilevanti che ne minino la sicurezza.
+		\subsection{QARMAv2}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				$r$ & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				4 & \textcolor{Mahogany}{---} / \textcolor{OliveGreen}{---} & \textcolor{Mahogany}{41.60} / \textcolor{OliveGreen}{52.00} & \textcolor{Mahogany}{5086} / \textcolor{OliveGreen}{2276} & \textcolor{Mahogany}{0.19} / \textcolor{OliveGreen}{0.15} & \textcolor{Mahogany}{404} / \textcolor{OliveGreen}{411} \\
+				\hline
+				6 & \textcolor{Mahogany}{---} / \textcolor{OliveGreen}{---} & \textcolor{Mahogany}{60.80} / \textcolor{OliveGreen}{76.40} & \textcolor{Mahogany}{5164} / \textcolor{OliveGreen}{2278} & \textcolor{Mahogany}{0.13} / \textcolor{OliveGreen}{0.10} & \textcolor{Mahogany}{406} / \textcolor{OliveGreen}{408} \\
+				\hline
+				7 & \textcolor{Mahogany}{---} / \textcolor{OliveGreen}{---} & \textcolor{Mahogany}{70.80} / \textcolor{OliveGreen}{88.00} & \textcolor{Mahogany}{5200} / \textcolor{OliveGreen}{2276} & \textcolor{Mahogany}{0.11} / \textcolor{OliveGreen}{0.09} & \textcolor{Mahogany}{399} / \textcolor{OliveGreen}{411} \\
+				\hline
+				9 & \textcolor{Mahogany}{---} / \textcolor{OliveGreen}{---} & \textcolor{Mahogany}{90.00} / \textcolor{OliveGreen}{112.00} & \textcolor{Mahogany}{5274} / \textcolor{OliveGreen}{2276} & \textcolor{Mahogany}{0.09} / \textcolor{OliveGreen}{0.07} & \textcolor{Mahogany}{403} / \textcolor{OliveGreen}{412} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Anche QARMAv2 é rallentato molto da operazioni su nibbles, tra le altre la moltiplicazione con la matrice di diffusione, che comprende molte rotazioni. Quantità di memoria necessaria elevata, anche in presenza di un'ottimizzazione mirata. Tempo di esecuzione proporzionale al parametro $r$ (numero di round), che può essere utilizzato per trovare il giusto compromesso tra sicurezza necessaria e performance. Come dichiarato anche dagli autori, un'implementazione hardware risulterebbe più efficiente. Diversi studi ne dimostrano la sicurezza rispetto ai moderni attacchi di crittanalisi.
+		\subsection{SPARX}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Version} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				SPARX-64/128 & \textcolor{Mahogany}{0.87} / \textcolor{OliveGreen}{0.62} & \textcolor{Mahogany}{1.07} / \textcolor{OliveGreen}{1.21} & \textcolor{Mahogany}{870} / \textcolor{OliveGreen}{594} & \textcolor{Mahogany}{7.49} / \textcolor{OliveGreen}{6.60} & \textcolor{Mahogany}{575} / \textcolor{OliveGreen}{575} \\
+				\hline
+				SPARX-128/128 & \textcolor{Mahogany}{3.10} / \textcolor{OliveGreen}{2.23} & \textcolor{Mahogany}{2.62} / \textcolor{OliveGreen}{3.33} & \textcolor{Mahogany}{1356} / \textcolor{OliveGreen}{856} & \textcolor{Mahogany}{6.11} / \textcolor{OliveGreen}{4.80} & \textcolor{Mahogany}{565} / \textcolor{OliveGreen}{576} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Le operazioni ARX su word da 16bit si confermano efficienti, consentendo a SPARX tempi di esecuzione e spazio di memoria ridotti, sopratutto nella versione 64/128. I consumi di corrente, invece, sono sopra la media. La strategia LTS, introdotta dagli autori, elimina il rischio di attacchi lineari e differenziali; non sono emerse vulnerabilità contro altri tipi di crittanalisi.
+		\subsection{SPECK}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{Version} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				SPECK32/64 & \textcolor{Mahogany}{0.32} / \textcolor{OliveGreen}{0.37} & \textcolor{Mahogany}{0.35} / \textcolor{OliveGreen}{0.35} & \textcolor{Mahogany}{546} / \textcolor{OliveGreen}{332} & \textcolor{Mahogany}{11.43} / \textcolor{OliveGreen}{11.56} & \textcolor{Mahogany}{574} / \textcolor{OliveGreen}{591} \\
+				\hline
+				SPECK64/128 & \textcolor{Mahogany}{1.60} / \textcolor{OliveGreen}{1.74} & \textcolor{Mahogany}{1.61} / \textcolor{OliveGreen}{1.62} & \textcolor{Mahogany}{1186} / \textcolor{OliveGreen}{402} & \textcolor{Mahogany}{4.97} / \textcolor{OliveGreen}{4.94} & \textcolor{Mahogany}{365} / \textcolor{OliveGreen}{385} \\
+				\hline
+				SPECK128/128 & \textcolor{Mahogany}{3.86} / \textcolor{OliveGreen}{3.94} & \textcolor{Mahogany}{3.98} / \textcolor{OliveGreen}{3.90} & \textcolor{Mahogany}{1436} / \textcolor{OliveGreen}{644} & \textcolor{Mahogany}{4.02} / \textcolor{OliveGreen}{4.10} & \textcolor{Mahogany}{389} / \textcolor{OliveGreen}{389} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		SPECK, nella versione 32/64, si rivela l'algoritmo più veloce e leggero, grazie alle operazioni ARX su word da 16bit; i consumi di corrente invece risultano elevati. Le altre versioni, che operano su word da 32 e 64 bit, mantengono una velocità competitiva, un consumo di corrente ridotto, ma risultano più lente. In tutte le versioni analizzate, l'ottimizzazione più efficiente risulta quella per la memoria: fornisce dimensioni ridotte e rallentamenti trascurabili. Molti studi ne provano la sicurezza contro le moderne tecniche di crittanalisi, tanto che l'algoritmo era stato inserito come alternativa per la cifratura del file system nel kernel Linux v. 4.17. Questa decisione aveva destato malumori tra gli esperti del settore, che non escludono l'inserimento di una back-door da parte del NSA, come aveva fatto in passato con Dual\_EC\_DRBG. SIMON e SPECK sono stati sottoposti all'ISO per la loro standardizzazione, rifiutata a causa della cattiva reputazione accademica del NSA. In seguito alla mancanza di chiarimenti riguardo particolari scelte progettuali da parte degli autori, SPECK è stato rimosso da Linux. 
+		\subsection{ASCON}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{AEAD} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				no & \textcolor{Mahogany}{8.60} / \textcolor{OliveGreen}{9.20} & \textcolor{Mahogany}{11.40} / \textcolor{OliveGreen}{12.30} & \textcolor{Mahogany}{1902} / \textcolor{OliveGreen}{1764} & \textcolor{Mahogany}{2.81} / \textcolor{OliveGreen}{2.60} & \textcolor{Mahogany}{410} / \textcolor{OliveGreen}{418} \\
+				\hline
+				yes (32B) & \textcolor{Mahogany}{19.9} / \textcolor{OliveGreen}{21.40} & \textcolor{Mahogany}{19.90} / \textcolor{OliveGreen}{21.40} & \textcolor{Mahogany}{2090} / \textcolor{OliveGreen}{1952} & \textcolor{Mahogany}{1.61} / \textcolor{OliveGreen}{1.50} & \textcolor{Mahogany}{410} / \textcolor{OliveGreen}{419} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		\subsection{CHACHA20}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{---} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				--- & \textcolor{Mahogany}{0.05} / \textcolor{OliveGreen}{0.05} & \textcolor{Mahogany}{34.20} / \textcolor{OliveGreen}{50.00} & \textcolor{Mahogany}{2256} / \textcolor{OliveGreen}{1564} & \textcolor{Mahogany}{0.94} / \textcolor{OliveGreen}{0.65} & \textcolor{Mahogany}{401} / \textcolor{OliveGreen}{468} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		\subsection{Hummingbird-2}
+		\begin{center}
+			\begin{tabular}{|c| *{5}{c|}}
+				\hline
+				\textbf{AEAD} & \textbf{Initialization} $t$& \textbf{Execution} $t$ & \textbf{FRAM} & \textbf{Encryption rate} & \textbf{Current} \\
+				\hline
+				no & \textcolor{Mahogany}{2.44} / \textcolor{OliveGreen}{2.48} & \textcolor{Mahogany}{9.40} / \textcolor{OliveGreen}{9.72} & \textcolor{Mahogany}{2172} / \textcolor{OliveGreen}{1464} & \textcolor{Mahogany}{3.40} / \textcolor{OliveGreen}{3.29} & \textcolor{Mahogany}{569} / \textcolor{OliveGreen}{564} \\
+				\hline
+				yes (32B) & \textcolor{Mahogany}{2.44} / \textcolor{OliveGreen}{2.48} & \textcolor{Mahogany}{16.40} / \textcolor{OliveGreen}{17.20} & \textcolor{Mahogany}{2396} / \textcolor{OliveGreen}{1666} & \textcolor{Mahogany}{1.95} / \textcolor{OliveGreen}{1.86} & \textcolor{Mahogany}{565} / \textcolor{OliveGreen}{563} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		
 \chapter{Conclusione}
 
 

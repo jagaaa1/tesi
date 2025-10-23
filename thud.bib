@@ -369,6 +369,14 @@
 	number       = {SLAS789D}
 }
 
+@manual{ticompiler,
+	title        = {MSP430 Optimizing C/C++ Compiler — User’s Guide},
+	organization = {Texas Instruments},
+	year         = {2021},
+	number       = {SLAU132Y}
+}
+
+
 @misc{TikZ:for:Cryptographers,
 	author = {J\'er\'emy Jean},
 	title = {{TikZ for Cryptographers}},
@@ -376,4 +384,108 @@
 	\url{https://www.iacr.org/authors/tikz/}
 	},
 	year = {2016},
+}
+
+@article{qarmanal,
+	title = {Cryptanalysis of QARMAv2},
+	volume = {2024},
+	ISSN = {2519-173X},
+	url = {http://dx.doi.org/10.46586/tosc.v2024.i1.188-213},
+	DOI = {10.46586/tosc.v2024.i1.188-213},
+	number = {1},
+	journal = {IACR Transactions on Symmetric Cryptology},
+	publisher = {Universitatsbibliothek der Ruhr-Universitat Bochum},
+	author = {Hadipour,  Hosein and Todo,  Yosuke},
+	year = {2024},
+	month = mar,
+	pages = {188–213}
+}
+
+@article{qarmatrunc,
+	title = {Truncated differential cryptanalysis: new insights and application to QARMAv1-n and QARMAv2-64},
+	volume = {92},
+	ISSN = {1573-7586},
+	url = {http://dx.doi.org/10.1007/s10623-024-01486-8},
+	DOI = {10.1007/s10623-024-01486-8},
+	number = {12},
+	journal = {Designs,  Codes and Cryptography},
+	publisher = {Springer Science and Business Media LLC},
+	author = {Ahmadian,  Zahra and Khalesi,  Akram and M’foukh,  Dounia and Moghimi,  Hossein and Naya-Plasencia,  María},
+	year = {2024},
+	month = oct,
+	pages = {4549–4591}
+}
+
+@ARTICLE{qarmaside,
+	author={Sahoo, Soumya and Chakraborty, Debasmita and Sarkar, Santanu},
+	journal={IEEE Transactions on Computers}, 
+	title={Unleashing the Power of Differential Fault Attacks on QARMAv2}, 
+	year={2025},
+	volume={74},
+	number={11},
+	pages={3792-3804},
+	keywords={Ciphers;S Box;Subspace constraints;Complexity theory;Encryption;Data mining;Training;Schedules;Computers;Artificial intelligence;Tweakable block cipher;differential fault attack;Nibble fault;QARMAv2.},
+	doi={10.1109/TC.2025.3603728}}
+
+@article{sparxlinear,
+	title = {Linear cryptanalysis of SPECK and SPARX},
+	journal = {Journal of Information Security and Applications},
+	volume = {83},
+	pages = {103773},
+	year = {2024},
+	issn = {2214-2126},
+	doi = {https://doi.org/10.1016/j.jisa.2024.103773},
+	url = {https://www.sciencedirect.com/science/article/pii/S2214212624000760},
+	author = {Zhichao Xu and Hong Xu and Lin Tan and Wenfeng Qi},
+	keywords = {ARX, SPECK, SPARX, SAT, Linear approximations},
+	abstract = {SPECK and SPARX are two kinds of block ciphers with an ARX structure. In this paper, we use the SAT-based automatic search tool to search for linear approximations of these two ARX ciphers. As a result, we find a linear approximation for 17-round SPECK128, which covers one more round than previous work. Based on this linear approximation, we propose improved linear cryptanalysis for 19-round SPECK128/192 and 20-round SPECK128/256, which cover one more round than previous work. For ARX cipher SPARX, we find an optimal linear approximation for 13-round SPARX-64, which covers three more rounds than previous work. We also find an optimal linear approximation for 10-round SPARX-128, which covers two more rounds than previous work. Furthermore, we find a linear approximation for 14-round SPARX-128 by splicing two short linear approximations, which covers four more rounds than previous work. Based on these linear approximations, we propose linear cryptanalysis for 15-round SPARX-64/128, 15-round SPARX-128/128 and 16-round SPARX-128/256.}
+}
+
+@InProceedings{sparxside,
+	author="Ramesh, Sumesh Manjunath
+	and AlKhzaimi, Hoda",
+	editor="Buchmann, Johannes
+	and Nitaj, Abderrahmane
+	and Rachidi, Tajjeeddine",
+	title="Side Channel Analysis of SPARX-64/128: Cryptanalysis and Countermeasures",
+	booktitle="Progress in Cryptology -- AFRICACRYPT 2019",
+	year="2019",
+	publisher="Springer International Publishing",
+	address="Cham",
+	pages="352--369",
+	abstract="SPARX family of lightweight block cipher was introduced in Asiacrypt 2016. The family consists of three variants (a) SPARX-64/128, (b) SPARX-128/128 and (c) SPARX-128/256. In this work, first, we propose a technique to perform Correlation Power Analysis (CPA) on the SPARX-64/128 cipher. Our technique uses a combination of first-order, second-order and modulo addition CPA methods. Using our proposed technique we extract 128 key bits of SPARX-64/128 cipher with low complexities in general; key guess complexity of {\$}{\$}2^{\{}12{\}}{\$}{\$}212and {\$}{\$}65000{\backslash}approx 2^{\{}16{\}}{\$}{\$}65000≈216power traces. We initially propose a countermeasure of SPARX-64/128 block cipher against side-channel attacks in terms of power analysis, a threshold implementation based on a serialized design of SPARX-64/128 core. The serialized design of SPARX-64/128 core is implemented in hardware and occupies 60 slices in FPGA. As a countermeasure, this serialized implementation is extended to propose a provably secure threshold implementation of SPARX-64/128 core (TI-SPARX). The TI-SPARX core occupies 131 slices in FPGA and runs at 144 MHz thus, giving a throughput of 9 Mbps. To the best of our knowledge, this is the first side channel attack and countermeasure result on SPARX-64/128 cipher.",
+	isbn="978-3-030-23696-0"
+}
+
+@article{sparxdifflin,
+	title = {New linear approximation of modular addition and improved differential-linear cryptanalysis of SPARX-64/128},
+	volume = {16},
+	ISSN = {1936-2455},
+	url = {http://dx.doi.org/10.1007/s12095-024-00708-z},
+	DOI = {10.1007/s12095-024-00708-z},
+	number = {5},
+	journal = {Cryptography and Communications},
+	publisher = {Springer Science and Business Media LLC},
+	author = {Xu,  Zhichao and Xu,  Hong and Tan,  Lin and Qi,  Wenfeng},
+	year = {2024},
+	month = apr,
+	pages = {921–947}
+}
+
+@misc{speckanal,
+	author = {Farzaneh Abed and Eik List and Stefan Lucks and Jakob Wenzel},
+	title = {Cryptanalysis of the Speck Family of Block Ciphers},
+	howpublished = {Cryptology {ePrint} Archive, Paper 2013/568},
+	year = {2013},
+	url = {https://eprint.iacr.org/2013/568}
+}
+
+@techreport{isoblock,
+	title        = {Information security — Lightweight cryptography — Part 2: Block ciphers},
+	number       = {ISO/IEC 29192-2:2019},
+	edition      = {2},
+	year         = {2019},
+	publisher    = {International Organization for Standardization and International Electrotechnical Commission},
+	address      = {Geneva},
+	note         = {ISO Reference number: 78477}
 }
