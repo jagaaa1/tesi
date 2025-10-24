@@ -1741,7 +1741,8 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		I dati sull'utilizzo di memoria, divisi tra FRAM e RAM, sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Per ogni algoritmo, ai dati così rilevati, è sottratta la quantità di memoria occupata dalla struttura di test, che si ottiene compilando il main file senza includere nessun cifrario.
 	\section{Risultati e analisi}
 	\begin{table}
-		\begin{tabular}{ccccc}
+		\begin{center}
+			\begin{tabular}{ccccc}
 			\hline
 			\multicolumn{2}{c}{\textbf{Name}} & \textbf{FRAM ($B$)} & \textbf{Encryption rate ($kB/s$)} & \textbf{Current consuption} ($\mu A$) \\
 			\hline
@@ -1781,7 +1782,8 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 			\hline
 		    
 		\end{tabular}
-		\caption{}
+		\end{center}
+		\caption{Misurazioni block ciphers}
 	\end{table}
 		\subsection{Considerazioni generali}
 		Tutti gli algoritmi operano senza la necessità di strutture dati che richiedano allocazione dinamica della memoria. Questo caratteristica si riflette nella quantità di RAM utilizzata; per tutti i cifrari, infatti, è rilevato l'utilizzo di soli 160B, che equivalgono allo stack di attivazione allocato.
@@ -1881,7 +1883,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 			\end{tabular}
 		\end{center}
 		
-		SPECK, nella versione 32/64, si rivela l'algoritmo più veloce e leggero, grazie alle operazioni ARX su word da 16bit; i consumi di corrente invece risultano elevati. Le altre versioni, che operano su word da 32 e 64 bit, mantengono una velocità competitiva, un consumo di corrente ridotto, ma risultano più lente. In tutte le versioni analizzate, l'ottimizzazione più efficiente risulta quella per la memoria: fornisce dimensioni ridotte e rallentamenti trascurabili. Molti studi ne provano la sicurezza contro le moderne tecniche di crittanalisi, tanto che l'algoritmo era stato inserito come alternativa per la cifratura del file system nel kernel Linux v. 4.17. Questa decisione aveva destato malumori tra gli esperti del settore, che non escludono l'inserimento di una back-door da parte del NSA, come aveva fatto in passato con Dual\_EC\_DRBG. SIMON e SPECK sono stati sottoposti all'ISO per la loro standardizzazione, rifiutata a causa della cattiva reputazione accademica del NSA. In seguito alla mancanza di chiarimenti riguardo particolari scelte progettuali da parte degli autori, SPECK è stato rimosso da Linux. 
+		SPECK, nella versione 32/64, si rivela l'algoritmo più veloce e leggero, grazie alle operazioni ARX su word da 16bit; i consumi di corrente invece risultano elevati. Le altre versioni, che operano su word da 32 e 64 bit, mantengono una velocità competitiva, un consumo di corrente ridotto, ma risultano più lente. In tutte le versioni analizzate, l'ottimizzazione più efficiente risulta quella per la memoria: fornisce dimensioni ridotte e rallentamenti trascurabili. Molti studi ne provano la sicurezza contro le moderne tecniche di crittanalisi, tanto che l'algoritmo era stato inserito come alternativa per la cifratura del file system nel kernel Linux v. 4.17. Questa decisione aveva destato malumori tra gli esperti del settore, che non escludono l'inserimento di una back-door da parte del NSA, come aveva fatto in passato con Dual\_EC\_DRBG. SIMON e SPECK sono stati sottoposti all'ISO per la loro standardizzazione, rifiutata a causa della cattiva reputazione accademica del NSA. In seguito alla mancanza di chiarimenti riguardo particolari scelte progettuali da parte degli autori, SPECK è stato rimosso da Linux v. 4.20. 
 		\subsection{ASCON}
 		\begin{center}
 			\begin{tabular}{|c| *{5}{c|}}
@@ -1920,10 +1922,23 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		\end{center}
 		
 		
-\chapter{Conclusione}
+\chapter{Conclusioni}
+Dopo l'analisi effettuata sulla base di dati sperimentali, possiamo trarre alcune conclusioni. Confidiamo che questa, seppur piccola, analisi possa aiutare sviluppatori embedded, su MSP430 ma non solo, nel trovare la soluzione crittografica più adatta alle necessità dei loro sistemi o applicazioni.
 
+Innanzitutto, come si è potuto osservare, l'architettura del processore grava in modo significativo sulle performance degli algoritmi: word size e ottimizzazione di certe operazioni hanno effetti diretti su tempi di esecuzione e dimensione del codice. Esempi sul nostro MSP430 sono la differenza tra i tempi di esecuzione delle operazioni a 8 o 16 bit, supportate in modo diretto da istruzioni assembly, e quelle a 32 o 64; oppure come la mancanza di un'istruzione di rotazione ottimizzata induca a code size maggiore e performance ridotte\cite{tiassembly}. Per questo motivo le conclusioni qui presentate si possono applicare \underline{direttamente} solo al caso in oggetto del MSP430, oppure ad un'architettura 16 bit molto simile. Altri dispositivi, sopratutto con risorse più limitate, meritano un'ulteriore investigazione. Questo non esclude che le considerazioni presentate, dopo un'attenta lettura, possano essere estese ad altri microcontrollori.
 
+Dalle nostre osservazioni, \textbf{AES} risulta essere la scelta migliore, anche in base a ragioni storiche quali la sua standardizzazione e ampia diffusione. Non sembrano emergere motivi immediati per l'adozione di un algoritmo lightweight, ciononostante esponiamo alcune osservazioni utili sugli altri cifrari in esame.
 
+Tra gli altri algoritmi standardizzati in analisi, risalta \textbf{LEA}, una valida scelta nel caso AES non potesse essere utilizzato, o necessitando di un minore impatto sulla memoria o sui consumi. Come LEA, anche \textbf{CLEFIA} è stato inserito dall'ISO nello standard ISO/IEC 29192-2:2019, ma non sembra eccellere in nessun campo analizzato.
+
+I risultati di \textbf{SPECK}, che nella versione 32/64 risulta l'algoritmo più veloce tra quelli analizzati, confermano le dichiarazioni degli autori riguardo le sue performance, proponendolo come una buona soluzione lightweight; tuttavia le controversie rispetto il comportamento del NSA fanno riflettere sulla sua sicurezza.
+
+I dati ottenuti da \textbf{SPARX} proseguono il trend positivo dei cifrari con struttura ARX, ma non ne giustificano l'adozione rispetto ad altri algoritmi standardizzati, data la sua scarsa diffusione. Rimane comunque un ottimo spunto di ricerca, grazie alla tecnica di progettazione LTS introdotta dagli autori, innovazione in ambito ARX rispetto all'analisi lineare-differenziale.
+
+L'implementazione di algoritmi apertamente orientati all'hardware, nel nostro caso \textbf{PRINCE} e \textbf{QARMAv2}, rivela disastrose prestazioni software, evidenziando come efficienti soluzioni circuitali non si traducano in codice equivalentemente performante.
+
+In ambito software, il futuro dei cifrari lightweight sembra essere orientato verso gli algoritmi ARX. Le elementari operazioni che li compongono, infatti, li rendono efficienti e facilmente implementabili su un'ampia schiera di dispositivi. In termini di sicurezza, l'assenza di SBox aumenta la resilienza contro alcuni attacchi side-channel\cite{sparx}, inoltre, la semplice struttura permette un'analisi approfondita più agevole\cite{speck}.
+Gli SPN invece risultano più lenti, a causa di permutazioni di difficile implementazione, e pesanti, a causa delle SBox.
 %% Fine dei capitoli normali, inizio dei capitoli-appendice (opzionali)
 \appendix
 
