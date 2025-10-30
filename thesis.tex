@@ -117,12 +117,7 @@
 %% Capitolo
 \chapter{Introduzione}
 
-    %% Sezione
-    \section{Titolo della Sezione}
 
-
-    %% Sottosezione
-    \subsection{Sottosezione}
 
 \chapter{Background}
 
@@ -230,7 +225,7 @@
                 \item[Add-Rotate-XOR (ARX)\cite{sparx}] Classe di cifrari progettati utilizando soltanto semplici operazioni di \textit{addizione modulare} ($\boxplus$), \textit{rotazione} ($\lll, \ggg$) e \textit{XOR} ($\oplus$).
             \end{description}
             
-            Di per sé, un cifrario a blocco, non è una soluzione sicura, soprattutto in presenza di più blocchi da cifrare, in quanto presenta un comportamento deterministico: applica, a parità di chiave, sempre la stessa permutazione. Occorre adottare delle particolari tecniche, chiamate \textit{Modes of Operation}, che utilizzano il cifrario a blocco come primitiva e non come unica risorsa. \cite{handcypto, computernet}
+            Di per sé, un cifrario a blocco non è una soluzione sicura, soprattutto in presenza di più blocchi da cifrare; presenta un comportamento deterministico: applica, a parità di chiave, sempre la stessa permutazione. Occorre adottare delle particolari tecniche, chiamate \textit{Modes of Operation}, che utilizzano il cifrario a blocco come primitiva e non come unica risorsa. \cite{handcypto, computernet}
             % modes
             
             \subsubsection{Cifrari a flusso}
@@ -266,9 +261,12 @@
                 	\draw[edge] (r6.east) -- ++ (1,0);
                 \end{tikzpicture}
                 \caption{LFSR}
-                \label{fig:placeholder}
+                \label{fig:lfsr}
             \end{figure}
-        \subsection{Crittografia asimmetrica}
+        \subsection{Crittografia Lightweight}
+        I tradizionali metodi crittografici richiedono un utilizzo intensivo dello risorse computazionali. La necessità di soluzioni sicure per le infrastrutture IoT, caratterizzate ad un'ampia schiera di dispositivi con risorse limitate, ha reso necessaria la specializzazione di una branca della crittografia dedicata.
+        
+        La crittografia Lightweight (LWC, LightWeight Cryptography) si occupa di trovare soluzioni crittografiche leggere, con ridotto impatto su memoria, tempo di CPU e consumi energetici, in modo da poter offrire sicurezza anche ai dispositivi più limitati. La leggerezza è ottenuta solitamente sacrificando parte della sicurezza, tramite l'adozione di block size e chiavi ridotte oppure round meno complessi\cite{cryptometh}. La LWC riunisce un variegato insieme di soluzioni, in quanto, dato il numero elevato e la varietà dei dispositivi per cui è pensata, risulta difficile e controproducente ottenere una definizione univoca di cosa sia ``lightweight'', leggero. Infatti, un algoritmo crittografico potrà avere un'implementazione software, tramite un normale linguaggio di programmazione, oppure una hardware, in circuiti veri e propri (ASIC) o su FPGA; sulla base di questa distinzione emergono importanti differenze. Nel caso software, gli aspetti su cui rivolgere l'attenzione sono consumo di memoria e throughput; in hardware, invece, le metriche riguardano il circuito, e sono: latenza, consumo energetico e complessità Gate Equivalent (GE).
 
     \section{Sistemi embedded}
     Un sistema embedded può essere definito come ``un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
@@ -276,7 +274,6 @@
     I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
     
     	\subsection{Vincoli}
-    	%costi, hardware, software
     	Essendo progettati per un compito specifico, i sistemi embedded offrono meno supporto e presentano spesso numerosi vincoli. La necessità di produzione su larga scala e il fatto di rientrare nel budget del dispositivo in cui sono integrati richiedono ai progettisti un'attenta analisi dei \textit{costi}. La riduzione dei costi si riflette direttamente sui vincoli \textit{hardware} dei dispositivi, soprattutto in termini di RAM, ROM, velocità del processore, periferiche e consumo energetico. Come spesso accade, l'ottimizzazione di queste risorse risulta un problema complesso, richiedendo dei compromessi: codice più veloce richiede più spazio, aumentando la velocità della CPU aumentano di conseguenza i consumi, rimuovendo le periferiche non strettamente necessarie si guadagna in spazio e consumi, e molti altri.
     	Dal lato software, invece, possono essere richieste garanzie di \textit{real-time}, determinismo, oppure di tolleranza ai guasti.\cite{embeddedsys}
     	\subsection{Programmazione}
@@ -1716,10 +1713,10 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	Il clock principale del MSP430 (MCLK), quello cioè che regola la velocità della CPU, è stato settato con i seguenti parametri: DCO, 4MHz, divider /1 \cite{mspuser}.
 	
 	Riguardo la scrittura del codice, diversi criteri sono stati seguiti. Tutti i cifrari sono stati implementati nel linguaggio C, mantenendo il codice il più fedele possibile allo pseudocodice presente nell'articolo di pubblicazione relativo. Ove fornito, è stato utilizzato direttamente il codice C di riferimento (vedasi CLEFIA).\\
-	Il flag di ottimizzazione (-O) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: ``Whole Program Optimization", ottimizzazione a Link-Time\cite{ticompiler}. Il file main.c ne è stato escluso, in quanto prevedendo un ciclo infinito (while(1)), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.\\
+	Il flag di ottimizzazione (-O) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: ``Whole Program Optimization", ottimizzazione a Link-Time\cite{ticompiler}. Il file $\mathtt{main.c}$ ne è stato escluso, in quanto prevedendo un ciclo infinito ($\mathtt{while(1)}$), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.\\
 	Lo stack è allocato per 160B.
 	
-	Coerentemente a passati studi simili,%citali pero
+	Coerentemente a passati studi simili, %citali pero
 	per ogni cifrario è stata implementata solo l'operazione di cifratura, in quanto in ambito embedded solitamente è quella maggiormente eseguita dal dispositivo integrato.
 	
 	Per introdurre i criteri di misurazione, è opportuno descrivere il consueto funzionamento di un sistema embedded.\\
