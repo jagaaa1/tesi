@@ -43,7 +43,10 @@
 \usepackage{algpseudocode} % pseudocodice
 
 \usepackage{xcolor}
+
 \usepackage{tabularx} % multicolonne
+
+\usepackage{pgfplots}
 
 \usepackage{rotating} % tabella piena pagina
 
@@ -1932,6 +1935,174 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\fbox{\uwave{$\mathtt{--opt\_for\_speed}=5$} / \dotuline{$\mathtt{--opt\_for\_speed}=0$}}
 	\caption{Risultati stream ciphers}
 \end{sidewaystable}
+
+\begin{figure}
+	\begin{center}
+	\begin{tikzpicture}[baseline]
+	\begin{axis}[
+		scale only axis,
+		scaled ticks=false,
+		ybar,%=5pt,% configures `bar shift'
+		ymin=0,
+		width=0.4\textwidth,
+		xtick=data,
+		x tick label style={rotate=45,anchor=east},
+		y tick label style={/pgf/number format/1000 sep=},
+		ylabel=FRAM ($B$),
+		enlargelimits=0.1,
+		legend style={at={(0.5,-0.4)},
+			anchor=north,legend columns=-1},
+		bar width=9pt,
+		symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
+		]
+		\addplot 
+		coordinates {(AES,2875) (CLEFIA,9580) (LEA,994) (SPARX64/128,870) (SPARX128/128,1356) (SPECK32/64,546) (SPECK64/128,1186) (SPECK128/128,1436)};
+		
+		\addplot 
+		coordinates {(AES,1169) (CLEFIA,3610) (LEA,954) (SPARX64/128,594) (SPARX128/128,856) (SPECK32/64,332) (SPECK64/128,402) (SPECK128/128,644)};
+		
+		\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+	\end{axis}
+\end{tikzpicture}%
+	\begin{tikzpicture}[baseline]
+		\begin{axis}[
+			scale only axis,
+			scaled ticks=false,
+			ybar,%=5pt,% configures `bar shift'
+			ymin=0,
+			width=0.4\textwidth,
+			xtick=data,
+			x tick label style={rotate=45,anchor=east},
+			y tick label style={/pgf/number format/1000 sep=},
+			ylabel=Charge consumption ($nAh/kB$),
+			enlargelimits=0.1,
+			legend style={at={(0.5,-0.4)},
+				anchor=north,legend columns=-1},
+			bar width=9pt,
+			symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
+			]
+			\addplot 
+			coordinates {(AES,28.40) (CLEFIA,54.35) (LEA,21.35) (SPARX64/128,21.32) (SPARX128/128,25.70) (SPECK32/64,13.95) (SPECK64/128,20.40) (SPECK128/128,26.88)};
+			
+			\addplot 
+			coordinates {(AES,25.30) (CLEFIA,81.96) (LEA,21.02) (SPARX64/128,24.20) (SPARX128/128,33.30) (SPECK32/64,14.20) (SPECK64/128,21.66) (SPECK128/128,26.34)};
+			
+			
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+\caption{block}
+\end{figure}
+\begin{figure}
+	\begin{center}
+		\begin{tikzpicture}[baseline]
+	\begin{axis}[
+		scale only axis,
+		scaled ticks=false,
+		width=0.4\textwidth,
+		ybar,%=5pt,% configures `bar shift'
+		ymin=0,
+		xtick=data,
+		x tick label style={rotate=45,anchor=east},
+		y tick label style={/pgf/number format/1000 sep=},
+		ylabel=FRAM ($B$),
+		enlargelimits=0.1,
+		legend style={at={(0.5,-0.4)},
+			anchor=north,legend columns=-1},
+		bar width=9pt,
+		symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
+		]
+		\addplot 
+		coordinates {(PRINCE,5144) (QARMAv2 r=4,5086) (QARMAv2 r=6,5164) (QARMAv2 r=7,5200) (QARMAv2 r=9,5274)};
+		
+		\addplot 
+		coordinates {(PRINCE,1586) (QARMAv2 r=4,2276) (QARMAv2 r=6,2278) (QARMAv2 r=7,2276) (QARMAv2 r=9,2276)};
+		
+		\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+	\end{axis}
+\end{tikzpicture}%
+\begin{tikzpicture}[baseline]
+	\begin{axis}[
+		scale only axis,
+		scaled ticks=false,
+		width=0.4\textwidth,
+		ybar,%=5pt,% configures `bar shift'
+		ymin=0,
+		xtick=data,
+		x tick label style={rotate=45,anchor=east},
+		y tick label style={/pgf/number format/1000 sep=},
+		ylabel=Charge consumption ($nAh/kB$),
+		enlargelimits=0.1,
+		legend style={at={(0.5,-0.4)},
+			anchor=north,legend columns=-1},
+		bar width=9pt,
+		symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
+		]
+		\addplot 
+		coordinates {(PRINCE,365.83) (QARMAv2 r=4,583.56) (QARMAv2 r=6,857.11) (QARMAv2 r=7,980.88) (QARMAv2 r=9,1259.38)};
+		
+		\addplot 
+		coordinates {(PRINCE,689.60) (QARMAv2 r=4,742.08) (QARMAv2 r=6,1082.33) (QARMAv2 r=7,1255.83) (QARMAv2 r=9,1602.22)};
+		\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{hard}
+\end{figure}
+\begin{figure}
+	\begin{center}
+		\begin{tikzpicture}[baseline]
+			\begin{axis}[
+				scale only axis,
+				scaled ticks=false,
+				width=0.4\textwidth,
+				ybar,%=5pt,% configures `bar shift'
+				ymin=0,
+				xtick=data,
+				x tick label style={rotate=35,anchor=east},
+				y tick label style={/pgf/number format/1000 sep=},
+				ylabel=FRAM ($B$),
+				enlargelimits=0.1,
+				legend style={at={(0.5,-0.45)},
+					anchor=north,legend columns=-1},
+				bar width=9pt,
+				symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
+				]
+				\addplot 
+				coordinates {(ASCON,1902) (ASCON-AEAD,2090) (ChaCha20,2556) (Hummingbird-2,2172) (Hummingbird-2 AEAD,2396)};
+				
+				\addplot 
+				coordinates {(ASCON,1764) (ASCON-AEAD,1952) (ChaCha20,1564) (Hummingbird-2,1464) (Hummingbird-2 AEAD,1666)};
+				
+				\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+			\end{axis}
+		\end{tikzpicture}%
+		\begin{tikzpicture}[baseline]
+			\begin{axis}[
+				scale only axis,
+				scaled ticks=false,
+				width=0.4\textwidth,
+				ybar,%=5pt,% configures `bar shift'
+				ymin=0,
+				xtick=data,
+				x tick label style={rotate=35,anchor=east},
+				y tick label style={/pgf/number format/1000 sep=},
+				ylabel=Charge consumption ($nAh/kB$),
+				enlargelimits=0.1,
+				legend style={at={(0.5,-0.4)},
+					anchor=north,legend columns=-1},
+				bar width=9pt,
+				symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
+				]
+				\addplot 
+				coordinates {(ASCON,40.57) (ASCON-AEAD,70.82) (ChaCha20,119.05) (Hummingbird-2,46.43) (Hummingbird-2 AEAD,80.43)};
+				
+				\addplot 
+				coordinates {(ASCON,44.63) (ASCON-AEAD,77.84) (ChaCha20,203.13) (Hummingbird-2,47.59) (Hummingbird-2 AEAD,84.06)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{stream}
+\end{figure}
 		\subsection{Considerazioni generali}
 		Tutti gli algoritmi operano senza la necessità di strutture dati che richiedano allocazione dinamica della memoria. Questo caratteristica si riflette nella quantità di RAM utilizzata; per tutti i cifrari, infatti, è rilevato l'utilizzo di soli 160B, che equivalgono allo stack di attivazione allocato.
 		\subsection{AES}
@@ -1970,7 +2141,7 @@ Lato hardware, diversa attenzione è stata posta sul design di \textit{reflectio
 
 Pur non essendo progettato specificamente per scenari lightweight, \textbf{AES} ha comunque mostrato una buona efficienza, dimostrando un ottimo bilanciamento tra leggerezza e sicurezza. I suoi risultati, uniti a ragioni storiche quali la sua standardizzazione e ampia diffusione, lo rendono una buona scelta anche in contesti con risorse limitate non eccessivamente vincolati.
 
-Tra i block cipher analizzati, si distingue \textbf{LEA}: rispetto ad AES, mostra un'efficienza in termini di consumo di batteria superiore del 18\% e un footprint in memoria FRAM ridotto del 17\%. L'inclusione nello standard ISO/IEC 29192-2 garantisce inoltre solide proprietà di sicurezza, rendendo questo algoritmo un'ottima scelta, se non quella di riferimento, per l'architettura in esame.
+Tra i block cipher analizzati, si distingue \textbf{LEA}: rispetto ad AES, mostra un'efficienza in termini di consumo di batteria superiore del 17\% e un footprint in memoria FRAM ridotto del 18\%. L'inclusione nello standard ISO/IEC 29192-2 garantisce inoltre solide proprietà di sicurezza, rendendo questo algoritmo un'ottima scelta, se non quella di riferimento, per l'architettura in esame.
 
 Come LEA, anche \textbf{CLEFIA} è stato inserito nello standard ISO/IEC 29192-2, ma non sembra eccellere in nessun campo analizzato.
 
