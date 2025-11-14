@@ -42,6 +42,7 @@
 \usepackage{algorithm} % algoritmi
 \usepackage{algpseudocode} % pseudocodice
 
+\usepackage{xcolor}
 \usepackage{tabularx} % multicolonne
 
 \usepackage{rotating} % tabella piena pagina
@@ -526,7 +527,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 				\end{tabular}
 			\end{center}
 		\subsection{CLEFIA}
-		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittanalisi \cite{clefia}.
+		CLEFIA è un cifrario proprietario sviluppato da Sony, sfruttando le ultime scoperte in ambito di crittoanalisi \cite{clefia}.
 			\subsubsection{Design}
 			La struttura base è data da una particolare estensione di rete Feistel (Type-2 generalized Fesitel network): a 4-rami e con due funzioni ($F_0, F_1$) per round. Queste funzioni adottano \textit{Diffusion Switching Mechanism}\cite{clefiadsm}: utilizzano due diverse matrici di diffusione per aumentare l'immunità ad attacchi differenziali e lineari.
 			
@@ -1860,9 +1861,10 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		\uwave{#1} & \uwave{#2} & \uwave{#3} & \uwave{#4} & \uwave{#5} & \uwave{#6}}
 	\newcommand{\dotulineRow}[6]{%
 		\dotuline{#1} & \dotuline{#2} & \dotuline{#3} & \dotuline{#4} & \dotuline{#5} & \dotuline{#6}}
+		\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 \begin{sidewaystable}[t]
 	\begin{center}
-		\begin{tabularx}{\textwidth}{|XXXXXXXX|}
+		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
 			\multicolumn{2}{|c}{\textbf{Name}} & \textbf{Initialization} ($ms$) & \textbf{Execution} ($ms$) & \textbf{FRAM} ($B$) & \textbf{Current consuption} ($\mu A$) & \textbf{Encryption rate} ($kB/s$) & \textbf{Charge consumption} ($nAh/kB$) \\
 			\hline
@@ -1870,31 +1872,31 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 			\multirow{2}{*}{AES} & \multirow{2}{*}{128} & \underwaveRow{1.44}{2.88}{2875}{568}{5.56}{28.40} \\
 			& & \dotulineRow{1.46}{2.98}{1169}{489}{5.37}{25.30}\\
 			\hline
-			\multirow{2}{*}{CLEFIA} & \multirow{2}{*}{128} & \underwaveRow{8.12}{6.88}{9580}{455}{2.33}{54.35}\\
+			\multirow{2}{*}{CLEFIA} & \multirow{2}{*}{128} & \underwaveRow{8.12}{6.88}{\textcolor{red}{9580}}{455}{2.33}{54.35}\\
 			& & \dotulineRow{9.88}{10.24}{3610}{461}{1.56}{81.96}\\
 			\hline
 			\multirow{2}{*}{LEA} & \multirow{2}{*}{128} & \underwaveRow{6.32}{3.36}{994}{366}{4.76}{21.35}\\
-			& & \dotulineRow{7.00}{3.42}{954}{354}{4.68}{21.02}\\
+			& & \dotulineRow{7.00}{3.42}{954}{\textcolor{green}{354}}{4.68}{21.02}\\
 			\hline
-			\multirow{2}{*}{PRINCE} & & \underwaveRow{0}{24.00}{5144}{439}{0.33}{365.83}\\
-			& & \dotulineRow{0}{47.40}{1586}{419}{0.17}{689.60}\\
+			\multirow{2}{*}{PRINCE} & & \underwaveRow{0.00}{24.00}{5144}{439}{0.33}{365.83}\\
+			& & \dotulineRow{0.00}{47.40}{1586}{419}{0.17}{689.60}\\
 			\hline
-			\multirow{8}{*}{QARMAv2} & \multirow{2}{*}{$r=4$} & \underwaveRow{0}{41.60}{5086}{404}{0.19}{583.56}\\
-			&						  & \dotulineRow{0}{52.00}{2276}{411}{0.15}{742.08}\\
-			& \multirow{2}{*}{$r=6$} & \underwaveRow{0}{60.80}{5164}{406}{0.13}{857.11}\\
-			&						  & \dotulineRow{0}{76.40}{2278}{408}{0.10}{1082.33}\\
-			& \multirow{2}{*}{$r=7$} & \underwaveRow{0}{70.80}{5200}{399}{0.11}{980.88}\\
-			&						  & \dotulineRow{0}{88.00}{2276}{411}{0.09}{1255.83}\\
-			& \multirow{2}{*}{$r=9$} & \underwaveRow{0}{90.00}{5274}{403}{0.09}{1259.38}\\
-			&						  & \dotulineRow{0}{112.00}{2276}{412}{0.07}{1602.22}\\
+			\multirow{8}{*}{QARMAv2} & \multirow{2}{*}{$r=4$} & \underwaveRow{0.00}{41.60}{5086}{404}{0.19}{583.56}\\
+			&						  & \dotulineRow{0.00}{52.00}{2276}{411}{0.15}{742.08}\\
+			& \multirow{2}{*}{$r=6$} & \underwaveRow{0.00}{60.80}{5164}{406}{0.13}{857.11}\\
+			&						  & \dotulineRow{0.00}{76.40}{2278}{408}{0.10}{1082.33}\\
+			& \multirow{2}{*}{$r=7$} & \underwaveRow{0.00}{70.80}{5200}{399}{0.11}{980.88}\\
+			&						  & \dotulineRow{0.00}{88.00}{2276}{411}{0.09}{1255.83}\\
+			& \multirow{2}{*}{$r=9$} & \underwaveRow{0.00}{90.00}{5274}{403}{0.09}{1259.38}\\
+			&						  & \dotulineRow{0.00}{112.00}{2276}{412}{\textcolor{red}{0.07}}{\textcolor{red}{1602.22}}\\
 			\hline
 			\multirow{4}{*}{SPARX} & \multirow{2}{*}{64/128} & \underwaveRow{0.87}{1.07}{870}{575}{7.49}{21.32}\\
 			&						 & \dotulineRow{0.62}{1.21}{594}{575}{6.60}{24.20}\\
 			& \multirow{2}{*}{128/128} & \underwaveRow{3.10}{2.62}{1356}{565}{6.11}{25.70}\\
 			&						  & \dotulineRow{2.23}{3.33}{856}{576}{4.80}{33.30}\\
 			\hline
-			\multirow{6}{*}{SPECK} & \multirow{2}{*}{32/64} & \underwaveRow{0.32}{0.35}{546}{574}{11.43}{13.95}\\
-			&						& \dotulineRow{0.37}{0.35}{332}{591}{11.56}{14.20}\\
+			\multirow{6}{*}{SPECK} & \multirow{2}{*}{32/64} & \underwaveRow{0.32}{0.35}{546}{574}{11.43}{\textcolor{green}{13.95}}\\
+			&						& \dotulineRow{0.37}{0.35}{\textcolor{green}{332}}{\textcolor{red}{591}}{\textcolor{green}{11.56}}{14.20}\\
 			& \multirow{2}{*}{64/128} & \underwaveRow{1.60}{1.61}{1186}{365}{4.97}{20.40}\\
 			&						 & \dotulineRow{1.74}{1.62}{402}{385}{4.94}{21.66}\\
 			& \multirow{2}{*}{128/128} & \underwaveRow{3.86}{3.98}{1436}{389}{4.02}{26.88}\\
@@ -1907,21 +1909,21 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 \end{sidewaystable}
 \begin{sidewaystable}[t]
 	\begin{center}
-		\begin{tabularx}{\textwidth}{|XXXXXXXX|}
+		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
 			\multicolumn{2}{|c}{\textbf{Name}} & \textbf{Initialization} ($ms$) & \textbf{Execution} ($ms$) & \textbf{FRAM} ($B$) & \textbf{Current consuption} ($\mu A$) & \textbf{Encryption rate} ($kB/s$) & \textbf{Charge consumption} ($nAh/kB$) \\
 			\hline
 			\hline
-			\multirow{4}{*}{Ascon} & \multirow{2}{*}{} & \underwaveRow{8.60}{11.40}{1902}{410}{2.81}{40.57} \\
+			\multirow{4}{*}{Ascon} & \multirow{2}{*}{} & \underwaveRow{8.60}{11.40}{1902}{410}{2.81}{\textcolor{green}{40.57}} \\
 			&						 & \dotulineRow{9.20}{12.30}{1764}{418}{2.60}{44.63} \\
 			& \multirow{2}{*}{with AEAD} & \underwaveRow{19.90}{19.90}{2090}{410}{1.61}{70.82} \\
 			&						  & \dotulineRow{21.40}{21.40}{1952}{419}{1.50}{77.84} \\
 			\hline
-			\multirow{2}{*}{ChaCha20} & \multirow{2}{*}{} & \underwaveRow{0.05}{34.20}{2556}{401}{0.94}{119.05} \\
-			& & \dotulineRow{0.05}{50.00}{1564}{468}{0.64}{203.13} \\
+			\multirow{2}{*}{ChaCha20} & \multirow{2}{*}{} & \underwaveRow{0.05}{34.20}{\textcolor{red}{2556}}{\textcolor{green}{401}}{0.94}{119.05} \\
+			& & \dotulineRow{0.05}{50.00}{1564}{468}{\textcolor{red}{0.64}}{\textcolor{red}{203.13}} \\
 			\hline
-			\multirow{4}{*}{Hummingbird-2} & \multirow{2}{*}{} & \underwaveRow{2.44}{9.40}{2172}{569}{3.40}{46.43} \\
-			&						 & \dotulineRow{2.48}{9.72}{1464}{564}{3.29}{47.59} \\
+			\multirow{4}{*}{Hummingbird-2} & \multirow{2}{*}{} & \underwaveRow{2.44}{9.40}{2172}{\textcolor{red}{569}}{\textcolor{green}{3.40}}{46.43} \\
+			&						 & \dotulineRow{2.48}{9.72}{\textcolor{green}{1464}}{564}{3.29}{47.59} \\
 			& \multirow{2}{*}{with AEAD} & \underwaveRow{2.44}{16.40}{2396}{565}{1.95}{80.43} \\
 			&						  & \dotulineRow{2.48}{17.20}{1666}{563}{1.86}{84.06} \\
 			\hline
@@ -1937,19 +1939,19 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		Dai test effettuati, AES risulta performante anche sull'architettura limitata di un microprocessore a 16bit, sia in termini di velocità che di memoria. Tra le due ottimizzazioni analizzate, quella mirata allo spazio di memoria consente un notevole risparmio di FRAM e anche un consumo di corrente minore, a scapito di un trascurabile aumento dei tempi di esecuzione.
 		L'adozione come standard internazionale e la conseguente continua analisi rivolta su di se, rendono AES la prima scelta in ambito di sicurezza.
 		\subsection{CLEFIA}
-		Le pesanti SBox e le diverse operazioni matriciali si riflettono, rispettivamente, sul grande impatto sulla memoria e la ridotta velocità di CLEFIA. Consumi di corrente nella media. L'affidabilità della sicurezza è supportata dalle moderne tecniche di crittanalisi e dall'adozione come standard ISO\cite{isoblock}.
+		Le pesanti SBox e le diverse operazioni matriciali si riflettono, rispettivamente, sul grande impatto sulla memoria e la ridotta velocità di CLEFIA. Consumi di corrente nella media. L'affidabilità della sicurezza è supportata dalle moderne tecniche di crittoanalisi e dall'adozione come standard ISO\cite{isoblock}.
 		\subsection{LEA}
 		Le semplici operazioni ARX su cui si basa permettono a LEA di ottenere, oltre che ad una velocità competitiva, un basso impatto sulla memoria e il minor consumo di corrente tra tutti gli algoritmi. Penalizzanti, sopratutto nella key schedule, le operazioni di rotazioni a 32bit, poco efficienti su MSP430. L'adozione come standard sudcoreano e ISO\cite{isoblock} rendono LEA un'ottima soluzione sicura.
 		\subsection{PRINCE}
 		Le operazioni su nibbles (4bit), SBox e permutazioni, e pesanti moltiplicazioni matriciali rallentano di molto PRINCE, confermandolo un algoritmo prevalentemente rivolto ad una implementazione hardware. L'algoritmo è stato soggetto ad un'intesa analisi, incoraggiata anche dalla PRINCE challenge, in seguito a cui non sono emerse criticità rilevanti che ne minino la sicurezza.
 		\subsection{QARMAv2}
-		Anche QARMAv2 é rallentato molto da operazioni su nibbles, tra le altre la moltiplicazione con la matrice di diffusione, che comprende molte rotazioni. Quantità di memoria necessaria elevata, anche in presenza di un'ottimizzazione mirata. Tempo di esecuzione proporzionale al parametro $r$ (numero di round), che può essere utilizzato per trovare il giusto compromesso tra sicurezza necessaria e performance. Come dichiarato anche dagli autori, un'implementazione hardware risulterebbe più efficiente. Diversi studi ne dimostrano la sicurezza rispetto ai moderni attacchi di crittanalisi.
+		Anche QARMAv2 é rallentato molto da operazioni su nibbles, tra le altre la moltiplicazione con la matrice di diffusione, che comprende molte rotazioni. Quantità di memoria necessaria elevata, anche in presenza di un'ottimizzazione mirata. Tempo di esecuzione proporzionale al parametro $r$ (numero di round), che può essere utilizzato per trovare il giusto compromesso tra sicurezza necessaria e performance. Come dichiarato anche dagli autori, un'implementazione hardware risulterebbe più efficiente. Diversi studi ne dimostrano la sicurezza rispetto ai moderni attacchi di crittoanalisi.
 		\subsection{SPARX}
-		Le operazioni ARX su word da 16bit si confermano efficienti, consentendo a SPARX tempi di esecuzione e spazio di memoria ridotti, sopratutto nella versione 64/128. I consumi di corrente, invece, sono sopra la media. La strategia LTS, introdotta dagli autori, elimina il rischio di attacchi lineari e differenziali; non sono emerse vulnerabilità contro altri tipi di crittanalisi.
+		Le operazioni ARX su word da 16bit si confermano efficienti, consentendo a SPARX tempi di esecuzione e spazio di memoria ridotti, sopratutto nella versione 64/128. I consumi di corrente, invece, sono sopra la media. La strategia LTS, introdotta dagli autori, elimina il rischio di attacchi lineari e differenziali; non sono emerse vulnerabilità contro altri tipi di crittoanalisi.
 		\subsection{SPECK}
-		SPECK, nella versione 32/64, si rivela l'algoritmo più veloce e leggero, grazie alle operazioni ARX su word da 16bit; i consumi di corrente invece risultano elevati. Le altre versioni, che operano su word da 32 e 64 bit, mantengono una velocità competitiva, un consumo di corrente ridotto, ma risultano più lente. In tutte le versioni analizzate, l'ottimizzazione più efficiente risulta quella per la memoria: fornisce dimensioni ridotte e rallentamenti trascurabili. Molti studi ne provano la sicurezza contro le moderne tecniche di crittanalisi, tanto che l'algoritmo era stato inserito come alternativa per la cifratura del file system nel kernel Linux v. 4.17. Questa decisione aveva destato malumori tra gli esperti del settore, che non escludono l'inserimento di una back-door da parte del NSA, come aveva fatto in passato con Dual\_EC\_DRBG. SIMON e SPECK sono stati sottoposti all'ISO per la loro standardizzazione, rifiutata a causa della cattiva reputazione accademica del NSA. In seguito alla mancanza di chiarimenti riguardo particolari scelte progettuali da parte degli autori, SPECK è stato rimosso da Linux nella versione kernel 4.20. 
+		SPECK, nella versione 32/64, si rivela l'algoritmo più veloce e leggero, grazie alle operazioni ARX su word da 16bit; i consumi di corrente invece risultano elevati. Le altre versioni, che operano su word da 32 e 64 bit, mantengono una velocità competitiva, un consumo di corrente ridotto, ma risultano più lente. In tutte le versioni analizzate, l'ottimizzazione più efficiente risulta quella per la memoria: fornisce dimensioni ridotte e rallentamenti trascurabili. Molti studi ne provano la sicurezza contro le moderne tecniche di crittoanalisi, tanto che l'algoritmo era stato inserito come alternativa per la cifratura del file system nel kernel Linux v. 4.17. Questa decisione aveva destato malumori tra gli esperti del settore, che non escludono l'inserimento di una back-door da parte del NSA, come aveva fatto in passato con Dual\_EC\_DRBG. SIMON e SPECK sono stati sottoposti all'ISO per la loro standardizzazione, rifiutata a causa della cattiva reputazione accademica del NSA. In seguito alla mancanza di chiarimenti riguardo particolari scelte progettuali da parte degli autori, SPECK è stato rimosso da Linux nella versione kernel 4.20. 
 		\subsection{ASCON}
-		Le operazioni a 64 bit, soprattutto le rotazioni, impattano sulle performance di ASCON sull'architettura 16 bit del MSP430. Risultati nella media, ma comunque a livelli accettabili, in tutte le metriche osservate. Tuttavia, la selezione come standard lightweight dal NIST evidenzia robustezza contro attacchi crittanalitici e garantisce un'attenta e continua analisi. L'aggiunta di AEAD, pur appesantendone l'implementazione, fornisce maggiore flessibilità d'uso. Nel complesso possiamo attribuire ad ASCON un discreto bilanciamento tra leggerezza e sicurezza.
+		Le operazioni a 64 bit, soprattutto le rotazioni, impattano sulle performance di ASCON sull'architettura 16 bit del MSP430. Risultati nella media, ma comunque a livelli accettabili, in tutte le metriche osservate. Tuttavia, la selezione come standard lightweight dal NIST evidenzia robustezza contro attacchi crittoanalitici e garantisce un'attenta e continua analisi. L'aggiunta di AEAD, pur appesantendone l'implementazione, fornisce maggiore flessibilità d'uso. Nel complesso possiamo attribuire ad ASCON un discreto bilanciamento tra leggerezza e sicurezza.
 		\subsection{CHACHA20}
 		I risultati ottenuti suggeriscono come ChaCha20 non sia conveniente a contesti con risorse limitate. La sua ampia diffusione garantisce analisi approfondita e ottime proprietà di sicurezza.
 		\subsection{Hummingbird-2}
@@ -1964,15 +1966,17 @@ Innanzitutto, come si è potuto osservare, l'architettura del processore grava i
 In ambito software, il futuro dei cifrari lightweight sembra essere orientato verso gli algoritmi ARX. Le elementari operazioni che li compongono, infatti, li rendono efficienti e facilmente implementabili su un'ampia schiera di dispositivi. In termini di sicurezza, l'assenza di SBox aumenta la resilienza contro alcuni attacchi side-channel\cite{sparx}, inoltre, la semplice struttura permette un'analisi approfondita più agevole\cite{speck}.
 Gli SPN invece risultano più lenti, a causa di permutazioni di difficile implementazione, e pesanti, a causa delle SBox.
 
-Lato hardware, diversa attenzione è stata posta sul design di \textit{reflection ciphrers}\cite{reflection, probablyreflection}: cifrari che, grazie alle particolari proprietà involutive dei loro componenti, utilizzano lo stesso algoritmo per le operazioni di cifratura a decifratura. Questa caratteristica si traduce in un notevole risparmio in termini di area GE, in quanto è sufficiente stampare un solo circuito, valido per entrambe le funzioni.
+Lato hardware, diversa attenzione è stata posta sul design di \textit{reflection ciphers}\cite{reflection, probablyreflection}: cifrari che, grazie alle particolari proprietà involutive dei loro componenti, utilizzano lo stesso algoritmo per le operazioni di cifratura a decifratura. Questa caratteristica si traduce in un notevole risparmio in termini di area GE, in quanto è sufficiente stampare un solo circuito, valido per entrambe le funzioni.
 
-Dalle nostre osservazioni, \textbf{AES} risulta essere la scelta migliore, anche in base a ragioni storiche quali la sua standardizzazione e ampia diffusione. Non sembrano emergere motivi immediati per l'adozione di un algoritmo lightweight, ciononostante esponiamo alcune osservazioni utili sugli altri cifrari in esame.
+Pur non essendo progettato specificamente per scenari lightweight, \textbf{AES} ha comunque mostrato una buona efficienza, dimostrando un ottimo bilanciamento tra leggerezza e sicurezza. I suoi risultati, uniti a ragioni storiche quali la sua standardizzazione e ampia diffusione, lo rendono una buona scelta anche in contesti con risorse limitate non eccessivamente vincolati.
 
-Tra gli altri algoritmi standardizzati in analisi, risalta \textbf{LEA}, una valida scelta nel caso AES non potesse essere utilizzato, o necessitando di un minore impatto sulla memoria o sui consumi. Come LEA, anche \textbf{CLEFIA} è stato inserito dall'ISO nello standard ISO/IEC 29192-2:2019, ma non sembra eccellere in nessun campo analizzato.
+Tra i block cipher analizzati, si distingue \textbf{LEA}: rispetto ad AES, mostra un'efficienza in termini di consumo di batteria superiore del 18\% e un footprint in memoria FRAM ridotto del 17\%. L'inclusione nello standard ISO/IEC 29192-2 garantisce inoltre solide proprietà di sicurezza, rendendo questo algoritmo un'ottima scelta, se non quella di riferimento, per l'architettura in esame.
 
-I risultati di \textbf{SPECK}, che nella versione 32/64 risulta l'algoritmo più veloce tra quelli analizzati, confermano le dichiarazioni degli autori riguardo le sue performance, proponendolo come una buona soluzione lightweight; tuttavia le controversie rispetto il comportamento del NSA fanno riflettere sulla sua sicurezza.
+Come LEA, anche \textbf{CLEFIA} è stato inserito nello standard ISO/IEC 29192-2, ma non sembra eccellere in nessun campo analizzato.
 
-I dati ottenuti da \textbf{SPARX} proseguono il trend positivo dei cifrari con struttura ARX, ma non ne giustificano l'adozione rispetto ad altri algoritmi standardizzati, data la sua scarsa diffusione. Rappresenta comunque un ottimo spunto di ricerca grazie alla tecnica di progettazione LTS introdotta dagli autori, innovazione in ambito ARX rispetto all'analisi lineare-differenziale.
+I risultati ottenuti da \textbf{SPECK} confermano le dichiarazioni degli autori riguardo le sue elevate prestazioni. In particolare, la versione $32/64$ si è dimostrata la più efficiente in termini di consumo di batteria e impatto sulla memoria, rendendola adatta a contesti fortemente vincolati. Tuttavia, le controversie legate al comportamento del NSA sollevano dubbi sulla sicurezza dell'algoritmo.
+
+I dati ottenuti da \textbf{SPARX} confermano il trend positivo dei cifrari con struttura ARX, ma non ne giustificano l'adozione rispetto ad altri algoritmi standardizzati, in particolare a causa della sua scarsa diffusione. Rappresenta comunque un ottimo spunto di ricerca grazie alla tecnica di progettazione LTS, innovazione in ambito ARX rispetto all'analisi lineare-differenziale.
 
 L'implementazione di algoritmi apertamente orientati all'hardware, nel nostro caso \textbf{PRINCE} e \textbf{QARMAv2}, ha ottenuto disastrose prestazioni software, evidenziando come efficienti soluzioni circuitali non si traducano in codice equivalentemente performante.
 
