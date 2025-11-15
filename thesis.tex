@@ -52,6 +52,8 @@
 
 \usepackage{multirow} % multitighe
 
+\usepackage{afterpage}
+
 \usepackage[normalem]{ulem} % sottolineatura
 
 \usepackage{tikz} % figures
@@ -1865,7 +1867,8 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\newcommand{\dotulineRow}[6]{%
 		\dotuline{#1} & \dotuline{#2} & \dotuline{#3} & \dotuline{#4} & \dotuline{#5} & \dotuline{#6}}
 		\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
-\begin{sidewaystable}[t]
+
+\begin{sidewaystable}
 	\begin{center}
 		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
@@ -1910,7 +1913,8 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\fbox{\uwave{$\mathtt{--opt\_for\_speed}=5$} / \dotuline{$\mathtt{--opt\_for\_speed}=0$}}
 	\caption{Risultati block ciphers}
 \end{sidewaystable}
-\begin{sidewaystable}[t]
+
+\begin{sidewaystable}
 	\begin{center}
 		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
@@ -1935,6 +1939,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\fbox{\uwave{$\mathtt{--opt\_for\_speed}=5$} / \dotuline{$\mathtt{--opt\_for\_speed}=0$}}
 	\caption{Risultati stream ciphers}
 \end{sidewaystable}
+
 \begin{figure}[t]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
@@ -1992,6 +1997,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\end{center}
 	\caption{Software-oriented block ciphers}
 \end{figure}
+
 \begin{figure}[t]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
@@ -2047,6 +2053,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\end{center}
 	\caption{Hardware-oriented block ciphers}
 \end{figure}
+
 \begin{figure}[t]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
@@ -2102,7 +2109,11 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\end{center}
 	\caption{Stream ciphers}
 \end{figure}
-	\section{Analisi}
+
+\afterpage{\clearpage}
+
+
+\section{Analisi}
 		\subsection{Considerazioni generali}
 		Tutti gli algoritmi operano senza la necessità di strutture dati che richiedano allocazione dinamica della memoria. Questo caratteristica si riflette nella quantità di RAM utilizzata; per tutti i cifrari, infatti, è rilevato l'utilizzo di soli 160B, che equivalgono allo stack di attivazione allocato.
 		\subsection{AES}
