@@ -108,7 +108,7 @@ Data la pervasività dell'IoT in aspetti critici della vita quotidiana e profess
 	
 Una soluzione diretta ed efficace per garantire entrambe le proprietà è la \emph{crittografia simmetrica}; tuttavia, la sua implementazione nell'IoT è ostacolata dai vincoli sulle risorse dei dispositivi. Gli algoritmi di cifratura tradizionali, infatti, non sono consigliati a causa della loro elevata complessità computazionale, incompatibile con i dispositivi dotati di risorse limitate. Un aspetto critico aggiuntivo è il consumo energetico: molti dispositivi IoT, spesso installati in posizioni remote o difficilmente accessibili, si affidano all'alimentazione a batteria e richiedono cicli operativi prolungati. Tali limitazioni hanno stimolato, negli ultimi decenni, la progettazione di primitive crittografiche \emph{lightweight} (LW), specificamente ottimizzate per minimizzare l'impatto computazionale ed energetico nel mondo \textit{embedded}.
 	
-La ricerca nel campo della crittografia lightweight è ampia. Diverse pubblicazioni hanno esplorato trend, tecniche e performance di queste soluzioni. In \cite{cryptometh}, gli autori delineano le principali metodologie utilizzate nella progettazione degli algoritmi LW. Lo studio condotto in \cite{surv50} ha selezionato e comparato le implementazioni dei 50 \textit{block ciphers} LW ritenuti più popolari su architetture a 8 bit, come l'Atmel AVR. Ulteriori indagini, come quella in \cite{lwctoseciot}, hanno esteso il sondaggio ad altre primitive LW, tra cui \textit{stream ciphers}, funzioni \textit{hash} e crittografia basata su \textit{elliptic curve} (ECC). Merita menzione anche \emph{FELICS} \cite{felics}, un \textit{framework open-source} di \textit{benchmark} standardizzato per la valutazione delle performance crittografiche \textit{lightweight}.
+La ricerca nel campo della crittografia lightweight è ampia. Diverse pubblicazioni hanno esplorato trend, tecniche e performance di queste soluzioni. In \cite{cryptometh}, gli autori delineano le principali metodologie utilizzate nella progettazione degli algoritmi LW. Lo studio condotto in \cite{surv50} ha selezionato e comparato le implementazioni dei 50 \textit{block ciphers} LW ritenuti più popolari sull'architettura a 8 bit dell'Atmel AVR. Ulteriori indagini, come quella in \cite{lwctoseciot}, hanno esteso il sondaggio ad altre primitive LW, tra cui \textit{stream ciphers}, funzioni \textit{hash} e crittografia basata su \textit{elliptic curve} (ECC). Merita menzione anche \emph{FELICS} \cite{felics}, un \textit{framework open-source} di \textit{benchmark} standardizzato per la valutazione delle performance crittografiche \textit{lightweight}.
 	
 Nonostante l'ampia letteratura esistente, le performance di un algoritmo crittografico variano significativamente in funzione dell'architettura hardware su cui viene eseguito. Il presente lavoro si propone di colmare una specifica lacuna di ricerca fornendo una \textbf{comparazione dettagliata e specifica per la famiglia di microcontrollori a 16 bit TI MSP430}.
 	
@@ -333,12 +333,12 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
         \subsection{Crittografia Lightweight}
         I tradizionali metodi crittografici richiedono un utilizzo intensivo dello risorse computazionali. La necessità di soluzioni sicure per le infrastrutture IoT, caratterizzate ad un'ampia schiera di dispositivi con risorse limitate, ha reso necessaria la specializzazione di una branca della crittografia dedicata.
         
-        La Lightweight Cryptography (LWC) si occupa dello studio e dello sviluppo di soluzioni crittografiche leggere, cioè progettate per avere un impatto ridotto su memoria, tempo di CPU e consumi energetici. La leggerezza è ottenuta solitamente tramite una semplificazione del design: utilizzando blocchi e chiavi di dimensioni limitate oppure riducendo la complessità dei round. Queste scelte possono comportare una riduzione dei margini di sicurezza rispetto ad algoritmi tradizionali, a vantaggio di una maggiore efficienza\cite{cryptometh}.
+        La \textit{Lightweight Cryptography} (\textit{LWC}) si occupa dello studio e dello sviluppo di soluzioni crittografiche \textit{leggere}, cioè progettate per avere un impatto ridotto su memoria, tempo di CPU e consumi energetici. La leggerezza è ottenuta solitamente tramite una semplificazione del design: utilizzando blocchi e chiavi di dimensioni limitate oppure riducendo la complessità dei round. Queste scelte possono comportare una riduzione dei margini di sicurezza rispetto ad algoritmi tradizionali, a vantaggio di una maggiore efficienza\cite{cryptometh}.
         
-        Non esiste una definizione univoca di cosa sia leggero: sarebbe di difficile individuazione e controproducente, la valutazione dipende fortemente dal contesto. Infatti, un algoritmo può essere implementato in software, utilizzando un normale linguaggio di programmazione, oppure in hardware, servendosi di FPGA o stampando circuiti dedicati (ASIC). Sulla base di questa distinzione emergono importanti differenze: nel caso software, gli aspetti da ottimizzare sono consumo di memoria e throughput; in hardware, invece, le metriche sono latenza, consumo energetico e complessità Gate Equivalent (GE). Inoltre, a parità di tipologia di implementazione, notevoli differenze sono causate da architettura del processore, in caso software, e standard cell library o tecnologie usate, nel caso hardware.
+        Non esiste una definizione univoca di cosa sia leggero: sarebbe di difficile individuazione e controproducente, la valutazione dipende fortemente dal contesto. Infatti, un algoritmo può essere implementato in software, utilizzando un normale linguaggio di programmazione, oppure in hardware, servendosi di FPGA o stampando circuiti dedicati (ASIC). Sulla base di questa distinzione emergono importanti differenze: nel caso software, gli aspetti da ottimizzare sono consumo di memoria e throughput; in hardware, invece, le metriche sono latenza, consumo energetico e complessità \textit{Gate Equivalent} (GE). Inoltre, a parità di tipologia di implementazione, notevoli differenze sono causate da architettura del processore, in caso software, e standard cell library o tecnologie usate, nel caso hardware.
         
         \subsubsection{Standards}
-        La diffusione della LWC ha spinto ad un lavoro di analisi e confronto i principali organi di standardizzazione. Tra questi, il NIST ha promosso un processo di selezione volto ad individuare primitive crittografiche leggere, adatte a contesti con risorse limitate. Dopo una fase di valutazione, nel 2023, la famiglia di algoritmi ASCON è stata selezionata come standard ufficiale\cite{ascon}. A livello internazionale, dalla collaborazione tra ISO e IEC sono derivati gli standard ISO/IEC 29192 - ``Information technology — Security techniques — Lightweight cryptography", con lo scopo di fornire linee guida e algoritmi sicuri per dispositivi con risorse limitate. Questa ampia pubblicazione, in continuo aggiornamento e revisione, è divisa in più parti, ciascuna dedicata a un aspetto delle crittografia diverso:
+        La diffusione della LWC ha spinto ad un lavoro di analisi e confronto i principali organi di standardizzazione. Tra questi, il NIST ha promosso un processo di selezione volto ad individuare primitive crittografiche leggere, adatte a contesti con risorse limitate. Dopo una fase di valutazione, nel 2023, la famiglia di algoritmi ASCON è stata selezionata come standard ufficiale\cite{ascon}. A livello internazionale, dalla collaborazione tra ISO e IEC sono derivati gli standard ISO/IEC 29192 - ``\textit{Information technology — Security techniques — Lightweight cryptography}", con lo scopo di fornire linee guida e algoritmi sicuri per dispositivi con risorse limitate. Questa ampia pubblicazione, in continuo aggiornamento e revisione, è divisa in più parti, ciascuna dedicata a un aspetto delle crittografia diverso:
         \begin{enumerate}
         	\itemsep0em 
         	\item \textit{General}
@@ -352,14 +352,14 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
         \end{enumerate}
     \section{Sistemi embedded}
     Un sistema embedded può essere definito come ``un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
-    I sistemi embedded spaziano tra i più disparati oggetti: dall'uso quotidiano (elettrodomestici), ai veicoli, ai sensori intelligenti, fino a scopi militari (missili). I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
+    Questi sistemi sono utilizzati in una vasta gamma di applicazioni: dagli oggetti di uso quotidiano, ai veicoli,ai sensori intelligenti, fino ad applicazioni militari. I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
     
     	\subsection{Vincoli}
     	Essendo progettati per un compito specifico, i sistemi embedded offrono meno supporto e presentano spesso numerosi vincoli. La necessità di produzione su larga scala e il fatto di rientrare nel budget del dispositivo in cui sono integrati richiedono ai progettisti un'attenta analisi dei \textit{costi}. La riduzione dei costi si riflette direttamente sui vincoli \textit{hardware} dei dispositivi, soprattutto in termini di RAM, ROM, velocità del processore, periferiche e consumo energetico. Come spesso accade, l'ottimizzazione di queste risorse risulta un problema complesso, richiedendo dei compromessi: codice più veloce richiede più spazio, aumentando la velocità della CPU aumentano di conseguenza i consumi, rimuovendo le periferiche non strettamente necessarie si guadagna in spazio e consumi, e molti altri.
     	Dal lato software, invece, possono essere richieste garanzie di \textit{real-time}, determinismo, oppure di tolleranza ai guasti.\cite{embeddedsys}
     	\subsection{Programmazione}
     	La sviluppo di codice embedded richiede diverse competenze, tra cui: conoscenza approfondita dell'hardware presente nel dispositivo, padronanza della programmazione a basso livello, soprattutto nella gestione della memoria, abilità nel bilanciare le richieste applicative con i vincoli del sistema.
-    	Al contrario di quello che accade nei dispositivi general-purpose, inoltre, una errata gestione software può causare danni alle componenti hardware, anche gravi.
+    	Al contrario di quello che accade nei dispositivi \textit{general-purpose}, inoltre, una errata gestione software può causare danni alle componenti hardware, anche gravi.
     		\subsubsection{Linguaggi}
     		Avendo risorse limitate, i sistemi embedded non sono dotati di compilatore, il codice che eseguono è \textit{cross-compilato} su un altro dispositivo e successivamente trasferito nella memoria integrata. I produttori di microprocessori solitamente forniscono ambienti di sviluppo dedicati con cross-compiler proprietari, ma sono presenti anche alternative GNU.
     		Le tool-chain embedded, nella maggior parte dei casi, supportano solo linguaggi come C o C++, con funzionalità e librerie limitate (es. supporto ridotto per aritmetica floating-point).
@@ -369,47 +369,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			
 			\begin{figure}[t]
 				\centering
-				\begin{tikzpicture}[
-					font=\sffamily,
-					% Styles
-					block/.style={rectangle, draw, rounded corners=3pt, fill=yellow!30, minimum width=3cm, minimum height=1cm, align=center},
-					file/.style={rectangle, draw, minimum width=1cm, minimum height=1.2cm, fill=white, align=center, path picture={
-							\draw[thick] (path picture bounding box.south west) -- ++(0,0.8) -- ++(0.8,0.2) -- ++(0, -1);
-							\draw[thick] (path picture bounding box.south west) ++(0.8,0.8) -- ++(0.2,0);
-					}},
-					arrow/.style={-latex, thick},
-					interface/.style={rectangle, draw, fill=green!20, minimum height=1cm, minimum width=3cm, align=center, rounded corners=3pt},
-					box/.style={rectangle, rounded corners=5pt, draw=none, fill=blue!10, inner sep=10pt, fit=#1}
-					]
-					
-					% --- Nodes in External device ---
-					\node[file] (source) {Source code};
-					\node[block, below=0.7cm of source] (crosscompiler) {Cross-compiler};
-					\node[file, below=0.7cm of crosscompiler] (image) {Image};
-					\node[block, below=1.2cm of image] (crossdebugger) {Cross-debugger};
-					
-					% --- Nodes in Embedded processor ---
-					\node[block, right=6cm of image] (codespace) {Code space};
-					\node[block, below=1.2cm of codespace] (hwdebug) {Hardware debug\\interface};
-					
-					% --- Debug interface ---
-					\node[interface, below right=0.3cm and 1.8cm of image] (debugif) {Debug interface};
-					
-					% --- Connections ---
-					\draw[arrow] (source) -- (crosscompiler);
-					\draw[arrow] (crosscompiler) -- (image);
-					\draw[arrow] (image) -- (codespace);
-					\draw[arrow] (crossdebugger) -- (debugif);
-					\draw[arrow] (debugif) -- (hwdebug);
-					
-					% --- Background boxes ---
-					\node[box=(source)(crosscompiler)(image)(crossdebugger)] (externalbox) {};
-					\node[above left=0cm and -1cm of externalbox.north east, anchor=north east] {\textbf{External device}};
-					
-					\node[box=(codespace)(hwdebug)] (embeddedbox) {};
-					\node[above left=0cm and -1cm of embeddedbox.north east, anchor=north east] {\textbf{Embedded processor}};
-					
-				\end{tikzpicture}
+				\includegraphics[width=0.6\textwidth]{img/cross-compiler-debugger.jpg}
 				\caption{Comunicazione con microprocessore embedded}
 				\label{fig:mcucomm}
 			\end{figure}
@@ -418,7 +378,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 \label{cap3}
 	\section{Cifrari a blocco}
 		\subsection{AES}
-		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael\cite{aes}. Sia durante il processo di selezione che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
+		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael\cite{aes}. Sia durante il processo di selezione, che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
 			\subsubsection{Design}
 			Le operazioni dell'algoritmo sono effettuate su un array bi-dimensionale ($4 \times 4$), definito state. Ogni byte $s_{r,c}$ dello state ha due indici: di riga $r$ e di colonna $c$. Il cuore dell'algoritmo è caratterizzato da una serie di round, durante cui, in sequenza, vengono applicate queste trasformazioni:
 			\begin{itemize}
@@ -1635,7 +1595,24 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			\end{algorithm}
 			
 			\subsubsection{Crittoanalisi}
-			aaaa
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					PD zero-sum & 12 & & & $2^{130}$ & \cite{asconanal}\\
+					\hline
+					KR cube-like & 6 & & & $2^{66}$ & \cite{asconanal}\\
+					\hline
+					KR differential-linear & 5 & & & $2^{36}$ & \cite{asconanal}\\
+					\hline
+					FR differential & 4 & & & $2^{101}$ & \cite{asconanal}\\
+					\hline
+				\end{tabular}
+				
+				\text{PD: permutation distinguisher, KR: key recovery, FR: forgery}
+			\end{center}
 		\subsection{ChaCha20}
 		ChaCha20\cite{chacha20} è uno stream cipher ampiamente adottato (TLS, OpenSSH, IPsec, Cloudfare).
 			\subsubsection{Design}
@@ -1735,6 +1712,20 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			\end{algorithm}
 			
 			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					PD differential-linear & 7 & $2^{135.07}$ & & $2^{135.07}$ & \cite{chachapd}\\
+					\hline
+					KR PNB-differential & 7 & $2^{101.15}$ & $2^{95.95}$ & $2^{192.15}$ & \cite{chachakr}\\
+					\hline
+				\end{tabular}
+				
+				\text{PD: permutation distinguisher, KR: key recovery}
+			\end{center}
 		\subsection{Hummingbird-2}
 		Hummingbird-2\cite{hummingbird2} è un algoritmo di cifratura progettato per dispositivi con risorse limitate, quali tag RFID, sensori intelligenti e controller industriali. Può anche, opzionalmente, fornire l'autenticazione con la tecnica di AEAD.
 			\subsubsection{Design}
@@ -1802,14 +1793,28 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 				\end{algorithmic}
 			\end{algorithm}
 			\subsubsection{Crittoanalisi}
+			\begin{center}
+				\begin{tabular}{ |c|c|c|c|c|c| } 
+					\hline
+					Attacco & Rounds & Dati & Memoria & Tempo & Fonte \\ 
+					\hline 
+					\hline
+					KR side channel cube & & $2^{18}$ & & & \cite{hb2cube}\\
+					\hline
+					KR differential sequence analysis & & & & & \cite{hb2dsa}\\
+					\hline
+				\end{tabular}
+				
+				\text{KR: key recovery}
+			\end{center}
 \chapter{Test e valutazione}
 \label{cap4}
 In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperimenti e definite le condizioni seguite per ciascuna misurazione. Nell'ultima sezione, i risultati ottenuti verranno analizzati.
 	\section{Strumenti}
 		\subsection{TI MSP430}
-		Il microcontrollore usato in questa sperimentazione appartiene alla grande famiglia dei Texas Instruments MSP430 (Mixed Signal Processor), nel dettaglio il MSP430FR6989. Si tratta di un dispositivo ultra-low power pensato per applicazioni industriali che richiedano un'estesa durata della batteria, in particolari sensori integrati. Presenta infatti sette modalità a basso consumo (Low Power Mode LPM), che consentono di trovare il giusto equilibrio tra prestazioni e risparmio energetico.
+		Il microcontrollore usato in questa sperimentazione appartiene alla grande famiglia dei Texas Instruments MSP430 (\textit{Mixed Signal Processor}), nel dettaglio il MSP430FR6989. Si tratta di un dispositivo ultra-low power pensato per applicazioni industriali che richiedano un'estesa durata della batteria, in particolari sensori integrati. Presenta infatti sette modalità a basso consumo (\textit{Low Power Mode LPM}), che consentono di trovare il giusto equilibrio tra prestazioni e risparmio energetico.
 		
-		La CPU è di architettura RISC a 16 bit, con velocità di clock fino a 16 MHz. La memoria disponibile si divide in RAM (2 kB) e FRAM (Ferroelectric RAM) (128 kB), quest'ultima è un tipo di memoria non volatile che unisce i vantaggi di lettura e scrittura della SRAM con la robustezza della memoria Flash. Tra i protocolli di comunicazione direttamente supportati troviamo UART, I2C e SPI. Numerosi pin GPIO (General Purpose Input Output) (83) e ADC (Analog-Digital Converter) (16) permettono di interfacciarsi con molte periferiche esterne\cite{mspuser,mspdatas}.
+		La CPU è di architettura RISC a 16 bit, con velocità di clock fino a 16 MHz. La memoria disponibile si divide in RAM (2 kB) e FRAM (Ferroelectric RAM) (128 kB), quest'ultima è un tipo di memoria non volatile che unisce i vantaggi di lettura e scrittura della SRAM con la robustezza della memoria Flash. Tra i protocolli di comunicazione direttamente supportati troviamo UART, I2C e SPI. Numerosi pin GPIO (\textit{General Purpose Input Output}) (83) e ADC (\textit{Analog-Digital Converter}) (16) permettono di interfacciarsi con molte periferiche esterne\cite{mspuser,mspdatas}.
 		\begin{figure}[t]
 			\centering
 			\includegraphics[width=0.75\textwidth]{img/msp_datasheet.jpg}
@@ -1819,7 +1824,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		Il MSP-FET è un potente strumento di sviluppo ed emulazione per la famiglia MSP. Tramite l'interfaccia JTAG, consente di programmare il microcontrollore e debuggare in tempo reale il codice caricato. Inoltre, si può utilizzare come interfaccia UART tra dispositivo e computer su cui avviene lo sviluppo.
 		
 		\subsection{TI Code Composer Studio}
-		CCS è l'IDE (Integrated Development Enviroment) pensato per i microcontrollori Texas Instruments. Contiene una ricca suite di strumenti per la compilazione, il debug, l'ottimizzazione e l'analisi di applicazioni embedded. È inclusa la tool-chain TI, pensata appositamente per lo sviluppo di programmi C/C++ sui microcontrollori MSP430.
+		CCS è l'IDE (\textit{Integrated Development Enviroment}) pensato per i microcontrollori Texas Instruments. Contiene una ricca suite di strumenti per la compilazione, il debug, l'ottimizzazione e l'analisi di applicazioni embedded. È inclusa la \textit{tool-chain} TI, pensata appositamente per lo sviluppo di programmi C/C++ sui microcontrollori MSP430.
 		
 		\subsection{SIGLENT SDS1104X-E}
 		Oscilloscopio professionale a superfosforo, con larghezza di banda di 100 MHz e 4 canali.
@@ -1840,20 +1845,20 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 			\caption{PPK2}
 		\end{figure}
 		\subsection{NORDIC SEMICONDUCTOR nRF Connect}
-		Applicazione che, tra le molte altre funzionalità, permette di collegarsi, nella sezione Power Profiler, al PPK2 e visualizzarne i consumi misurati in tempo reale.
+		Applicazione che, tra le molte altre funzionalità, permette di collegarsi, nella sezione \textit{Power Profiler}, al PPK2 e visualizzarne i consumi misurati in tempo reale.
 	\section{Condizioni}
 	Il clock principale del MSP430 (MCLK), quello cioè che regola la velocità della CPU, è stato settato con i seguenti parametri: DCO, 4MHz, divider /1 \cite{mspuser}; lo stack è allocato per 160B.
 	
 	Nella scrittura del codice sono stati seguiti diversi criteri. Tutti i cifrari sono stati implementati nel linguaggio C, mantenendo il codice più fedele possibile allo pseudocodice presente nell'articolo di pubblicazione relativo. Coerentemente a passati studi simili, %citali pero
-	per ogni cifrario è stata implementata solo l'operazione di cifratura, in quanto nell'ambito embedded solitamente è quella maggiormente eseguita dal dispositivo integrato.. Il flag di ottimizzazione ($\mathtt{-O}$) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: ``Whole Program Optimization", ottimizzazione a Link-Time\cite{ticompiler}. Il file $\mathtt{main.c}$ ne è stato escluso, in quanto prevedendo un ciclo infinito ($\mathtt{while(1)}$), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.
+	per ogni cifrario è stata implementata solo l'operazione di cifratura, in quanto nell'ambito embedded solitamente è quella maggiormente eseguita dal dispositivo integrato.. Il flag di ottimizzazione ($\mathtt{-O}$) è stato posto al massimo livello disponibile, che nel compilatore TI è 4: ``\textit{Whole Program Optimization}", ottimizzazione a \textit{link-time}\cite{ticompiler}. Il file $\mathtt{main.c}$ ne è stato escluso, in quanto prevedendo un ciclo infinito ($\mathtt{while(1)}$), un'ottimizzazione così aggressiva portava a comportamenti imprevedibili.
 	
-	Per introdurre i criteri di misurazione, è opportuno descrivere il consueto funzionamento di un sistema embedded. Per la maggior parte del tempo, un microcontrollore si trova in una modalità a basso consumo energetico, in cui tutte le funzionalità non necessarie sono sospese e i consumi trascurabili (MSP430 LPM3: $\approx 1 \mu A$). Solo al verificarsi di un evento, che può essere per esempio un interrupt di qualche periferica esterna oppure lo scadere di un timer integrato, il microcontrollore si risveglia (Active Mode nel MSP430: $\approx 100 \mu A /MHz$) e la CPU esegue i calcoli necessari. Al termine delle operazioni il dispositivo si disattiva nuovamente. Risulta evidente che la durata della batteria che alimenta un sistema integrato è legata al tempo in cui questo si trova in modalità attiva e dal consumo di corrente durante questo frangente.
-	Altro aspetto importante riguarda lo spazio di memoria. Un sistema integrato, infatti, a causa di vincoli sull'area o di limiti imposti dall'architettura del processore, offre solitamente una quantità di memoria limitata, sia in termini di RAM che in spazio di archiviazione. Starà quindi allo sviluppatore operare un'attenta gestione della memoria, per esempio evitando grosse strutture dati oppure limitando l'allocazione dinamica. Da queste conclusioni, risulta naturale la scelta delle misure su cui basare il confronto tra gli algoritmi: tempo di esecuzione, consumo medio di corrente e utilizzo di memoria. Velocità e dimensione sono caratteristiche del codice da sempre in conflitto: i context-switch delle chiamate di procedure e i cicli rallentano l'esecuzione, invece le implementazione in-line e unrolled ne aumentano considerevolmente la dimensione. Per bilanciare con precisione questo trade-off, il compilatore TI fornisce la flag dedicata $\mathtt{--opt\_for\_speed}$, che va da 0 (ottimizza dimensione del codice con un alto rischio di peggioramento o impatto sulle performance) a 5 (ottimizza velocità del codice con un alto rischio di peggioramento o impatto sulle dimensioni). Le misurazione sono state effettuate, quindi, sulle metriche sopracitate, sia con codice ottimizzato per la velocità di esecuzione (con livello 5), che con codice ottimizzato per la dimensione occupata (livello 0).
+	Per introdurre i criteri di misurazione, è opportuno descrivere il consueto funzionamento di un sistema embedded. Per la maggior parte del tempo, un microcontrollore si trova in una modalità a basso consumo energetico, in cui tutte le funzionalità non necessarie sono sospese e i consumi trascurabili (MSP430 LPM3: $\approx 1 \mu A$). Solo al verificarsi di un evento, che può essere per esempio un interrupt di qualche periferica esterna oppure lo scadere di un timer integrato, il microcontrollore si risveglia (\textit{Active Mode} nel MSP430: $\approx 100 \mu A /MHz$) e la CPU esegue i calcoli necessari. Al termine delle operazioni il dispositivo si disattiva nuovamente. Risulta evidente che la durata della batteria che alimenta un sistema integrato è legata al tempo in cui questo si trova in modalità attiva e dal consumo di corrente durante questo frangente.
+	Altro aspetto importante riguarda lo spazio di memoria. Un sistema integrato, infatti, a causa di vincoli sull'area o di limiti imposti dall'architettura del processore, offre solitamente una quantità di memoria limitata, sia in termini di RAM che in spazio di archiviazione. Starà quindi allo sviluppatore operare un'attenta gestione della memoria, per esempio evitando grosse strutture dati oppure limitando l'allocazione dinamica. Da queste conclusioni, risulta naturale la scelta delle misure su cui basare il confronto tra gli algoritmi: tempo di esecuzione, consumo medio di corrente e utilizzo di memoria. Velocità e dimensione sono caratteristiche del codice da sempre in conflitto: i context-switch delle chiamate di procedure e i cicli rallentano l'esecuzione, invece le implementazione in-line e unrolled ne aumentano considerevolmente la dimensione. Per bilanciare con precisione questo trade-off, il compilatore TI fornisce la \textit{flag} dedicata $\mathtt{--opt\_for\_speed}$, che va da 0 (ottimizza dimensione del codice con un alto rischio di peggioramento o impatto sulle performance) a 5 (ottimizza velocità del codice con un alto rischio di peggioramento o impatto sulle dimensioni). Le misurazione sono state effettuate, quindi, sulle metriche sopracitate, sia con codice ottimizzato per la velocità di esecuzione (con livello 5), che con codice ottimizzato per la dimensione occupata (livello 0).
 	
 		\subsection{Tempo di esecuzione}
-		Esistono diversi metodi per misurare il tempo di esecuzione di un algoritmo, solitamente tramite l'ausilio di timestamp o timer integrati. Data la variabilità di risoluzione di questi strumenti, il codice interessato è spesso eseguito molte volte, quindi il tempo ottenuto è diviso per il numero di esecuzioni. La disponibilità di un oscilloscopio, invece, semplifica l'operazione di misurazione e consente di ottenere dati più precisi. Si esegue ciclicamente l'algoritmo interessato, programmando un pin di test in modo che sia flippato dopo ogni esecuzione. Collegato il pin all'oscilloscopio, si noterà che questo comportamento produce un'onda quadra. Il tempo di esecuzione dell'algoritmo sotto test si ottiene misurando la larghezza d'impulso dell'onda osservata. In questo modo si eliminano overhead risultanti da funzioni di libreria o timer in background.
+		Esistono diversi metodi per misurare il tempo di esecuzione di un algoritmo, solitamente tramite l'ausilio di \textit{timestamp} o \textit{timer} integrati. Data la variabilità di risoluzione di questi strumenti, il codice interessato è spesso eseguito molte volte, quindi il tempo ottenuto è diviso per il numero di esecuzioni. La disponibilità di un oscilloscopio, invece, semplifica l'operazione di misurazione e consente di ottenere dati più precisi. Si esegue ciclicamente l'algoritmo interessato, programmando un \textit{pin} di test in modo che sia \textit{flippato} dopo ogni esecuzione. Collegato il \textit{pin} all'oscilloscopio, si noterà che questo comportamento produce un'onda quadra. Il tempo di esecuzione dell'algoritmo sotto test si ottiene misurando la larghezza d'impulso dell'onda osservata. In questo modo si eliminano \textit{overhead} risultanti da funzioni di libreria o timer in background.
 		\subsection{Consumo di corrente}
-		Per la misurazione del consumo di corrente è stato utilizzato il PPK2, collegato in modalità amperometro. Ogni algoritmo è stato eseguito ciclicamente, nel frattempo, tramite l'interfaccia Power Profiler di nRF Connect, sono stati osservati i consumi in tempo reale; il dato medio è indicato dall'applicazione.
+		Per la misurazione del consumo di corrente è stato utilizzato il PPK2, collegato in modalità amperometro. Ogni algoritmo è stato eseguito ciclicamente, nel frattempo, tramite l'interfaccia \textit{Power Profiler} di nRF Connect, sono stati osservati i consumi in tempo reale; il dato medio è indicato dall'applicazione.
 		\subsection{Utilizzo di memoria}
 		I dati sull'utilizzo di memoria, divisi tra FRAM e RAM, sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Per ogni algoritmo, ai dati così rilevati, è sottratta la quantità di memoria occupata dalla struttura di test, che si ottiene compilando il main file senza includere nessun cifrario.
 	\section{Risultati}
@@ -1940,7 +1945,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\caption{Risultati stream ciphers}
 \end{sidewaystable}
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
 			\begin{axis}[
@@ -1998,7 +2003,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\caption{Software-oriented block ciphers}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
 			\begin{axis}[
@@ -2054,7 +2059,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\caption{Hardware-oriented block ciphers}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\begin{center}
 		\begin{tikzpicture}[baseline]
 			\begin{axis}[
@@ -2137,7 +2142,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		\subsection{CHACHA20}
 		I risultati ottenuti suggeriscono come ChaCha20 non sia conveniente a contesti con risorse limitate. La sua ampia diffusione garantisce analisi approfondita e ottime proprietà di sicurezza.
 		\subsection{Hummingbird-2}
-		Hummingbird-2 ottiene un buon throughput, purtroppo viene penalizzato dall'alto consumo di corrente.
+		Hummingbird-2 ottiene un buon throughput, purtroppo viene penalizzato dall'alto consumo di corrente. Scarsa attenzione è stata dedicata all'analisi di questo algoritmo.
 		
 \chapter{Conclusioni}
 \label{cap5}
@@ -2162,7 +2167,7 @@ I dati ottenuti da \textbf{SPARX} confermano il trend positivo dei cifrari con s
 
 L'implementazione di algoritmi apertamente orientati all'hardware, nel nostro caso \textbf{PRINCE} e \textbf{QARMAv2}, ha ottenuto disastrose prestazioni software, evidenziando come efficienti soluzioni circuitali non si traducano in codice equivalentemente performante.
 
-Tra gli stream cipher analizzati, \textbf{ASCON} è emerso come la scelta migliore; pur non eccellendo in nessuna metrica, la sua standardizzazione è un importante punto a favore. Sulla base dei dati ottenuti, nonostante la sua diffusione, \textbf{ChaCha20} è da escludere per questo contesto, mentre \textbf{Hummingbird-2} presenta un consumo di corrente significativamente più elevato rispetto agli altri algoritmi considerati.
+Tra gli stream cipher analizzati, \textbf{ASCON} è emerso come la scelta migliore; pur non eccellendo in nessuna metrica, la sua standardizzazione è un importante punto a favore. Sulla base dei dati ottenuti, \textbf{ChaCha20} è da escludere per questo contesto, nonostante la sua diffusione; mentre \textbf{Hummingbird-2} presenta, rispetto agli altri algoritmi considerati, un consumo di corrente significativamente più elevato e una limitata analisi.
 %% Fine dei capitoli normali, inizio dei capitoli-appendice (opzionali)
 \appendix
 
