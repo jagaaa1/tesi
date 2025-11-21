@@ -72,11 +72,14 @@
 
 %% Dedica (opzionale)
 \begin{dedication}
-	A xyz,\par per uvw.
+	\textit{It goes, boys!}
 \end{dedication}
 
 %% Ringraziamenti (opzionali)
 \acknowledgements
+Desidero esprimere la mia riconoscenza verso Maddalena SpA, presso la quale ho svolto il mio tirocinio, per avermi offerto l'opportunità di ampliare le mie competenze e approfondire, da una prospettiva concreta, quelle apprese durante il mio percorso di studi. Un ringraziamento particolare è rivolto al personale dell'ufficio tecnico, per l'accoglienza ricevuta e per la condivisione della loro esperienza professionale.
+
+Vorrei inoltre ringraziare il dott. Luca Campa per i preziosi consigli forniti durante tutte le fasi di questo lavoro.
 
 
 %% Sommario (opzionale)
@@ -104,7 +107,7 @@
 		
 L'Internet of Things (\emph{IoT}) rappresenta una delle tecnologie a più rapida e costante evoluzione dell'attuale panorama digitale. L'interconnessione di miliardi di dispositivi \cite{lwctoseciot} ha esteso la sua applicazione in una miriade di contesti eterogenei: dall'integrazione di sensoristica avanzata nei veicoli per la sicurezza alla gestione automatizzata degli elettrodomestici in ambito domestico. A livello professionale e industriale, l'IoT è fondamentale nei sistemi di controllo della produzione (IIoT) e nel monitoraggio esteso delle infrastrutture civili, come la gestione dei consumi energetici in quartieri o intere \textit{smart city}. Questa vasta gamma di scenari d'uso comporta una significativa eterogeneità tecnologica, coinvolgendo un ampio spettro di dispositivi di calcolo: dai classici Personal Computer e smartphone, a microcontrollori di diversa fascia, fino a sensori RFID o circuiti integrati \emph{application-specific} (ASIC).
 	
-Data la pervasività dell'IoT in aspetti critici della vita quotidiana e professionale, la \emph{sicurezza dei dati in transito} è diventata un'esigenza non più eludibile. I dati che viaggiano attraverso reti wireless sono intrinsecamente esposti al rischio di intercettazione \cite{lwciotsurv}. Le proprietà di sicurezza fondamentali in questi sistemi sono la \emph{confidenzialità} --- essenziale per proteggere informazioni sensibili e abitudini personali --- e l'\emph{integrità} --- cruciale per prevenire l'alterazione fraudolenta di dati operativi, come quelli relativi ai consumi rilevati da contatori ``smart''.
+Data la pervasività dell'IoT in aspetti critici della vita quotidiana e professionale, la \emph{sicurezza dei dati in transito} è diventata un'esigenza non più eludibile. I dati che viaggiano attraverso reti wireless sono intrinsecamente esposti al rischio di intercettazione \cite{lwciotsurv}. Le proprietà di sicurezza fondamentali in questi sistemi sono la \emph{confidenzialità}, essenziale per proteggere informazioni sensibili e abitudini personali, e l'\emph{integrità}, cruciale per prevenire l'alterazione fraudolenta di dati operativi, come quelli relativi ai consumi rilevati da contatori ``smart''.
 	
 Una soluzione diretta ed efficace per garantire entrambe le proprietà è la \emph{crittografia simmetrica}; tuttavia, la sua implementazione nell'IoT è ostacolata dai vincoli sulle risorse dei dispositivi. Gli algoritmi di cifratura tradizionali, infatti, non sono consigliati a causa della loro elevata complessità computazionale, incompatibile con i dispositivi dotati di risorse limitate. Un aspetto critico aggiuntivo è il consumo energetico: molti dispositivi IoT, spesso installati in posizioni remote o difficilmente accessibili, si affidano all'alimentazione a batteria e richiedono cicli operativi prolungati. Tali limitazioni hanno stimolato, negli ultimi decenni, la progettazione di primitive crittografiche \emph{lightweight} (LW), specificamente ottimizzate per minimizzare l'impatto computazionale ed energetico nel mondo \textit{embedded}.
 	
@@ -135,8 +138,8 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
     \section{Crittografia}
     La crittografia è la scienza, da alcuni definita anche \textit{arte}, che si occupa dello studio e della creazione di tecniche matematiche per la sicurezza di sistemi informatici e comunicazioni digitali.\cite{moderncrypto}
     
-    Tra le molte tecniche troviamo i cifrari (cipher), algoritmi parametrizzati da una chiave (key) che trasformano un testo in chiaro (plaintext) in un testo cifrato (ciphertext).
-    Le operazioni di cifratura \textit{E} (encryption) e decifratura \textit{D} (decryption) tramite la chiave \textit{K} e il rapporto tra plaintext \textit{P} e ciphertext \textit{C} possono essere rappresentati con le funzioni:
+    Tra le molte tecniche troviamo i cifrari (\textit{cipher}), algoritmi parametrizzati da una chiave (\textit{key}) che trasformano un testo in chiaro (\textit{plaintext}) in un testo cifrato (\textit{ciphertext}).
+    Le operazioni di cifratura \textit{E} (\textit{encryption}) e decifratura \textit{D} (\textit{decryption}) tramite la chiave \textit{K} e il rapporto tra \textit{plaintext} \textit{P} e \textit{ciphertext} \textit{C} possono essere rappresentati con le funzioni:
     \begin{align*}
     	E_K(P)=C\\
     	D_K(C)=P
@@ -170,7 +173,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 
             Architetture comuni:
             \begin{description}
-                \item[Substitution-Permutation Networks (SPN)] Implementazione diretta del paradigma Confusion\&Diffusion\cite{moderncrypto}, sono infatti cifrari composti da divesi round di sostituzioni e permutazioni\cite{handcypto}.
+                \item[Substitution-Permutation Networks (SPN)] Implementazione diretta del paradigma \textit{Confusion\&Diffusion}\cite{moderncrypto}, sono infatti cifrari composti da divesi round di sostituzioni e permutazioni\cite{handcypto}.
 
                 Prima dei round c'è la fase detta \textbf{Key Schedule}, in cui la chiave principale (\textit{master key}) viene usata per generare le sotto-chiavi utilizzate in ciascun round (\textit{round keys}).
                 
@@ -337,7 +340,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
         
         Non esiste una definizione univoca di cosa sia leggero: sarebbe di difficile individuazione e controproducente, la valutazione dipende fortemente dal contesto. Infatti, un algoritmo può essere implementato in software, utilizzando un normale linguaggio di programmazione, oppure in hardware, servendosi di FPGA o stampando circuiti dedicati (ASIC). Sulla base di questa distinzione emergono importanti differenze: nel caso software, gli aspetti da ottimizzare sono consumo di memoria e throughput; in hardware, invece, le metriche sono latenza, consumo energetico e complessità \textit{Gate Equivalent} (GE). Inoltre, a parità di tipologia di implementazione, notevoli differenze sono causate da architettura del processore, in caso software, e standard cell library o tecnologie usate, nel caso hardware.
         
-        \subsubsection{Standards}
+        \subsubsection{Standard}
         La diffusione della LWC ha spinto ad un lavoro di analisi e confronto i principali organi di standardizzazione. Tra questi, il NIST ha promosso un processo di selezione volto ad individuare primitive crittografiche leggere, adatte a contesti con risorse limitate. Dopo una fase di valutazione, nel 2023, la famiglia di algoritmi ASCON è stata selezionata come standard ufficiale\cite{ascon}. A livello internazionale, dalla collaborazione tra ISO e IEC sono derivati gli standard ISO/IEC 29192 - ``\textit{Information technology — Security techniques — Lightweight cryptography}", con lo scopo di fornire linee guida e algoritmi sicuri per dispositivi con risorse limitate. Questa ampia pubblicazione, in continuo aggiornamento e revisione, è divisa in più parti, ciascuna dedicata a un aspetto delle crittografia diverso:
         \begin{enumerate}
         	\itemsep0em 
@@ -351,21 +354,21 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
         	\item \textit{Authenticated encryption}
         \end{enumerate}
     \section{Sistemi embedded}
-    Un sistema embedded può essere definito come ``un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
+    Un sistema \textit{embedded} può essere definito come ``un sistema informatico progettato e costruito esclusivamente per il suo scopo"\cite{embeddedsys}.
     Questi sistemi sono utilizzati in una vasta gamma di applicazioni: dagli oggetti di uso quotidiano, ai veicoli,ai sensori intelligenti, fino ad applicazioni militari. I computer \textit{integrati} in questi sistemi sono detti \textit{microcontrollori}\cite{architetture}.
     
     	\subsection{Vincoli}
     	Essendo progettati per un compito specifico, i sistemi embedded offrono meno supporto e presentano spesso numerosi vincoli. La necessità di produzione su larga scala e il fatto di rientrare nel budget del dispositivo in cui sono integrati richiedono ai progettisti un'attenta analisi dei \textit{costi}. La riduzione dei costi si riflette direttamente sui vincoli \textit{hardware} dei dispositivi, soprattutto in termini di RAM, ROM, velocità del processore, periferiche e consumo energetico. Come spesso accade, l'ottimizzazione di queste risorse risulta un problema complesso, richiedendo dei compromessi: codice più veloce richiede più spazio, aumentando la velocità della CPU aumentano di conseguenza i consumi, rimuovendo le periferiche non strettamente necessarie si guadagna in spazio e consumi, e molti altri.
     	Dal lato software, invece, possono essere richieste garanzie di \textit{real-time}, determinismo, oppure di tolleranza ai guasti.\cite{embeddedsys}
     	\subsection{Programmazione}
-    	La sviluppo di codice embedded richiede diverse competenze, tra cui: conoscenza approfondita dell'hardware presente nel dispositivo, padronanza della programmazione a basso livello, soprattutto nella gestione della memoria, abilità nel bilanciare le richieste applicative con i vincoli del sistema.
-    	Al contrario di quello che accade nei dispositivi \textit{general-purpose}, inoltre, una errata gestione software può causare danni alle componenti hardware, anche gravi.
+    	La sviluppo di codice embedded richiede diverse competenze, tra cui: conoscenza approfondita dell'hardware presente nel dispositivo; padronanza della programmazione a basso livello, soprattutto nella gestione della memoria; abilità nel bilanciare le richieste applicative con i vincoli del sistema.
+    	Al contrario di quello che accade nei dispositivi \textit{general-purpose}, inoltre, una gestione software errata può causare danni alle componenti hardware, anche gravi.
     		\subsubsection{Linguaggi}
     		Avendo risorse limitate, i sistemi embedded non sono dotati di compilatore, il codice che eseguono è \textit{cross-compilato} su un altro dispositivo e successivamente trasferito nella memoria integrata. I produttori di microprocessori solitamente forniscono ambienti di sviluppo dedicati con cross-compiler proprietari, ma sono presenti anche alternative GNU.
-    		Le tool-chain embedded, nella maggior parte dei casi, supportano solo linguaggi come C o C++, con funzionalità e librerie limitate (es. supporto ridotto per aritmetica floating-point).
+    		Le \textit{tool-chain} embedded, nella maggior parte dei casi, supportano solo linguaggi come C o C++, con funzionalità e librerie limitate (es. supporto ridotto per aritmetica floating-point).
 			\subsubsection{Debug}
 			Altra questione delicata è quella del debugging, che, similmente alla compilazione, richiede un \textit{cross-debugger}. Questi particolari programmi sono eseguiti su un dispositivo esterno e comunicano con il microprocessore target tramite interfacce e periferiche dedicate (es. JTAG).
-			Le funzionalità di debug devono essere esplicitamente supportate dal processore, attraverso hardware specifico, come per esempio registri riservati ai breakpoint (hardware breakpoint).
+			Le funzionalità di debug devono essere esplicitamente supportate dal processore, attraverso hardware specifico, come per esempio registri riservati ai breakpoint (\textit{hardware breakpoint}).
 			
 			\begin{figure}[t]
 				\centering
@@ -1641,7 +1644,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 				\end{bmatrix}\\
 			\]
 			
-			L'operazione base di ChaCha20 è il Quarter Round, opera su quattro word da 32 bit nel seguente modo:
+			L'operazione base di ChaCha20 è il Quarter Round, opera su quattro word da 32 bit.
 			\begin{algorithm}[h!]
 				\caption{ChaCha20 Quarter Round}
 				\begin{algorithmic}
@@ -1662,7 +1665,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 				\end{algorithmic}
 			\end{algorithm}
 			
-			Durante la generazione del keystream sono eseguiti 20 round per blocco, ciascuno composto da quattro Quarter Round, che trasformano lo stato come segue:
+			Durante la generazione del keystream sono eseguiti 20 round per blocco, ciascuno composto da quattro Quarter Round. I round si alternano tra Column Round e Diagonal Round, operando rispettivamente sulle colonne o sulle diagonali nella matrice di stato.
 			\begin{algorithm}[h!]
 				\caption{ChaCha20 Round}
 				\begin{algorithmic}
@@ -1677,8 +1680,8 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 					\State {\Call{QuarterRound}{$M_3, M_4, M_9, M_{14}$}}
 					\EndProcedure
 				\end{algorithmic}
-			\end{algorithm}\\
-			I primi quattro formano un Column Round, gli ultimi un Diagonal Round, in quanto operano, rispettivamente, su colonne e diagonali della matrice di stato.\\
+			\end{algorithm} rispettivamente, su colonne e diagonali della matrice di stato.
+			
 			Alla fine dei round, lo stato traformato è sommato (modulo $2^{32}$) allo stato iniziale e l'output è ottenuto serializzando la matrice word per word.
 			\begin{algorithm}
 				\caption{ChaCha20 Block}
@@ -1698,7 +1701,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			Il keystream è quindi ottenuto concatenando i risultati dell'esecuzione di \Call{Block}{\null}, con stessa chiave, stessa nonce e block counter incrementale.\\
 			Il ciphertext è infine ottenuto tramite lo XOR tra plaintext e keystream.
 			
-			\begin{algorithm}
+			\begin{algorithm}[h!]
 				\caption{Cifratura ChaCha20}
 				\begin{algorithmic}
 					\Procedure{ChaCha20}{$p, k, n, b_c$}
@@ -1710,7 +1713,6 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 					\EndProcedure
 				\end{algorithmic}
 			\end{algorithm}
-			
 			\subsubsection{Crittoanalisi}
 			\begin{center}
 				\begin{tabular}{ |c|c|c|c|c|c| } 
@@ -1755,7 +1757,7 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			
 			La sicurezza dell'algoritmo si basa su una chiave $K$ da 128 bit, e una nonce $IV$ da 64 bit. Occorre prestare attenzione che la stessa combinazione $(K, IV)$ non venga ripetuta.
 			
-			\begin{algorithm}
+			\begin{algorithm}[h]
 				\caption{Pseudocodice Hummingbird-2}
 				\begin{algorithmic}
 					\Procedure{Hummingbird-2}{$P, K, IV$}
@@ -1809,7 +1811,6 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 			\end{center}
 \chapter{Test e valutazione}
 \label{cap4}
-In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperimenti e definite le condizioni seguite per ciascuna misurazione. Nell'ultima sezione, i risultati ottenuti verranno analizzati.
 	\section{Strumenti}
 		\subsection{TI MSP430}
 		Il microcontrollore usato in questa sperimentazione appartiene alla grande famiglia dei Texas Instruments MSP430 (\textit{Mixed Signal Processor}), nel dettaglio il MSP430FR6989. Si tratta di un dispositivo ultra-low power pensato per applicazioni industriali che richiedano un'estesa durata della batteria, in particolari sensori integrati. Presenta infatti sette modalità a basso consumo (\textit{Low Power Mode LPM}), che consentono di trovare il giusto equilibrio tra prestazioni e risparmio energetico.
@@ -1860,20 +1861,194 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		\subsection{Consumo di corrente}
 		Per la misurazione del consumo di corrente è stato utilizzato il PPK2, collegato in modalità amperometro. Ogni algoritmo è stato eseguito ciclicamente, nel frattempo, tramite l'interfaccia \textit{Power Profiler} di nRF Connect, sono stati osservati i consumi in tempo reale; il dato medio è indicato dall'applicazione.
 		\subsection{Utilizzo di memoria}
-		I dati sull'utilizzo di memoria, divisi tra FRAM e RAM, sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Per ogni algoritmo, ai dati così rilevati, è sottratta la quantità di memoria occupata dalla struttura di test, che si ottiene compilando il main file senza includere nessun cifrario.
+		I dati sull'utilizzo di memoria, divisi tra FRAM e RAM, sono forniti dall'interfaccia di CCS dopo che il programma è caricato sul dispositivo. Per ogni algoritmo, ai dati così rilevati, è sottratta la quantità di memoria occupata dalla struttura di test, ottenuta compilando il $\mathtt{main}$ file senza includere nessun cifrario.
 	\section{Risultati}
 	Per uniformare il confronto, data la varietà di block size su cui gli algoritmi operano, viene introdotto un derivato del tempo di esecuzione: \textit{Encryption rate} o \textit{Throughput}, utile a rappresentare la quantità di byte cifrati in un dato intervallo di tempo.
 	\[\text{Encryption rate [$kB/s$]} = \frac{\text{Block size [$B$]}}{\text{Encryption time [$ms$]}}\]
 	
 	Inoltre, per quantificare il consumo di batteria, calcoliamo \textit{Charge consumption}, che riassume in un solo valore velocità di esecuzione e consumo di corrente, a parità di dati processati.
 	\[\text{Charge consumption [$nAh/kB$]} = \frac{\text{Current consumption [$\mu A$]}}{\text{Encryption rate [$kB/s$]}} \cdot \frac{1}{3.6}\]
+	
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					width=0.4\textwidth,
+					xtick=data,
+					x tick label style={rotate=45,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=FRAM ($B$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.4)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
+					]
+					\addplot 
+					coordinates {(AES,2875) (CLEFIA,9580) (LEA,994) (SPARX64/128,870) (SPARX128/128,1356) (SPECK32/64,546) (SPECK64/128,1186) (SPECK128/128,1436)};
+					
+					\addplot 
+					coordinates {(AES,1169) (CLEFIA,3610) (LEA,954) (SPARX64/128,594) (SPARX128/128,856) (SPECK32/64,332) (SPECK64/128,402) (SPECK128/128,644)};
+					
+					\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+				\end{axis}
+			\end{tikzpicture}%
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					width=0.4\textwidth,
+					xtick=data,
+					x tick label style={rotate=45,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=Charge consumption ($nAh/kB$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.4)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
+					]
+					\addplot 
+					coordinates {(AES,28.40) (CLEFIA,54.35) (LEA,21.35) (SPARX64/128,21.32) (SPARX128/128,25.70) (SPECK32/64,13.95) (SPECK64/128,20.40) (SPECK128/128,26.88)};
+					
+					\addplot 
+					coordinates {(AES,25.30) (CLEFIA,81.96) (LEA,21.02) (SPARX64/128,24.20) (SPARX128/128,33.30) (SPECK32/64,14.20) (SPECK64/128,21.66) (SPECK128/128,26.34)};
+					
+					
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+		\caption{Software-oriented block ciphers}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					width=0.4\textwidth,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					xtick=data,
+					x tick label style={rotate=45,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=FRAM ($B$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.4)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
+					]
+					\addplot 
+					coordinates {(PRINCE,5144) (QARMAv2 r=4,5086) (QARMAv2 r=6,5164) (QARMAv2 r=7,5200) (QARMAv2 r=9,5274)};
+					
+					\addplot 
+					coordinates {(PRINCE,1586) (QARMAv2 r=4,2276) (QARMAv2 r=6,2278) (QARMAv2 r=7,2276) (QARMAv2 r=9,2276)};
+					
+					\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+				\end{axis}
+			\end{tikzpicture}%
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					width=0.4\textwidth,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					xtick=data,
+					x tick label style={rotate=45,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=Charge consumption ($nAh/kB$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.4)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
+					]
+					\addplot 
+					coordinates {(PRINCE,365.83) (QARMAv2 r=4,583.56) (QARMAv2 r=6,857.11) (QARMAv2 r=7,980.88) (QARMAv2 r=9,1259.38)};
+					
+					\addplot 
+					coordinates {(PRINCE,689.60) (QARMAv2 r=4,742.08) (QARMAv2 r=6,1082.33) (QARMAv2 r=7,1255.83) (QARMAv2 r=9,1602.22)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+		\caption{Hardware-oriented block ciphers}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					width=0.4\textwidth,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					xtick=data,
+					x tick label style={rotate=35,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=FRAM ($B$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.45)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
+					]
+					\addplot 
+					coordinates {(ASCON,1902) (ASCON-AEAD,2090) (ChaCha20,2556) (Hummingbird-2,2172) (Hummingbird-2 AEAD,2396)};
+					
+					\addplot 
+					coordinates {(ASCON,1764) (ASCON-AEAD,1952) (ChaCha20,1564) (Hummingbird-2,1464) (Hummingbird-2 AEAD,1666)};
+					
+					\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
+				\end{axis}
+			\end{tikzpicture}%
+			\begin{tikzpicture}[baseline]
+				\begin{axis}[
+					scale only axis,
+					scaled ticks=false,
+					width=0.4\textwidth,
+					ybar,%=5pt,% configures `bar shift'
+					ymin=0,
+					xtick=data,
+					x tick label style={rotate=35,anchor=east},
+					y tick label style={/pgf/number format/1000 sep=},
+					ylabel=Charge consumption ($nAh/kB$),
+					enlargelimits=0.1,
+					legend style={at={(0.5,-0.4)},
+						anchor=north,legend columns=-1},
+					bar width=9pt,
+					symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
+					]
+					\addplot 
+					coordinates {(ASCON,40.57) (ASCON-AEAD,70.82) (ChaCha20,119.05) (Hummingbird-2,46.43) (Hummingbird-2 AEAD,80.43)};
+					
+					\addplot 
+					coordinates {(ASCON,44.63) (ASCON-AEAD,77.84) (ChaCha20,203.13) (Hummingbird-2,47.59) (Hummingbird-2 AEAD,84.06)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+		\caption{Stream ciphers}
+	\end{figure}
+	
+	%\afterpage{\clearpage}
+	
+	
 	\newcommand{\underwaveRow}[6]{%
 		\uwave{#1} & \uwave{#2} & \uwave{#3} & \uwave{#4} & \uwave{#5} & \uwave{#6}}
 	\newcommand{\dotulineRow}[6]{%
 		\dotuline{#1} & \dotuline{#2} & \dotuline{#3} & \dotuline{#4} & \dotuline{#5} & \dotuline{#6}}
 		\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 
-\begin{sidewaystable}
+\begin{sidewaystable}[h]
 	\begin{center}
 		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
@@ -1919,7 +2094,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\caption{Risultati block ciphers}
 \end{sidewaystable}
 
-\begin{sidewaystable}
+\begin{sidewaystable}[h]
 	\begin{center}
 		\begin{tabularx}{\textwidth}{|ccrrrRRR|}
 			\hline
@@ -1945,179 +2120,6 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 	\caption{Risultati stream ciphers}
 \end{sidewaystable}
 
-\begin{figure}[h]
-	\begin{center}
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				width=0.4\textwidth,
-				xtick=data,
-				x tick label style={rotate=45,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=FRAM ($B$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.4)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
-				]
-				\addplot 
-				coordinates {(AES,2875) (CLEFIA,9580) (LEA,994) (SPARX64/128,870) (SPARX128/128,1356) (SPECK32/64,546) (SPECK64/128,1186) (SPECK128/128,1436)};
-				
-				\addplot 
-				coordinates {(AES,1169) (CLEFIA,3610) (LEA,954) (SPARX64/128,594) (SPARX128/128,856) (SPECK32/64,332) (SPECK64/128,402) (SPECK128/128,644)};
-				
-				\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
-			\end{axis}
-		\end{tikzpicture}%
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				width=0.4\textwidth,
-				xtick=data,
-				x tick label style={rotate=45,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=Charge consumption ($nAh/kB$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.4)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={AES, CLEFIA, LEA, SPARX64/128, SPARX128/128, SPECK32/64, SPECK64/128, SPECK128/128}
-				]
-				\addplot 
-				coordinates {(AES,28.40) (CLEFIA,54.35) (LEA,21.35) (SPARX64/128,21.32) (SPARX128/128,25.70) (SPECK32/64,13.95) (SPECK64/128,20.40) (SPECK128/128,26.88)};
-				
-				\addplot 
-				coordinates {(AES,25.30) (CLEFIA,81.96) (LEA,21.02) (SPARX64/128,24.20) (SPARX128/128,33.30) (SPECK32/64,14.20) (SPECK64/128,21.66) (SPECK128/128,26.34)};
-				
-				
-			\end{axis}
-		\end{tikzpicture}
-	\end{center}
-	\caption{Software-oriented block ciphers}
-\end{figure}
-
-\begin{figure}[h]
-	\begin{center}
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				width=0.4\textwidth,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				xtick=data,
-				x tick label style={rotate=45,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=FRAM ($B$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.4)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
-				]
-				\addplot 
-				coordinates {(PRINCE,5144) (QARMAv2 r=4,5086) (QARMAv2 r=6,5164) (QARMAv2 r=7,5200) (QARMAv2 r=9,5274)};
-				
-				\addplot 
-				coordinates {(PRINCE,1586) (QARMAv2 r=4,2276) (QARMAv2 r=6,2278) (QARMAv2 r=7,2276) (QARMAv2 r=9,2276)};
-				
-				\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
-			\end{axis}
-		\end{tikzpicture}%
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				width=0.4\textwidth,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				xtick=data,
-				x tick label style={rotate=45,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=Charge consumption ($nAh/kB$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.4)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={PRINCE, QARMAv2 r=4, QARMAv2 r=6, QARMAv2 r=7, QARMAv2 r=9}
-				]
-				\addplot 
-				coordinates {(PRINCE,365.83) (QARMAv2 r=4,583.56) (QARMAv2 r=6,857.11) (QARMAv2 r=7,980.88) (QARMAv2 r=9,1259.38)};
-				
-				\addplot 
-				coordinates {(PRINCE,689.60) (QARMAv2 r=4,742.08) (QARMAv2 r=6,1082.33) (QARMAv2 r=7,1255.83) (QARMAv2 r=9,1602.22)};
-			\end{axis}
-		\end{tikzpicture}
-	\end{center}
-	\caption{Hardware-oriented block ciphers}
-\end{figure}
-
-\begin{figure}[h]
-	\begin{center}
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				width=0.4\textwidth,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				xtick=data,
-				x tick label style={rotate=35,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=FRAM ($B$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.45)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
-				]
-				\addplot 
-				coordinates {(ASCON,1902) (ASCON-AEAD,2090) (ChaCha20,2556) (Hummingbird-2,2172) (Hummingbird-2 AEAD,2396)};
-				
-				\addplot 
-				coordinates {(ASCON,1764) (ASCON-AEAD,1952) (ChaCha20,1564) (Hummingbird-2,1464) (Hummingbird-2 AEAD,1666)};
-				
-				\legend{$\mathtt{--opt\_for\_speed=5}$,$\mathtt{--opt\_for\_speed=0}$}
-			\end{axis}
-		\end{tikzpicture}%
-		\begin{tikzpicture}[baseline]
-			\begin{axis}[
-				scale only axis,
-				scaled ticks=false,
-				width=0.4\textwidth,
-				ybar,%=5pt,% configures `bar shift'
-				ymin=0,
-				xtick=data,
-				x tick label style={rotate=35,anchor=east},
-				y tick label style={/pgf/number format/1000 sep=},
-				ylabel=Charge consumption ($nAh/kB$),
-				enlargelimits=0.1,
-				legend style={at={(0.5,-0.4)},
-					anchor=north,legend columns=-1},
-				bar width=9pt,
-				symbolic x coords={ASCON, ASCON-AEAD, ChaCha20, Hummingbird-2, Hummingbird-2 AEAD}
-				]
-				\addplot 
-				coordinates {(ASCON,40.57) (ASCON-AEAD,70.82) (ChaCha20,119.05) (Hummingbird-2,46.43) (Hummingbird-2 AEAD,80.43)};
-				
-				\addplot 
-				coordinates {(ASCON,44.63) (ASCON-AEAD,77.84) (ChaCha20,203.13) (Hummingbird-2,47.59) (Hummingbird-2 AEAD,84.06)};
-			\end{axis}
-		\end{tikzpicture}
-	\end{center}
-	\caption{Stream ciphers}
-\end{figure}
-
-\afterpage{\clearpage}
-
-
 \section{Analisi}
 		\subsection{Considerazioni generali}
 		Tutti gli algoritmi operano senza la necessità di strutture dati che richiedano allocazione dinamica della memoria. Questo caratteristica si riflette nella quantità di RAM utilizzata; per tutti i cifrari, infatti, è rilevato l'utilizzo di soli 160B, che equivalgono allo stack di attivazione allocato.
@@ -2130,7 +2132,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 		\subsection{LEA}
 		Le semplici operazioni ARX su cui si basa permettono a LEA di ottenere, oltre che ad una velocità competitiva, un basso impatto sulla memoria e il minor consumo di corrente tra tutti gli algoritmi. Penalizzanti, sopratutto nella key schedule, le operazioni di rotazioni a 32bit, poco efficienti su MSP430. L'adozione come standard sudcoreano e ISO\cite{isoblock} rendono LEA un'ottima soluzione sicura.
 		\subsection{PRINCE}
-		Le operazioni su nibbles (4bit), SBox e permutazioni, e pesanti moltiplicazioni matriciali rallentano di molto PRINCE, confermandolo un algoritmo prevalentemente rivolto ad una implementazione hardware. L'algoritmo è stato soggetto ad un'intesa analisi, incoraggiata anche dalla PRINCE challenge, in seguito a cui non sono emerse criticità rilevanti che ne minino la sicurezza.
+		Le operazioni su nibbles (4bit), SBox e permutazioni, e pesanti moltiplicazioni matriciali rallentano di molto PRINCE, confermandolo un algoritmo prevalentemente rivolto ad una implementazione hardware. L'algoritmo è stato soggetto ad un'intensa analisi, incoraggiata anche dalla PRINCE challenge, in seguito a cui non sono emerse criticità rilevanti che ne minino la sicurezza.
 		\subsection{QARMAv2}
 		Anche QARMAv2 é rallentato molto da operazioni su nibbles, tra le altre la moltiplicazione con la matrice di diffusione, che comprende molte rotazioni. Quantità di memoria necessaria elevata, anche in presenza di un'ottimizzazione mirata. Tempo di esecuzione proporzionale al parametro $r$ (numero di round), che può essere utilizzato per trovare il giusto compromesso tra sicurezza necessaria e performance. Come dichiarato anche dagli autori, un'implementazione hardware risulterebbe più efficiente. Diversi studi ne dimostrano la sicurezza rispetto ai moderni attacchi di crittoanalisi.
 		\subsection{SPARX}
@@ -2148,7 +2150,7 @@ In questo capitolo verranno elencati gli strumenti utilizzati durante gli esperi
 \label{cap5}
 Dopo l'analisi effettuata sulla base di dati sperimentali, possiamo trarre alcune conclusioni. Confidiamo che questa, seppur piccola, analisi possa aiutare sviluppatori embedded, su MSP430 ma non solo, nel trovare la soluzione crittografica più adatta alle necessità dei loro sistemi o applicazioni.
 
-Innanzitutto, come si è potuto osservare, l'architettura del processore grava in modo significativo sulle performance degli algoritmi: word size e ottimizzazione di certe operazioni hanno effetti diretti su tempi di esecuzione e dimensione del codice. Esempi sul nostro MSP430 sono la differenza tra i tempi di esecuzione delle operazioni a 8 o 16 bit, supportate in modo diretto da istruzioni assembly, e quelle a 32 o 64; oppure come la mancanza di un'istruzione di rotazione ottimizzata induca a code size maggiore e performance ridotte\cite{tiassembly}. Per questo motivo le conclusioni qui presentate si possono applicare \underline{direttamente} solo al caso in oggetto del MSP430, oppure ad un'architettura 16 bit molto simile. Altri dispositivi, sopratutto con risorse più limitate, meritano un'ulteriore investigazione. Questo non esclude che le considerazioni presentate, dopo un'attenta lettura, possano essere estese ad altri microcontrollori.
+Innanzitutto, come si è potuto osservare, l'architettura del processore grava in modo significativo sulle performance degli algoritmi: word size e ottimizzazione di certe operazioni hanno effetti diretti su tempi di esecuzione e dimensione del codice. Esempi sul nostro MSP430 sono la differenza tra i tempi di esecuzione delle operazioni a 8 o 16 bit, supportate in modo diretto da istruzioni assembly, e quelle a 32 o 64; oppure come la mancanza di un'istruzione di rotazione ottimizzata induca code size maggiore e performance ridotte\cite{tiassembly}. Per questo motivo le conclusioni qui presentate si possono applicare \underline{direttamente} solo al caso in oggetto del MSP430, oppure ad un'architettura 16 bit molto simile. Altri dispositivi, sopratutto con risorse più limitate, meritano un'ulteriore investigazione. Questo non esclude che le considerazioni presentate, dopo un'attenta lettura, possano essere estese ad altri microcontrollori.
 
 In ambito software, il futuro dei cifrari lightweight sembra essere orientato verso gli algoritmi ARX. Le elementari operazioni che li compongono, infatti, li rendono efficienti e facilmente implementabili su un'ampia schiera di dispositivi. In termini di sicurezza, l'assenza di SBox aumenta la resilienza contro alcuni attacchi side-channel\cite{sparx}, inoltre, la semplice struttura permette un'analisi approfondita più agevole\cite{speck}.
 Gli SPN invece risultano più lenti, a causa di permutazioni di difficile implementazione, e pesanti, a causa delle SBox.
@@ -2174,7 +2176,8 @@ Tra gli stream cipher analizzati, \textbf{ASCON} è emerso come la scelta miglio
 %\part{Appendici}
 
 \chapter{Appendice}
-
+\section{Codice}
+L'implementazione degli algoritmi, in linguaggio C, è reperibile nella repository\\ \url{https://github.com/jagaaa1/crypto-lw}.
 
 %% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
