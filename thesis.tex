@@ -377,8 +377,14 @@ Nel Capitolo \ref{cap5} sono infine illustrate le conclusioni del lavoro, riassu
 				\label{fig:mcucomm}
 			\end{figure}
 			    		
-\chapter{Algoritmi}
+\chapter{Algoritmi di cifratura}
 \label{cap3}
+
+In questo capitolo vengono presentati gli algoritmi di cifratura, sia a blocco sia a flusso, che saranno oggetto dell'analisi sperimentale. 
+Il codice C della loro implementazione è reperibile nella repository \url{https://github.com/jagaaa1/crypto-lw}.
+
+
+
 	\section{Cifrari a blocco}
 		\subsection{AES}
 		L'Advanced Encryption Standard specifica un algoritmo crittografico approvato dal FIPS (Federal Information Processing Standards), scelto al termine di una competizione indetta dal NIST (US National Institute of Standards and Technology), che vide come vincitore il cifrario presentato da Vincent Rijmen e Joan Daemen: Rijndael\cite{aes}. Sia durante il processo di selezione, che dopo essere stato adottato come standard, questo algoritmo ha ricevuto un intenso studio da parte dei crittoanalisti. Anche per questo motivo, AES risulta una scelta eccellente per sistemi che richiedano segretezza: libero, standardizzato, efficiente e altamente sicuro. \cite{moderncrypto}
@@ -2170,14 +2176,15 @@ I dati ottenuti da \textbf{SPARX} confermano il trend positivo dei cifrari con s
 L'implementazione di algoritmi apertamente orientati all'hardware, nel nostro caso \textbf{PRINCE} e \textbf{QARMAv2}, ha ottenuto disastrose prestazioni software, evidenziando come efficienti soluzioni circuitali non si traducano in codice equivalentemente performante.
 
 Tra gli stream cipher analizzati, \textbf{ASCON} è emerso come la scelta migliore; pur non eccellendo in nessuna metrica, la sua standardizzazione è un importante punto a favore. Sulla base dei dati ottenuti, \textbf{ChaCha20} è da escludere per questo contesto, nonostante la sua diffusione; mentre \textbf{Hummingbird-2} presenta, rispetto agli altri algoritmi considerati, un consumo di corrente significativamente più elevato e una limitata analisi.
+
+
+
 %% Fine dei capitoli normali, inizio dei capitoli-appendice (opzionali)
-\appendix
+% \appendix
 
 %\part{Appendici}
 
-\chapter{Appendice}
-\section{Codice}
-L'implementazione degli algoritmi, in linguaggio C, è reperibile nella repository\\ \url{https://github.com/jagaaa1/crypto-lw}.
+%\chapter{Appendice}
 
 %% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
